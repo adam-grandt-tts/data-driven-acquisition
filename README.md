@@ -45,6 +45,15 @@ TODO : The full documentation is at https://data-driven-acquisition.readthedocs.
    pip install -r requirements_test.txt
    ```
 
+   5. Create a .env file looking like so
+  
+   ```shell
+   DEBUG=on
+   SECRET_KEY=your-secret-key # Make it random
+   DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
+   ALLOWED_HOSTS=127.0.0.1,0.0.0.0
+   ```
+
 ## Features
 
 * TODO
