@@ -12,7 +12,8 @@ This system is a POC of a document management tool that will initiate acquisitio
 
 ## Documentation
 
-TODO : The full documentation is at https://data-driven-acquisition.readthedocs.io. 
+I opted to use relational database to allow rapid development using Django, and PostgreSQL.  Data model is available https://dbdiagram.io/d/5db0a60602e6e93440f28f98
+
 
 ## Quickstart
 
@@ -26,26 +27,26 @@ TODO : The full documentation is at https://data-driven-acquisition.readthedocs.
    mkdir data-driven-acquisition
    ```
 
-   2. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
+   1. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
 
    ```shell
    mkvirtualenv data-driven-acquisition --python=python3
    ```
 
-   3. Install the requirements
+   1. Install the requirements
 
    ```shell
    pip install -r requirements.txt
    ```
 
-   4. Optional: Install the development and testing requirements if needed.
+   1. Optional: Install the development and testing requirements if needed.
 
    ```shell
    pip install -r requirements_dev.txt
    pip install -r requirements_test.txt
    ```
 
-   5. Create a .env file looking like so
+   1. Create a .env file looking like so
   
    ```shell
    DEBUG=on
