@@ -16,6 +16,31 @@ I opted to use relational database to allow rapid development using Django, and 
 
 ![data model](https://github.com/adam-grandt-tts/data-driven-acquisition/blob/master/docs/images/data_model.png)
 
+Design concepts:
+
+- Files will be kept inside a PostgreSQL blob
+  - Documents will be represented in Markdown. TODO: selected markdown editor and link here.
+  - Sheets will be represented in a JSON string defined by the javascript sheet editor. TODO: Select a sheet editor and link here.
+  - Other document will be saves as binary blobs and will not be editable.
+  - Each file can belong to one folder
+  - We will use HTML comment notation to insert and update properties in all editable files like so for a property named 'name':
+
+    ```html
+    <!--PROPERTY:name-->Value of name goes here<!--/PROPERTY:name-->
+    ```
+
+- A Folder object contains files.
+  - Folders can have have other folders as parents.
+  - If folder dose not have a parent folder it will be considered a package.
+  - Packages are folders that wil have the following attribute enabled:
+    - The project URL of the trello board.
+    - The properties JSON array that will include all configured properties for this package.
+- Access control is managed vua the ACL table.
+  - An ACL item connects a User or Group to a document or a Folder with a defined access level.
+  - Access should be propagated down, that is to say, if a User has access to a folder they should also have access to all sub folders and document in those folders.
+  - A user will be presented with all items that he has any access to upon login.
+
+
 ## Quickstart
 
 1. Database Setup
