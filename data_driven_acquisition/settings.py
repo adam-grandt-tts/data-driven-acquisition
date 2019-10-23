@@ -26,12 +26,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Designed tpo break on lack of secret key
-SECRET_KEY = env('SECRET_KEY', False)
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env['ALLOWED_HOSTS']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 # Application definition
 
