@@ -14,6 +14,7 @@ This system is a POC of a document management tool that will initiate acquisitio
 
 I opted to use relational database to allow rapid development using Django, and PostgreSQL.  Data model is available https://dbdiagram.io/d/5db0a60602e6e93440f28f98
 
+![data model](https://github.com/adam-grandt-tts/data-driven-acquisition/blob/master/docs/images/data_model.png)
 
 ## Quickstart
 
