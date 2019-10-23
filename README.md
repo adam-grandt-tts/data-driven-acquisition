@@ -46,6 +46,20 @@ Design concepts:
 1. Database Setup
    1. install [PostgreSQL](https://www.postgresql.org/docs/9.3/tutorial-install.html).
    2. Create [database](https://www.postgresql.org/docs/9.0/sql-createdatabase.html)
+   3. [Configure your](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) new daba and create the role. e.g.:
+
+    ```sql
+    $ psql
+    CREATE DATABASE myproject;
+    CREATE USER myprojectuser WITH PASSWORD 'password';
+    ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+    ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+    ALTER ROLE myprojectuser SET timezone TO 'UTC';
+    GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+    \q
+
+    ```
+
 2. Project set up
    1. Create project folder
 
