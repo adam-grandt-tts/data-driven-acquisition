@@ -21,7 +21,7 @@ I opted to use relational database to allow rapid development using Django, and 
 
 Design concepts:
 
-- Files will be kept inside a PostgreSQL blob
+- Files will be kept inside a [PostgreSQL HStore](https://www.postgresql.org/docs/9.0/hstore.html)
   - Documents will be represented in Markdown. TODO: selected markdown editor and link here.
   - Sheets will be represented in a JSON string defined by the javascript sheet editor. TODO: Select a sheet editor and link here.
   - Other document will be saves as binary blobs and will not be editable.
@@ -37,7 +37,7 @@ Design concepts:
   - If folder dose not have a parent folder it will be considered a package.
   - Packages are folders that wil have the following attribute enabled:
     - The project URL of the trello board.
-    - The properties JSON array that will include all configured properties for this package.
+    - The properties JSON array stored in HSstore that will include all configured properties for this package.
 - Access control is managed vua the ACL table.
   - An ACL item connects a User or Group to a document or a Folder with a defined access level.
   - Access should be propagated down, that is to say, if a User has access to a folder they should also have access to all sub folders and document in those folders.
@@ -49,61 +49,77 @@ Design concepts:
 - [Django Admin Plus](https://github.com/jsocol/django-adminplus): Adding custom views to the django admin.
 - [Django Extension](https://django-extensions.readthedocs.io/en/latest/): Django Extensions is a collection of custom extensions for the Django Framework. These include management commands, additional database fields, admin extensions and much more.
 - [Django Model Utils](https://django-model-utils.readthedocs.io/en/latest/): Django model mix-ins and utilities.
-- df
+- [Django Reversion](https://django-reversion.readthedocs.io/en/stable/): an extension to the Django web framework that provides version control for model instances (like documents :) ).
+- [django-hstore](https://django-hstore.readthedocs.io/en/latest/) A nice hsstore editors widget for properties in the django admin.
+- [Django Environ](https://github.com/joke2k/django-environ): Take sensitive project settings out of git and save them in `.env` file or the local env for deployment.
 
 ## Quickstart
 
 1. Database Setup
    1. install [PostgreSQL](https://www.postgresql.org/docs/9.3/tutorial-install.html).
    2. Create [database](https://www.postgresql.org/docs/9.0/sql-createdatabase.html)
-   3. [Configure your](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) new daba and create the role. e.g.:
+   3. [Configure your](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) Create a new DB and role. e.g.:
 
-    ```sql
-    $ psql
-    CREATE DATABASE myproject;
-    CREATE USER myprojectuser WITH PASSWORD 'password';
-    ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
-    ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
-    ALTER ROLE myprojectuser SET timezone TO 'UTC';
-    GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
-    \q
+        ```sql
+        $ psql
+        CREATE DATABASE myproject;
+        CREATE USER myprojectuser WITH PASSWORD 'password';
+        ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+        ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+        ALTER ROLE myprojectuser SET timezone TO 'UTC';
+        GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+        \q
+        ```
 
-    ```
+    4. Create the hsstore extention in the database by running:
+
+        ```sql
+        $ psql myproject
+        CREATE EXTENSION IF NOT EXISTS hstore;
+        ```
+
 
 2. Project set up
    1. Create project folder
 
-   ```shell
-   mkdir data-driven-acquisition
-   ```
+    ```shell
+    mkdir data-driven-acquisition
+    ```
 
-   1. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
+   2. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
 
-   ```shell
-   mkvirtualenv data-driven-acquisition --python=python3
-   ```
+    ```shell
+    mkvirtualenv data-driven-acquisition --python=python3
+    ```
 
-   1. Install the requirements
+   3. Install the requirements
 
-   ```shell
-   pip install -r requirements.txt
-   ```
+    ```shell
+    pip install -r requirements.txt
+    ```
 
-   1. Optional: Install the development and testing requirements if needed.
+   4. Optional: Install the development and testing requirements if needed.
 
-   ```shell
-   pip install -r requirements_dev.txt
-   pip install -r requirements_test.txt
-   ```
+    ```shell
+    pip install -r requirements_dev.txt
+    pip install -r requirements_test.txt
+    ```
 
-   1. Create a .env file looking like so
+   5. Create a .env file looking like so
   
-   ```shell
-   DEBUG=on
-   SECRET_KEY=your-secret-key # Make it random
-   DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
-   ALLOWED_HOSTS=127.0.0.1,0.0.0.0
-   ```
+    ```shell
+    DEBUG=on
+    SECRET_KEY=your-secret-key # Make it random
+    DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
+    ALLOWED_HOSTS=127.0.0.1,0.0.0.0
+    ```
+
+    6. Collect static and run
+
+    ```shell
+    python manage.py collectstatic
+    python manage.py migrate
+    ```
 
 ## Features
 
@@ -113,7 +129,7 @@ Design concepts:
 
 Does the code actually work?
 
-```shell
-    (myenv) $ pip install tox (or -r requirements_test.txt)
-    (myenv) $ tox
-```
+    ```shell
+        (myenv) $ pip install tox (or -r requirements_test.txt)
+        (myenv) $ tox
+    ```

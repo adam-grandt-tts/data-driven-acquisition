@@ -1,2 +1,18 @@
-from django.contrib.auth.models import User,Group
 
+from django.contrib import admin
+from django import forms
+
+from django_admin_hstore_widget.forms import HStoreFormField
+
+from .models import Folder
+
+class FolderAdminForm(forms.ModelForm):
+    properties = HStoreFormField()
+    
+    class Meta:
+       model = Folder
+       exclude = ()
+    
+@admin.register(Folder)
+class YourmodelAdmin(admin.ModelAdmin):
+    form =FolderAdminForm

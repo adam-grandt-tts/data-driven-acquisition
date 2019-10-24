@@ -29,14 +29,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'django.contrib.postgres',
 
+    'data_driven_acquisition',
     'django_extensions',
     'easyaudit',
-
     'adminplus',
-
-    # 'django_json_widget'
+    'reversion',
+    'django_admin_hstore_widget',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +117,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = env('STATIC_ROOT', default=os.path.join(BASE_DIR, 'static'))
