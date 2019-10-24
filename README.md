@@ -4,13 +4,16 @@ This system is a POC of a document management tool that will initiate acquisitio
 
 - [Data Driven Acquisition](#data-driven-acquisition)
   - [Documentation](#documentation)
+    - [Model Design](#model-design)
+    - [Third party libraries](#third-party-libraries)
   - [Quickstart](#quickstart)
   - [Features](#features)
   - [Running Tests](#running-tests)
-  - [Credits](#credits)
 
 
 ## Documentation
+
+### Model Design
 
 I opted to use relational database to allow rapid development using Django, and PostgreSQL.  Data model is available https://dbdiagram.io/d/5db0a60602e6e93440f28f98
 
@@ -40,6 +43,13 @@ Design concepts:
   - Access should be propagated down, that is to say, if a User has access to a folder they should also have access to all sub folders and document in those folders.
   - A user will be presented with all items that he has any access to upon login.
 
+### Third party libraries
+
+- [Django Easy Audit](https://github.com/soynatan/django-easy-audit): Audit trail for all authentication and model change events.
+- [Django Admin Plus](https://github.com/jsocol/django-adminplus): Adding custom views to the django admin.
+- [Django Extension](https://django-extensions.readthedocs.io/en/latest/): Django Extensions is a collection of custom extensions for the Django Framework. These include management commands, additional database fields, admin extensions and much more.
+- [Django Model Utils](https://django-model-utils.readthedocs.io/en/latest/): Django model mix-ins and utilities.
+- df
 
 ## Quickstart
 
@@ -107,11 +117,3 @@ Does the code actually work?
     (myenv) $ pip install tox (or -r requirements_test.txt)
     (myenv) $ tox
 ```
-Credits
--------
-
-Tools used in rendering this package:
-
-* [Cookiecutter](https://github.com/audreyr/cookiecutter)
-* [cookiecutter-djangopackage](https://github.com/pydanny/cookiecutter-djangopackage)
-* [Django]

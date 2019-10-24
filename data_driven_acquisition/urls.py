@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from django.views.generic import TemplateView
+from django.urls import path
+from django.contrib import admin
+from adminplus.sites import AdminSitePlus
 
-from . import views
-
+admin.site = AdminSitePlus()
+admin.sites.site = admin.site
+admin.autodiscover()
 
 app_name = 'data_driven_acquisition'
 urlpatterns = [
+	    path('admin/', admin.site.urls),
 	]
