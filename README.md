@@ -50,7 +50,7 @@ Design concepts:
 - [Django Extension](https://django-extensions.readthedocs.io/en/latest/): Django Extensions is a collection of custom extensions for the Django Framework. These include management commands, additional database fields, admin extensions and much more.
 - [Django Model Utils](https://django-model-utils.readthedocs.io/en/latest/): Django model mix-ins and utilities.
 - [Django Reversion](https://django-reversion.readthedocs.io/en/stable/): an extension to the Django web framework that provides version control for model instances (like documents :) ).
-- [django-hstore](https://django-hstore.readthedocs.io/en/latest/) A nice hsstore editors widget for properties in the django admin.
+- [Django Admin Hstore Widget](https://github.com/PokaInc/django-admin-hstore-widget) A nice Hstore editors widget for properties in the django admin.
 - [Django Environ](https://github.com/joke2k/django-environ): Take sensitive project settings out of git and save them in `.env` file or the local env for deployment.
 
 ## Quickstart
@@ -82,9 +82,9 @@ Design concepts:
 2. Project set up
    1. Create project folder
 
-    ```shell
-    mkdir data-driven-acquisition
-    ```
+        ```shell
+        mkdir data-driven-acquisition
+        ```
 
    2. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
 
@@ -94,32 +94,32 @@ Design concepts:
 
    3. Install the requirements
 
-    ```shell
-    pip install -r requirements.txt
-    ```
+        ```shell
+        pip install -r requirements.txt
+        ```
 
    4. Optional: Install the development and testing requirements if needed.
 
-    ```shell
-    pip install -r requirements_dev.txt
-    pip install -r requirements_test.txt
-    ```
+        ```shell
+        pip install -r requirements_dev.txt
+        pip install -r requirements_test.txt
+        ```
 
    5. Create a .env file looking like so
   
-    ```shell
-    DEBUG=on
-    SECRET_KEY=your-secret-key # Make it random
-    DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
-    ALLOWED_HOSTS=127.0.0.1,0.0.0.0
-    ```
+        ```shell
+        DEBUG=on
+        SECRET_KEY=your-secret-key # Make it random
+        DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
+        ALLOWED_HOSTS=127.0.0.1,0.0.0.0
+        ```
 
     6. Collect static and run
 
-    ```shell
-    python manage.py collectstatic
-    python manage.py migrate
-    ```
+        ```shell
+        python manage.py collectstatic
+        python manage.py migrate
+        ```
 
 ## Features
 
