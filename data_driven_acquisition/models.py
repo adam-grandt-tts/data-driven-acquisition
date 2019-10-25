@@ -87,4 +87,8 @@ class File(TimeStampedModel, SoftDeletableModel):
         blank=False,
         null=False,
         default='Document')
-    
+
+
+class ACL(TimeStampedModel, SoftDeletableModel):
+    """Access control List to Templates, Folders and Files"""
+    ACCESS_LEVELS = Choices('Read', 'Write', 'Admin')
