@@ -6,13 +6,14 @@ from django_admin_hstore_widget.forms import HStoreFormField
 
 from .models import Folder
 
+
 class FolderAdminForm(forms.ModelForm):
     properties = HStoreFormField()
-    
+
     class Meta:
-       model = Folder
-       exclude = ()
-    
+        model = Folder
+        exclude = ()
+
 @admin.register(Folder)
-class YourmodelAdmin(admin.ModelAdmin):
-    form =FolderAdminForm
+class FolderAdmin(admin.ModelAdmin):
+    form = FolderAdminForm

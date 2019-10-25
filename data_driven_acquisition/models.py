@@ -6,16 +6,27 @@ from django.contrib.postgres.fields import HStoreField
 from model_utils.models import TimeStampedModel, StatusModel, SoftDeletableModel
 from model_utils import Choices
 
+
+class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
+    """A template of a an acquisition package.
+    A package contains a group of folder and files templates and is stored in
+    a github repository.
+    """
+    STATUS = Choices('Draft', 'Available', 'Deprecated')
+    root_package_url = models.URLField(
+        blank=False,
+        null=False)
+    
+
 class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
     """Represents a folder containing multiple documents.
     Folders can have have other folders as parents.
     If folder dose not have a parent folder it will be considered a package.
     Packages are folders that wil have the following attribute enabled:
         The project URL of the trello board.
-        The properties JSON array stored in an HSStore that will include all 
+        The properties JSON array stored in an HSStore that will include all
         configured properties for this package.
     """
-    
     STATUS = Choices('Draft', 'In Progress', 'Completed')
 
     name = models.CharField(
@@ -31,4 +42,4 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
 
     properties = HStoreField(blank=True, null=True)
 
-    #TODO Unique name in parent on save 
+    #TODO Unique name in parent on save

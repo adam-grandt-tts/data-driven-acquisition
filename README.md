@@ -108,13 +108,22 @@ Design concepts:
    5. Create a .env file looking like so
   
         ```shell
+        # Set debug settings globally to the app, makes logging very verbose. (on/off)
         DEBUG=on
-        SECRET_KEY=your-secret-key # Make it random
-        DATABASE_URL=psql://DB_USER:DB_PASS@127.0.0.1:8458/DB_NAME
-        ALLOWED_HOSTS=127.0.0.1,0.0.0.0
+        # Used for all encryption operations. Use something like this to generate.
+        # python -c "import random; ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])"
+        SECRET_KEY=your-secret-key
+        DATABASE_URL=psql://DB_USER:DB_PASS@DB_IP/URL:DB_PORT/DB_NAME
+        ALLOWED_HOSTS=127.0.0.1,0.0.0.0 # Prod IP goes here
+        
+        # GitHub Config
+        # https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+        GITHUB_ACCESS_KEY=your-key-goes-here
+        GITHUB_TEMPLATE_REPO=github-user-owning-templates
+
         ```
 
-    6. Collect static and run
+    1. Collect static and run
 
         ```shell
         python manage.py collectstatic
