@@ -13,10 +13,15 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
     a github repository.
     """
     STATUS = Choices('Draft', 'Available', 'Deprecated')
-    root_package_url = models.URLField(
+    root_package_path = models.CharField(
+        max_length=256,
         blank=False,
         null=False)
-    
+
+    # TODO: Create the make package method, this will grab the var names from
+    # all the files in the tempalate and populate the properties Hstore in the
+    # package.
+
 
 class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
     """Represents a folder containing multiple documents.
@@ -40,6 +45,46 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         null=True,
         blank=True)
 
-    properties = HStoreField(blank=True, null=True)
+    properties = HStoreField(
+        blank=True,
+        null=True)
 
-    #TODO Unique name in parent on save
+    project_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text='Trello project URL'
+    )
+
+    def is_package(self):
+        if self.parent is None:
+            return True
+        else:
+            return False
+
+    # TODO Unique name in parent on save
+
+
+class File(TimeStampedModel, SoftDeletableModel):
+    """Represent a file in a package"""
+    TYPES = Choices('Document', 'Sheet', 'Other')
+
+    parent = models.ForeignKey(
+        'Folder',
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False)
+
+    name = models.CharField(
+        max_length=256,
+        null=False,
+        blank=False)
+
+    content = models.TextField()
+    
+    file_type = models.CharField(
+        choices=TYPES,
+        max_length=15,
+        blank=False,
+        null=False,
+        default='Document')
+    

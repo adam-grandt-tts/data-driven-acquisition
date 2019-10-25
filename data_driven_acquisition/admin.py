@@ -4,7 +4,7 @@ from django import forms
 
 from django_admin_hstore_widget.forms import HStoreFormField
 
-from .models import Folder
+from .models import Folder, File, 
 
 
 class FolderAdminForm(forms.ModelForm):
