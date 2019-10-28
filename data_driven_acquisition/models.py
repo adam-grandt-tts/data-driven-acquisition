@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.postgres.fields import HStoreField
+from django.contrib.auth.models import User, Group
 
 from model_utils.models import TimeStampedModel, StatusModel, SoftDeletableModel
 from model_utils import Choices
@@ -80,7 +81,7 @@ class File(TimeStampedModel, SoftDeletableModel):
         blank=False)
 
     content = models.TextField()
-    
+   
     file_type = models.CharField(
         choices=TYPES,
         max_length=15,
@@ -90,5 +91,40 @@ class File(TimeStampedModel, SoftDeletableModel):
 
 
 class ACL(TimeStampedModel, SoftDeletableModel):
-    """Access control List to Templates, Folders and Files"""
+    """Access Control List to Assets Templates, Folders and Files"""
     ACCESS_LEVELS = Choices('Read', 'Write', 'Admin')
+
+    user = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE)
+
+    user = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE)
+
+    access_level = models.CharField(
+        max_length=10,
+        choices=ACCESS_LEVELS
+    )
+
+    asset_file = models.ForeignKey(
+        File,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE)
+
+    asset_folder = models.ForeignKey(
+        Folder,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE)
+
+    asset_package_template = models.ForeignKey(
+        PackageTemplate,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE)
