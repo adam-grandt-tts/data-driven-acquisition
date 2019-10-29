@@ -91,7 +91,7 @@ Design concepts:
    2. Create virtual environment (using [virtual env wrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) in this example).
 
     ```shell
-    mkvirtualenv data-driven-acquisition --python=python3
+    mkvirtualenv data-driven-acquisition --python=python37
     ```
 
    3. Install the requirements
@@ -121,7 +121,8 @@ Design concepts:
         # GitHub Config
         # https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
         GITHUB_ACCESS_KEY=your-key-goes-here
-        GITHUB_TEMPLATE_REPO=github-user-owning-templates
+        # MAke sure your github user has access to repo 
+        GITHUB_TEMPLATE_REPO=github-repo-containing-templates
 
         ```
 

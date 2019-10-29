@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
 from django.db import models
 from django.contrib.postgres.fields import HStoreField
 from django.core.exceptions import ValidationError
 
 from model_utils.models import TimeStampedModel, StatusModel, SoftDeletableModel
 from model_utils import Choices
+
+from github import Github
 
 
 class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
@@ -31,9 +34,21 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
 
     class Meta:
         permissions = (
-            ('can_deploy', 'Can deploy from template'),
+            ('can_deploy', 'Can deploy package from template'),
         )
         get_latest_by = 'created_at'
+
+    def deploy(self):
+        """Deploy a new package from the template."""
+
+        # Get the gothub repo content 
+        gh = Github(settings.GITHUB["ACCESS_KEY"])
+        repo = gh.get_user().get_repo(settings.GITHUB["TEMPLATE_REPO"])
+        branch = repo.get_branch('master')
+        contents = repo.get_dir_contents(
+            '/data_driven_acquisition/templates',
+            ref = branch.commit.sha)
+
 
     def __str__(self):
         return self.title
@@ -81,7 +96,6 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             ('can_set_properties', 'Can set properties on folder'),
             ('can_propagate_properties', 'Can propagate properties to children.'),
             ('can_edit_child_content', 'Can edit content of children.'),
-
         )
         get_latest_by = 'created_at'
 

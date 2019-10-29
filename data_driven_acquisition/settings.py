@@ -126,7 +126,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = env('STATIC_ROOT', default=os.path.join(BASE_DIR, 'static'))
 
 # GitHub  
-# https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
 GITHUB = {
     'ACCESS_KEY': env('GITHUB_ACCESS_KEY'),
     'TEMPLATE_REPO': env('GITHUB_TEMPLATE_REPO')
