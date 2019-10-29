@@ -9,6 +9,7 @@ This system is a POC of a document management tool that will initiate acquisitio
   - [Quickstart](#quickstart)
   - [Features](#features)
   - [Running Tests](#running-tests)
+  - [Resources](#resources)
 
 
 ## Documentation
@@ -52,6 +53,7 @@ Design concepts:
 - [Django Reversion](https://django-reversion.readthedocs.io/en/stable/): an extension to the Django web framework that provides version control for model instances (like documents :) ).
 - [Django Admin Hstore Widget](https://github.com/PokaInc/django-admin-hstore-widget) A nice Hstore editors widget for properties in the django admin.
 - [Django Environ](https://github.com/joke2k/django-environ): Take sensitive project settings out of git and save them in `.env` file or the local env for deployment.
+- [Django Guardian](https://github.com/django-guardian/django-guardian): Object level permissions in django.
 
 ## Quickstart
 
@@ -142,3 +144,7 @@ Does the code actually work?
         (myenv) $ pip install tox (or -r requirements_test.txt)
         (myenv) $ tox
     ```
+
+## Resources 
+
+- [Print docs with header and footer](https://medium.com/@Idan_Co/the-ultimate-print-html-template-with-header-footer-568f415f6d2a)
