@@ -1,0 +1,102 @@
+<head>
+    <style type = "text/css">
+        .page-header, .page-header-space {
+        height: 100px;
+        }
+    
+        .page-footer, .page-footer-space {
+        height: 50px;
+    
+        }
+    
+        .page-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: white; /* for demo */
+        }
+    
+        .page-header {
+        position: fixed;
+        top: 0mm;
+        width: 100%;
+        background: white; /* for demo */
+        }
+    
+        .page {
+        page-break-after: always;
+        }
+    
+        @page {
+        margin: 20mm
+        }
+    
+        @media print {
+        thead {display: table-header-group;} 
+        tfoot {display: table-footer-group;}
+        
+        body {margin: 0;}
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-footer">
+            <p style="text-align: center;"><span style="font-weight: 400;"><!--PROPERTY:Agency-Partner-->{Agency-Partner}<!--/PROPERTY:Agency-Partner--> / General Services Administration</span></p>
+            <p style="text-align: center;"><span style="font-weight: 400;">Centers of Excellence</span></p>
+    </div>
+    <table>
+        <tbody>
+            <tr><td>
+                <div style="text-align: center;">
+                    <p><strong>General Services Administration</strong></p>
+                    <p>Federal Acquisition Service
+                    Technology Transformation Services</p>
+                    <p>Centers of Excellence</p>
+                    <p>1800 F Street NW | Washington, DC | 20405</p>
+                </div>
+                <p><!--PROPERTY:CoE-Acquisition-->{CoE-Acquisition}<!--/CoE-Acquisition--></p>
+                <p>Capability Assessment</p>
+
+                <h1>Introduction</h1>
+                <p>This is a capability assessment outlining whether or not the respondents to the RFI were truly able to achieve the objectives of the draft Request for Quote (RFQ). These assessments were done by reviewing publicly available information (eg, websites, marketing material, etc.) as well as internally available information (eg, CPARS, past market research reports, etc.). The teams have reviewed the responses and determined the following ratings in terms of capabilities.</p>
+
+                <h1>Capability Assessment</h1>
+                    <table>
+                            <tbody>
+                            <tr>
+                            <td>
+                            <p><strong>Contractor</strong></p>
+                            </td>
+                            <td>
+                            <p><strong>Status</strong></p>
+                            </td>
+                            <td>
+                            <p><strong>Assessment</strong></p>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                            <p><span style="font-weight: 400;">Name provided through the RFI response</span></p>
+                            </td>
+                            <td>
+                            <p><span style="font-weight: 400;">X</span></p>
+                            </td>
+                            <td>
+                            <p><span style="font-weight: 400;">Capable/Needs more research</span></p>
+                            <ul>
+                            <li style="font-weight: 400;"><span style="font-weight: 400;">Reason</span></li>
+                            <li style="font-weight: 400;"><span style="font-weight: 400;">Reason</span></li>
+                            </ul>
+                            </td>
+                            </tr>
+                            </tbody>
+                    </table>
+        <tfoot>
+            <tr><td>
+                <div class="page-footer-space"></div>
+                </div>
+            </td></tr>
+        </tfoot>    
+    </table>
+</body>
