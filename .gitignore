@@ -103,3 +103,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.DS_Store
+data_driven_acquisition/.DS_Store
+data_driven_acquisition/templates/.DS_Store
+data_driven_acquisition/templates/POC Acquistuion /.DS_Store

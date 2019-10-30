@@ -1,0 +1,93 @@
+<head>
+  <style type = "text/css">
+    .page-header, .page-header-space {
+      height: 100px;
+    }
+
+    .page-footer, .page-footer-space {
+      height: 50px;
+
+    }
+
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: white; /* for demo */
+    }
+
+    .page-header {
+      position: fixed;
+      top: 0mm;
+      width: 100%;
+      background: white; /* for demo */
+    }
+
+    .page {
+      page-break-after: always;
+    }
+
+    @page {
+      margin: 20mm
+    }
+
+    @media print {
+      thead {display: table-header-group;} 
+      tfoot {display: table-footer-group;}
+      
+      body {margin: 0;}
+    }
+  </style>
+</head>
+
+<body>
+    <div class="page-header" style="text-align: center">
+        <p style="text-align: center;"><span style="text-decoration: underline;"><strong>PROCUREMENT SENSITIVE INFORMATION - CONFIDENTIAL - DO NOT PUBLISH</strong></span></p>
+        <p style="text-align: center;"><span style="text-decoration: underline;"><strong>18 USC 1905 and Procurement Integrity Act (41 USC 2102 et seq and FAR 3.104)</strong></span></p>
+        <p><span style="font-weight: 400;">Problem Statement - <!--PROPERTY:CoE-Acquisition-->{CoE-Acquisition}<!--/PROPERTY:CoE-Acquisition--></span></p>
+    </div>
+    
+      <div class="page-footer">
+          <p style="text-align: center;"><span style="font-weight: 400;"><!--PROPERTY:Agency-Partner-->{Agency-Partner}<!--/PROPERTY:Agency-Partner--> / General Services Administration</span></p>
+          <p style="text-align: center;"><span style="font-weight: 400;">Centers of Excellence</span></p>
+      </div>
+  <table>
+    <thead>
+      <tr><td>
+          <div class="page-header-space"></div>  
+      </td></tr>
+    </thead>
+    <tbody>
+      <tr><td>
+        <div class="content">
+                <p style="text-align: center;"><strong>General Services Administration</strong></p>
+                <p style="text-align: center;"><span style="font-weight: 400;">Federal Acquisition Service</span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">Technology Transformation Services</span></p>
+                <p style="text-align: center;"><span style="font-weight: 400;">Centers of Excellence</span></p>
+                <p style="text-align: center;"><span style="font-weight: 400;">1800 F Street NW | Washington, DC | 20405</span></p>
+                <br /><br />
+                <p style="text-align: center;"><strong><!--PROPERTY:Discovery BPA-Acquisition-->{Discovery BPA-Acquisition}<!--/PROPERTY:Discovery BPA-Acquisition--></strong></p>
+                <p style="text-align: center;"><strong>Problem Statement</strong></p>
+          </div>
+            <h1><!--PROPERTY:Agency-->{Agency}<!--/PROPERTY:Agency-->’s need</h1>
+            <h2>Actual problem statement</h2>
+            <p><blockquote>Shared problem statements has three core components: 1) <!--PROPERTY:Observed-Need-->{Observed-Need}<!--/PROPERTY:Observed-Need--> grounded in Agency mission — ideally evidence-based or moving towards evidence-based; 2) concise future state vision <!--PROPERTY:Intended-Outcome-->{Intended-Outcome}<!--/PROPERTY:Intended-Outcome-->; 3) “how might we” questions to drive process towards <!--PROPERTY:Intended-Outcome-->{Intended-Outcome}<!--/PROPERTY:Intended-Outcome-->. </blockquote></p>
+            
+            <p>In listening to our Agency stakeholders, we observe the following problem. Within the last ## years, the cost of #### has outpaced the growth of ##### by ##### in #####. We envision a future program in which citizens receive notification of their status from ###### within days not months. How might we decrease the time spent processing analog paperwork by ##% in Program Area by XX?</p>
+            
+            <h2>Acquisition approach</h2>
+            <p>TO UPDATE // We will seek a <!--PROPERTY:Type-of-contractor-->{Type-of-contractor}<!--/PROPERTY:Type-of-contractor--> expert, on a base period of X months with Y options of Z months each. This contractor should provide the necessary expertise to <!--PROPERTY:objectives-->{objectives}<!--/PROPERTY:objectives-->.</p>
+            
+            <h2>Constraints for collaboration requirements</h2>
+            <ul>
+            <li>The contractor will have to work with the <!--PROPERTY:Center-->{Center}<!--/PROPERTY:Center--> team, made up of federal government employees and contractors. Specifically, <!--PROPERTY:tasks-->{tasks}<!--/PROPERTY:tasks--> will require collaboration.</li>
+            <li>The contractor will have to work with the <!--PROPERTY:Agency-Partner-->{Agency-Partner}<!--/PROPERTY:Agency-Partner--> team, made up of federal government employees and contractors. Specifically, <!--PROPERTY:tasks-->{tasks}<!--/PROPERTY:tasks--> will require collaboration.</li></ul></div>
+      </td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>
+          <div class="page-footer-space"></div>
+        </div>
+      </td></tr>
+    </tfoot>
+  </table>
+</body>
