@@ -23,11 +23,12 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         null=False,
         blank=False)
 
-    root_package_path = models.CharField(
-        max_length=256,
+    package_root_path = models.CharField(
+        max_length=1024,
+        help_text="The path to the package locairton in the repository",
         blank=False,
         null=False)
-    
+
     properties = HStoreField(
         blank=True,
         null=True)
@@ -38,17 +39,31 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         )
         get_latest_by = 'created_at'
 
-    def deploy(self):
+    def deploy(self, properties):
         """Deploy a new package from the template."""
 
-        # Get the gothub repo content 
+        # Get the gothub repo content
         gh = Github(settings.GITHUB["ACCESS_KEY"])
         repo = gh.get_user().get_repo(settings.GITHUB["TEMPLATE_REPO"])
         branch = repo.get_branch('master')
         contents = repo.get_dir_contents(
-            '/data_driven_acquisition/templates',
-            ref = branch.commit.sha)
+            self.package_root_path,
+            ref=branch.commit.sha)
 
+        for content in contents:
+            print ("Processing %s" % content.path)
+            if content.type == 'dir':
+                download_directory(repository, sha, content.path)
+            else:
+                try:
+                    path = content.path
+                    file_content = repository.get_contents(path, ref=sha)
+                    file_data = base64.b64decode(file_content.content)
+                    file_out = open(content.name, "w")
+                    file_out.write(file_data)
+                    file_out.close()
+                except (GithubException, IOError) as exc:
+                    logging.error('Error processing %s: %s', content.path, exc)
 
     def __str__(self):
         return self.title
