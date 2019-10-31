@@ -11,10 +11,12 @@ from model_utils import Choices
 from github import Github
 from github.GithubException import GithubException
 
+from .utils import apply_properties
+
 import base64
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('data_driven_acquisition')
 
 
 class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
@@ -57,7 +59,8 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
             if content.type == 'dir':
                 # Creating folder
                 folder = Folder(
-                    name=content.name,
+                    name=apply_properties(
+                        content.name, parent.package.properties),
                     properties=None,
                     project_url='',
                     parent=parent
@@ -94,9 +97,11 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
 
                     new_file = File(
                         parent=parent,
-                        name=content.name,
+                        name=apply_properties(
+                            content.name, parent.package.properties),
                         file_type=file_type,
-                        content=file_data
+                        content=apply_properties(
+                            file_data, parent.package.properties)
                     )
 
                     new_file.save()
@@ -116,7 +121,8 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
             # Get the github repo content
             github = {}
             github["gh"] = Github(settings.GITHUB["ACCESS_KEY"])
-            github["repo"] = github["gh"].get_user().get_repo(settings.GITHUB["TEMPLATE_REPO"])
+            github["repo"] = github["gh"].get_user().get_repo(
+                settings.GITHUB["TEMPLATE_REPO"])
             github["branch"] = github["repo"].get_branch('master')
             contents = github["repo"].get_dir_contents(
                 self.package_root_path,
@@ -130,7 +136,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         
         # Create the Package folder
         package = Folder(
-            name=name,
+            name=apply_properties(name, properties),
             properties=properties,
             project_url=project_url
         )
@@ -257,6 +263,7 @@ class File(TimeStampedModel, SoftDeletableModel):
     def __str__(self):
         return self.name
 
+    @property
     def package(self):
         """Return the root folder of the package"""
         p = self

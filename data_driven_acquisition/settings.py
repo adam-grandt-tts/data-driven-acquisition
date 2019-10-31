@@ -214,7 +214,7 @@ LOGGING = {
         'data_driven_acquisition': {
             'handlers': ['console', ],
             'level': 'INFO',
-            'propagate': False,
+            'propagate': True,
         },
     }
 }
