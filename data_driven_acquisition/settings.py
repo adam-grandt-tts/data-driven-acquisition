@@ -1,6 +1,11 @@
 import os
 import environ
 
+import logging
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # load settings from .env file or environment variables 
 env = environ.Env()
 environ.Env.read_env()
@@ -18,7 +23,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
 
 # Application definition
 
@@ -125,8 +129,101 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = env('STATIC_ROOT', default=os.path.join(BASE_DIR, 'static'))
 
-# GitHub  
+
+
+
+# Logging 
+
+## Sentry integration https://sentry.io
+sentry_sdk.init(
+    dsn="https://b040c7433c424b0099fcb6da772e12fd@sentry.io/1803660",
+    integrations=[DjangoIntegration()]
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false', ],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/app.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+        'request_log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/web-request.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', 'mail_admins', 'log', ],
+            'level': 'INFO',
+        },
+        'django.db.backends': {
+            'handlers': ['console', ],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console', ],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console', 'mail_admins', 'request_log', ],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'data_driven_acquisition': {
+            'handlers': ['console', ],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+
+
+# GitHub
 GITHUB = {
-    'ACCESS_KEY': env('GITHUB_ACCESS_KEY'),
-    'TEMPLATE_REPO': env('GITHUB_TEMPLATE_REPO')
+    'ACCESS_KEY': env.str('GITHUB_ACCESS_KEY'),
+    'TEMPLATE_REPO': env.str('GITHUB_TEMPLATE_REPO')
 }
