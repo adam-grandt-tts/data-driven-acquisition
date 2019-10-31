@@ -181,10 +181,10 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         blank=True,
         null=True)
 
-    project_url = models.URLField(
+    project_card_id = models.URLField(
         blank=True,
         null=True,
-        help_text='Trello project URL'
+        help_text='Trello Card IDL'
     )
 
     class Meta:
@@ -217,14 +217,37 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             p = p.parent
         return p
 
+    def update_children(self):
+        """Update all child objects based on the package properties"""
+        # Get new properties to apply
+        props = self.package.properties
+
+        # Update al child files
+        for child in self.files.all():
+            child.content = apply_properties(child.content, props)
+            child.save()
+
+        # Update subfolder names and dive
+        for sub in self.subfolders.all():
+            sub.name = apply_properties(sub.name, props)
+            sub.save()
+            sub.update_children()
+
     def save(self, *args, **kwargs):
 
         # We cant have a folder be its own parent
+        # This prob should be done by ID but new objects have no ID
         if self.parent and self.parent.name == self.name:
             raise ValidationError('You can\'t have a folder be its own parent.')
 
         # Folder name must be unique in its parent
-        if self.name in [f.name for f in Folder.objects.filter(parent = self.parent)]:
+        # if we are updating we exclude ourselves form the check or it will
+        # allways be True
+        allsubs = Folder.objects.filter(parent=self.parent)
+        if self.id:
+            allsubs = allsubs.exclude(id=self.id)
+
+        if self.name in [f.name for f in allsubs]:
             raise ValidationError('Folder name must be unique in parent.')
 
         return super(Folder, self).save(*args, **kwargs)
@@ -237,6 +260,7 @@ class File(TimeStampedModel, SoftDeletableModel):
     parent = models.ForeignKey(
         'Folder',
         on_delete=models.CASCADE,
+        related_name='files',
         null=False,
         blank=False)
 
