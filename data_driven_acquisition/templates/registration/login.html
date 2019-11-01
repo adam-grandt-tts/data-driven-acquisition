@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}DDA - Login{% endblock %}
+
+{% block addtional_head %} 
+<style>
+    #form_container { 
+        max-width: 600px;
+        min-height: auto;
+        font-feature-settings: 'liga';
+        display: block;
+        box-sizing: border-box;
+        width: 600px;
+    }
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        padding: 70px 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+
+<div id="form_container" class="center">
+    <form id="realLoginForm" action="" method="POST">
+        {% csrf_token %}
+        <div id="login_form"></div>
+    </form>
+    {% if form.non_field_errors %}
+    <ul class='form-errors'>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<script>
+    var token = '{{csrf_token}}';
+
+    var form_data = {
+        title: "Data Driven Acquistion - Login:",
+        padding: "10px",
+        width:"600px",
+        cellCss: "dhx_widget--bordered",
+        rows:[
+            {
+                id: "username",
+                name: "username",
+                type: "input",
+                label: "User name",
+                placeholder: "jd@mail.name",
+                labelInline: true,
+                required: true,
+            },
+            {
+                id: "password",
+                name: "password",
+                type: "input",
+                inputType: "password",
+                label: "Password",
+                icon: "dxi-magnify",
+                labelInline: true,
+                required: true,
+            },
+            {
+                type: "button",
+                value: "Login",
+                size: "medium",
+                view: "flat",
+                color: "primary",
+                submit: true,
+                labelInline: true,
+                align: 'center',
+                name: "submit"
+            }
+        ]
+    };
+    // creating dhtmlxForm
+    var form = new dhx.Form("login_form", form_data);
+    form.events.on("ButtonClick", function(id,e){
+        document.getElementById("realLoginForm").submit();
+    });
+</script>
+{% endblock %}
