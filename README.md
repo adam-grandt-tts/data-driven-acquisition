@@ -5,6 +5,9 @@ This system is a POC of a document management tool that will initiate acquisitio
 - [Data Driven Acquisition](#data-driven-acquisition)
   - [Documentation](#documentation)
     - [Model Design](#model-design)
+    - [Design concepts:](#design-concepts)
+      - [Github integration](#github-integration)
+      - [Trelo Integration](#trelo-integration)
     - [Third party libraries](#third-party-libraries)
   - [Quickstart](#quickstart)
   - [Features](#features)
@@ -20,7 +23,7 @@ I opted to use relational database to allow rapid development using Django, and 
 
 ![data model](https://github.com/adam-grandt-tts/data-driven-acquisition/blob/master/docs/images/data_model.png)
 
-Design concepts:
+### Design concepts:
 
 - Files will be kept inside a [PostgreSQL HStore](https://www.postgresql.org/docs/9.0/hstore.html)
   - Documents will be represented in Markdown. TODO: selected markdown editor and link here.
@@ -43,6 +46,16 @@ Design concepts:
   - An ACL item connects a User or Group to a document or a Folder with a defined access level.
   - Access should be propagated down, that is to say, if a User has access to a folder they should also have access to all sub folders and document in those folders.
   - A user will be presented with all items that he has any access to upon login.
+
+#### Github integration 
+
+TODO:
+
+#### Trelo Integration 
+
+TODO: 
+
+https://trello.com/b/SL7jTaz3/oia-acquisition-tracker
 
 ### Third party libraries
 
