@@ -62,7 +62,6 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                     name=apply_properties(
                         content.name, parent.package.properties),
                     properties=None,
-                    project_url='',
                     parent=parent
                 )
                 folder.save()
@@ -114,7 +113,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                     logger.error('Error processing %s: %s', content.path, exc)
                     return False
 
-    def deploy(self, name, project_url, properties):
+    def deploy(self, name, properties):
         """Deploy a new package from the template."""
 
         try:
@@ -138,7 +137,6 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         package = Folder(
             name=apply_properties(name, properties),
             properties=properties,
-            project_url=project_url
         )
         package.save()
         logger.info('Create package {package.name}.')
@@ -285,7 +283,7 @@ class File(TimeStampedModel, SoftDeletableModel):
         get_latest_by = 'created_at'
 
     def __str__(self):
-        return self.name
+        return f'File {self.id} {self.name}'
 
     @property
     def package(self):
