@@ -43,7 +43,7 @@ def get_folder_tree(folder_obj):
 
     folder_tree['files'] = [f for f in files]
     for sub in subs:
-        folder_tree[sub] = get_folder(sub)
+        folder_tree[sub] = get_folder_tree(sub)
     return(folder_tree)
 
 
@@ -59,7 +59,7 @@ def place_folder_in_tree(master_tree, folder, tree):
         # No parent found, lets dig into all subfolders.
         for key in list(master_tree):
             if type(master_tree[key]) == dict:
-                master_tree = stick_folder_in_tree(
+                master_tree = place_folder_in_tree(
                     master_tree[key],
                     folder,
                     tree)
@@ -67,24 +67,70 @@ def place_folder_in_tree(master_tree, folder, tree):
     return False
 
 
-def user_permitted_tree(user:
+def climb_to_package(master_tree, folder):
+    """Add the parent of folder to the master tree above folder until we reach
+        the package level. Checking on each iteration to see if the current
+        parent is already in the tree and placing the current tree in place if
+        it is.
+    """
+    # Since the folder is already at root, we are good to skip if its a Package
+    while folder.parent is not None:
+        # if the parent exits in the tree copy to proper lobation
+        if place_folder_in_tree(master_tree, folder, master_tree[folder]):
+            # Then delete the original place holder
+            del(master_tree[folder])
+            return master_tree
+        else:
+            # Add the parent folder to the placeholder and try again
+            master_tree[folder.parent] = {}
+            master_tree[folder.parent][folder] = master_tree[folder]
+            del(master_tree[folder])
+            folder = folder.parent
+    return master_tree
+
+
+def place_file_in_tree(master_tree, file_obj):
+    """Add the file to its proper location in the master tree.
+        Return False if the parent folder is not in the master tree
+    """
+    if file_obj.parent in list(master_tree):
+        if "files" not in master_tree[file_obj.parent].keys():
+            master_tree[file_obj.parent]["files"] = []
+        master_tree[file_obj.parent]["files"].append(file_obj)
+        return master_tree
+    else:
+        for key in list(master_tree):
+            if type(master_tree[key]) == dict:
+                master_tree = place_file_in_tree(master_tree[key], file_obj)
+                return master_tree
+    return False
+
+
+def user_permitted_tree(user):
     """Generate a dictionary of the representing a folder tree composed of
     the elements the user is allowed to acccess.
     """
-    user_tree= {}
+
+    # Init
+    user_tree = {}
+
+    # Dynamically collect permission to avoid hardcoding
+    # Note: Any permission to an element is the same as read permission so
+    # they are all included.
 
     file_perm_list = [
         f'data_driven_acquisition.{perm}' for perm in
         get_perms_for_model('data_driven_acquisition.File').values_list(
             'codename', flat=True)
-        ]
+    ]
 
     folder_perm_list = [
         f'data_driven_acquisition.{perm}' for perm in
         get_perms_for_model('data_driven_acquisition.Folder').values_list(
             'codename', flat=True)
-        ]
+    ]
 
+    # Collect all permistted elements
     permitted_folders = get_objects_for_user(
         user,
         folder_perm_list,
@@ -92,16 +138,34 @@ def user_permitted_tree(user:
 
     permitted_files = get_objects_for_user(
         user,
-        files_perm_list,
+        file_perm_list,
         any_perm=True).all()
 
+    # Add all permitted folders to the user tree with their content and parents.
     for folder_obj in permitted_folders:
-        # Get the folder dontent as tree
+        # Get the folder content as tree
         tree = get_folder_tree(folder_obj)
-        
+
         # Try to place the tree in the user tree
-        if not stick_folder_in_tree(user_tree, f, tree):
-            # The parent is not ins the tr
-            # Settingf at root level and clmbing up to the Package
-            master_tree[f] = tree
-            master_tree = climb_to_packge(master_tree, f)
+        if not place_folder_in_tree(user_tree, folder_obj, tree):
+            # The parent is not in the user tree.
+            # Cresting the parent folder at root level and then completing the
+            # climb to the package level, mergin as needed.
+            user_tree[folder_obj] = tree
+            user_tree = climb_to_package(user_tree, folder_obj)
+
+    # Add all permitted files to the user tree with theirs parents.
+    for file_obj in permitted_files:
+        # Add to user tree iof the parent folder is already there.
+        if not place_file_in_tree(user_tree, file_obj):
+            # Cold not find the parent folder in the tree.
+            # Creating a base tree with the parent folder
+            # the  file at root level and the climbing up to the Package
+            # Merging when required
+            tree = {
+                "files": [file_obj, ]
+            }
+            user_tree[file_obj.parent] = tree
+            user_tree = climb_to_package(user_tree, file_obj.parent)
+
+    return user_tree
