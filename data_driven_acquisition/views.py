@@ -2,53 +2,77 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.base import TemplateView
 from django.views import View
-from django.http import JsonResponse, HttpResponse
-from guardian.shortcuts import (
-    get_objects_for_user,
-    get_perms_for_model)
+from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 
 from data_driven_acquisition.models import Folder, File
+from data_driven_acquisition.utils import user_permitted_tree
+
+from guardian.shortcuts import get_perms
+
 
 @method_decorator(login_required, name='dispatch')
 class HomePageView(TemplateView):
 
     template_name = "home.html"
+    tree_ul = ''
+
+    def tree_to_ul(self, d, indent=0):
+        for key, value in d.items():
+            if key == 'files':
+                for item in value:
+                    self.tree_ul += ''.join([
+                        '  ' * (indent + 1),
+                        '<li><a href = "#"> ' + '&nbsp;&nbsp;' * (indent + 1),
+                        '<i class="icon-file-text-alt"></i>&nbsp;&nbsp;',
+                        item.name + '</a></li>\n'])
+                continue
+            self.tree_ul += ''.join([
+                '  ' * indent,
+                '<li>' ,
+                f'<a href="#folder_{key.id}_sub" data-toggle="collapse" ',
+                'aria-expanded="false" class="dropdown-toggle">' + '&nbsp;&nbsp;' * (indent + 1),
+                '<i class="icon-folder-close"></i>AA&nbsp;&nbsp;',
+                f'{key.name}</a>',
+                '\n' + '  ' * (indent + 1),
+                f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n'])
+            if isinstance(value, dict):
+                self.tree_to_ul(value, indent + 1)
+                self.tree_ul += '  ' * (indent + 1) + '</ul>\n'
+            else:
+                self.tree_ul += '  ' * (indent + 1) + '<li>' + value.name + '</li>\n'
+            self.tree_ul += '  ' * indent + '</li>\n'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['latest_articles'] = Article.objects.all()[:5]
+        self.tree = user_permitted_tree(self.request.user)
+        self.tree_to_ul(self.tree)
+        context['tree'] = self.tree
+        context['tree_ul'] = self.tree_ul
         return context
 
 
 @method_decorator(login_required, name='dispatch')
-class Tree(View):
+class Package(View):
+    """ Manage Package and its attributes"""
 
-    file_perm_list = [
-        f'data_driven_acquisition.{perm}' for perm in
-            get_perms_for_model(File).values_list('codename', flat=True)]
+    def get(self, request, package_id):
+        """Return package data"""
+        try:
+            package = get_object_or_404(Folder, pk=int(package_id))
+        except ValueError:
+            return HttpResponseForbidden('Not a valid Package ID')
 
-    folder_perm_list = [
-        f'data_driven_acquisition.{perm}' for perm in
-            get_perms_for_model(Folder).values_list('codename', flat=True)]
+        if not package.is_package:
+            return HttpResponseForbidden('Not a valid Package ID')
 
+        if 'view_folder' not in get_perms(request.user, package):
+            return HttpResponseForbidden('Not allowed')
 
-    def get(self, request):
-        tree = {}
+        package_data = {
+            'id': package.id,
+            'name': package.name,
+        }
+        package_data.update(package.properties)
 
-        allowed_folders = get_objects_for_user(
-            request.user,
-            self.folder_perm_list,
-            any_perm=True).all()
-
-        for folder in allowed_folders:
-            tree = self.add_folder(tree, folder)
-
-        allowed_files = get_objects_for_user(
-            request.user,
-            self.files_perm_list,
-            any_perm=True).all()
-
-
-
-
-        return JsonResponse(packages, safe=False)
+        return JsonResponse(package_data)

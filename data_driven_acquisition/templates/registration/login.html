@@ -4,20 +4,40 @@
 
 {% block addtional_head %} 
 <style>
-    #form_container { 
-        max-width: 600px;
-        min-height: auto;
-        font-feature-settings: 'liga';
-        display: block;
-        box-sizing: border-box;
-        width: 600px;
-    }
-    .center {
-        margin: auto;
-        width: 50%;
-        padding: 10px;
-        padding: 70px 0;
-    }
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.login-form-1{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+    text-align: center;
+    color: #333;
+}
+}
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.login-form-1 .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+.login-form-1 .ForgetPwd{
+    color: #0062cc;
+    font-weight: 600;
+    text-decoration: none;
+}
 </style>
 {% endblock %}
 
@@ -25,68 +45,33 @@
 {% block content %}
 
 
-
-
-
-<div id="form_container" class="center">
-    <form id="realLoginForm" action="" method="POST">
-        {% csrf_token %}
-        <div id="login_form"></div>
-    </form>
-    {% if form.non_field_errors %}
-    <ul class='form-errors'>
-        {% for error in form.non_field_errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            {% if form.non_field_errors %}
+            <ul class='form-errors'>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <h3>Data Driven Acquisition</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Username *" value="" name="username" id="id_username" required/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Your Password *" value="" name="password" id="id_password" required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Login" />
+                </div>
+                <div class="form-group">
+                    <a href="#" class="ForgetPwd">Forget Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
-<script>
-    var token = '{{csrf_token}}';
-
-    var form_data = {
-        title: "Data Driven Acquistion - Login:",
-        padding: "10px",
-        width:"600px",
-        cellCss: "dhx_widget--bordered",
-        rows:[
-            {
-                id: "username",
-                name: "username",
-                type: "input",
-                label: "User name",
-                placeholder: "jd@mail.name",
-                labelInline: true,
-                required: true,
-            },
-            {
-                id: "password",
-                name: "password",
-                type: "input",
-                inputType: "password",
-                label: "Password",
-                icon: "dxi-magnify",
-                labelInline: true,
-                required: true,
-            },
-            {
-                type: "button",
-                value: "Login",
-                size: "medium",
-                view: "flat",
-                color: "primary",
-                submit: true,
-                labelInline: true,
-                align: 'center',
-                name: "submit"
-            }
-        ]
-    };
-    // creating dhtmlxForm
-    var form = new dhx.Form("login_form", form_data);
-    form.events.on("ButtonClick", function(id,e){
-        document.getElementById("realLoginForm").submit();
-    });
-</script>
 {% endblock %}

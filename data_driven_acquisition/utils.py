@@ -83,6 +83,7 @@ def climb_to_package(master_tree, folder):
         else:
             # Add the parent folder to the placeholder and try again
             master_tree[folder.parent] = {}
+            master_tree[folder.parent]['files'] = []
             master_tree[folder.parent][folder] = master_tree[folder]
             del(master_tree[folder])
             folder = folder.parent

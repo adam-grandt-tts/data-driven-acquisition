@@ -199,6 +199,9 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         else:
             return f"Folder {self.id}: {self.name}"
 
+    def __repr__(self):
+        return self.__str__()
+
     @property
     def is_package(self):
         """Is this folder a package?"""
@@ -284,6 +287,9 @@ class File(TimeStampedModel, SoftDeletableModel):
 
     def __str__(self):
         return f'File {self.id} {self.name}'
+    
+    def __repr__(self):
+        return self.__str__()
 
     @property
     def package(self):
