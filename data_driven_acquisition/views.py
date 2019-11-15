@@ -25,14 +25,26 @@ class HomePageView(TemplateView):
                         '  ' * (indent + 1),
                         '<li><a href = "#"> ' + '&nbsp;&nbsp;' * (indent + 1),
                         '<i class="icon-file-text-alt"></i>&nbsp;&nbsp;',
-                        item.name + '</a></li>\n'])
+                        ''.join(item.name.split('.')[:-1]),
+                        '</a></li>\n'])
                 continue
             self.tree_ul += ''.join([
                 '  ' * indent,
                 '<li>' ,
                 f'<a href="#folder_{key.id}_sub" data-toggle="collapse" ',
-                'aria-expanded="false" class="dropdown-toggle">' + '&nbsp;&nbsp;' * (indent + 1),
-                '<i class="icon-folder-close"></i>AA&nbsp;&nbsp;',
+                'aria-expanded="false" class="dropdown-toggle">' + '&nbsp;&nbsp;' * (indent + 1)
+            ])
+            if key.is_package:
+                self.tree_ul += ''.join([
+                    '<i class="icon-briefcase"></i>',
+                ])
+            else:
+                self.tree_ul += ''.join([
+                    '<i class="icon-folder-close"></i>',
+
+                ])
+            self.tree_ul += ''.join([
+                '&nbsp;&nbsp;',
                 f'{key.name}</a>',
                 '\n' + '  ' * (indent + 1),
                 f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n'])

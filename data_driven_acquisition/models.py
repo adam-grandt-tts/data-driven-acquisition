@@ -2,7 +2,6 @@
 
 from django.conf import settings
 from django.db import models
-from django.contrib.postgres.fields import HStoreField
 from django.core.exceptions import ValidationError
 
 from model_utils.models import TimeStampedModel, StatusModel, SoftDeletableModel
@@ -37,15 +36,17 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         blank=False,
         null=False)
 
-    properties = HStoreField(
-        blank=True,
-        null=True)
+    properties = models.ManyToManyField(
+        'PackageProperty',
+        related_name='packages',
+    )
 
     class Meta:
         permissions = (
             ('can_deploy', 'Can deploy package from template'),
         )
         get_latest_by = 'created_at'
+        verbose_name_plural = 'Packages Templates'
 
     def _create_content(self, parent, github, contents):
         """Create a Folder instance with the provided parent and all child docs.
@@ -60,8 +61,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                 # Creating folder
                 folder = Folder(
                     name=apply_properties(
-                        content.name, parent.package.properties),
-                    properties=None,
+                        content.name, parent.package.properties.all()),
                     parent=parent
                 )
                 folder.save()
@@ -97,10 +97,10 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                     new_file = File(
                         parent=parent,
                         name=apply_properties(
-                            content.name, parent.package.properties),
+                            content.name, parent.package.properties.all()),
                         file_type=file_type,
                         content=apply_properties(
-                            file_data, parent.package.properties)
+                            file_data, parent.package.properties.all())
                     )
 
                     new_file.save()
@@ -113,8 +113,10 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                     logger.error('Error processing %s: %s', content.path, exc)
                     return False
 
-    def deploy(self, name, properties):
-        """Deploy a new package from the template."""
+    def deploy(self, name, property_values):
+        """ Deploy a new package from the template.
+            Set the property values based on the provided properties dictionary.
+        """
 
         try:
             # Get the github repo content
@@ -135,15 +137,22 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         
         # Create the Package folder
         package = Folder(
-            name=apply_properties(name, properties),
-            properties=properties,
+            name=apply_properties(name, property_values),
         )
         package.save()
+        for prop in self.properties.all():
+            new_val = PropertyValue(
+                package=package,
+                prop=prop,
+                value=property_values.get(prop.name)
+            )
+            new_val.save()
+
         logger.info('Create package {package.name}.')
 
         # Creating package content
         self._create_content(package, github, contents)
-        
+    
     def __str__(self):
         return self.title
 
@@ -175,10 +184,6 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         null=True,
         blank=True)
 
-    properties = HStoreField(
-        blank=True,
-        null=True)
-
     project_card_id = models.URLField(
         blank=True,
         null=True,
@@ -192,6 +197,7 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             ('can_edit_child_content', 'Can edit content of children.'),
         )
         get_latest_by = 'created_at'
+        verbose_name_plural = 'Folders & Packages'
 
     def __str__(self):
         if self.is_package:
@@ -221,9 +227,9 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
     def update_children(self):
         """Update all child objects based on the package properties"""
         # Get new properties to apply
-        props = self.package.properties
+        props = self.package.properties.all()
 
-        # Update al child files
+        # Update all child files
         for child in self.files.all():
             child.content = apply_properties(child.content, props)
             child.save()
@@ -233,6 +239,7 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             sub.name = apply_properties(sub.name, props)
             sub.save()
             sub.update_children()
+        return True
 
     def save(self, *args, **kwargs):
 
@@ -299,3 +306,87 @@ class File(TimeStampedModel, SoftDeletableModel):
             p = p.parent
         return p
 
+
+class PackageProperty(TimeStampedModel, SoftDeletableModel):
+    """A property definition for an acquisition."""
+    TYPES = Choices('String', 'Text', 'Number', 'Integer', 'Boolean', 'list')
+
+    name = models.CharField(
+        max_length=256,
+        null=False,
+        blank=False)
+
+    max_length = models.IntegerField(
+        null=True,
+        blank=True)
+
+    property_type = models.CharField(
+        choices=TYPES,
+        max_length=15,
+        blank=False,
+        null=False,
+        default='Document')
+    
+    description = models.TextField(
+        null=True,
+        blank=True)
+
+    options = models.TextField(
+        null=True,
+        blank=True)
+
+    class Meta:
+        get_latest_by = 'created_at'
+        verbose_name_plural = 'Packages Properties'
+
+    def __str__(self):
+        return f'Property {self.id} {self.name}'
+    
+    def __repr__(self):
+        return self.__str__()
+
+
+class PropertyValue(TimeStampedModel, SoftDeletableModel):
+    """A property definition for an acquisition."""
+
+    prop = models.ForeignKey(
+        'PackageProperty',
+        on_delete=models.PROTECT,
+        related_name='values',
+        null=False,
+        blank=False)
+
+    package = models.ForeignKey(
+        'Folder',
+        on_delete=models.PROTECT,
+        related_name='properties',
+        null=False,
+        blank=False)
+
+    @property
+    def name(self):
+        return self.prop.name
+
+    @property
+    def property_type(self):
+        return self.prop.property_type
+
+    @property
+    def max_length(self):
+        return self.property.max_length
+
+    # TODO: Add max length check to save method
+    # TODO: Add is package check to save method
+
+    value = models.TextField(
+        null=True,
+        blank=True)
+
+    class Meta:
+        get_latest_by = 'created_at'
+
+    def __str__(self):
+        return f'Property Value {self.id} {self.name}'
+    
+    def __repr__(self):
+        return self.__str__()

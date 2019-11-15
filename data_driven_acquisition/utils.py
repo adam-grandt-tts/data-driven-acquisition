@@ -1,5 +1,7 @@
 import re
 
+from django.db.models.query import QuerySet
+
 from guardian.shortcuts import (
     get_objects_for_user,
     get_perms_for_model)
@@ -18,11 +20,16 @@ def apply_properties(data, properties):
     # Github returns bytes and we need a string so:
     if type(data) == bytes:
         data = str(data, encoding='utf-8')
-    
+
+    # If we got a query set translate to dict
+    # This allows us to send either query sets ior simple dict into this util
+    if isinstance(properties, QuerySet):
+        properties = {p.name: p.value for p in properties}
+
     for prop in properties.keys():
 
         # {{ Var }} format
-        data = data.replace(f"{{{{{prop}}}}}", properties[prop])
+        data = data.replace(f"{{{{{prop}}}}}", str(properties[prop]))
 
         # <!--PROPERTY:var-->VALUE<!--/PROPERTY:var--> format
         re_str = re.compile(f"<!--PROPERTY:{prop}-->.+?<!--/PROPERTY:{prop}-->")

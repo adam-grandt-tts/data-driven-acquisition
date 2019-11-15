@@ -1,19 +1,20 @@
 
 from django.contrib import admin
-from django import forms
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 
 
-from django_admin_hstore_widget.forms import HStoreFormField
 from guardian.admin import GuardedModelAdmin
 from reversion.admin import VersionAdmin
 
 from .models import (
     Folder,
     File,
-    PackageTemplate)
+    PackageTemplate,
+    PackageProperty,
+    PropertyValue
+    )
 
 
 class IsPackageFilter(admin.SimpleListFilter):
@@ -55,6 +56,23 @@ class SubfolderInline(admin.TabularInline):
     get_edit_link.allow_tags = True
 
 
+class PropertyValueInline(admin.TabularInline):
+    model = PropertyValue
+    extra = 0
+    verbose_name = "Property"
+    verbose_name_plural = "Properties"
+    fields = ["prop", "get_type", "value"]
+    readonly_fields = ["get_type"]
+
+    def get_type(self, obj=None):
+        if obj.pk:
+            return obj.property_type
+        else:
+            return ""
+    get_type.short_description = "Type"
+    get_type.allow_tags = True
+
+
 class FileInline(admin.TabularInline):
     model = File
     extra = 0
@@ -75,27 +93,10 @@ class FileInline(admin.TabularInline):
     get_edit_link.allow_tags = True
 
 
-class FolderAdminForm(forms.ModelForm):
-    properties = HStoreFormField()
-
-    class Meta:
-        model = Folder
-        exclude = ()
-
-
-class PackageTemplateAdminForm(forms.ModelForm):
-    properties = HStoreFormField()
-
-    class Meta:
-        model = PackageTemplate
-        exclude = ()
-
-
 @admin.register(Folder)
 class FolderAdmin(GuardedModelAdmin):
-    form = FolderAdminForm
     list_filter = (IsPackageFilter, 'parent', )
-    inlines = [SubfolderInline, FileInline]
+    inlines = [SubfolderInline, FileInline, PropertyValueInline]
 
 
 @admin.register(File)
@@ -105,4 +106,11 @@ class FileAdmin(GuardedModelAdmin, VersionAdmin):
 
 @admin.register(PackageTemplate)
 class PackageTemplateAdmin(GuardedModelAdmin):
-    form = FolderAdminForm
+    filter_horizontal = ('properties',)
+
+    pass
+
+
+@admin.register(PackageProperty)
+class PackagePropertyAdmin(GuardedModelAdmin):
+    pass
