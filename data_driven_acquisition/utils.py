@@ -177,4 +177,3 @@ def user_permitted_tree(user):
             user_tree = climb_to_package(user_tree, file_obj.parent)
 
     return user_tree
-    

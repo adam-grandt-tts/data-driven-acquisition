@@ -93,9 +93,11 @@ ul ul a {
 }
 
 #meat {
+    z-index: -9999;
     border: 1px solid gray;
     min-height: 100vh;
     max-height: 100vh;
+    width:100%;
     padding: 60px 10px 0px 10px;
     background: #fafafa;
     color: #464c4f;
@@ -103,17 +105,29 @@ ul ul a {
     font-size: 12px;
     position: absolute;
     top: 0px;
-    width: auto;
-    margin-left: 450px;
-    overflow:scroll;
+    left: 0px;
+    overflow-y: scroll; 
+    padding-left:500px;
 
 }
 
 #meat.full {
-    margin-left: 20px;
+    padding-left: 20px;
 }
 
 div.card{
     padding:15px;
     margin:5px;
+}
+
+#file_viewer{
+    border: 0px solid black;
+    min-height: 100vh;
+    max-height: 100vh;
+}
+
+#editor{
+    min-height: 75vh;
+    max-height: 75vh;
+    overflow: scroll;
 }

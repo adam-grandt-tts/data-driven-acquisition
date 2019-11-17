@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<div class="wrapper" style="width=100%; min-height: 100%; min-height: 100vh; ">
+<div class="wrapper">
 
     <!-- Sidebar -->
     <nav id="sidebar">
@@ -56,6 +56,19 @@
 
 <script>
 $(document).ready(function () {
+
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');

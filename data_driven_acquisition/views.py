@@ -11,7 +11,8 @@ from django.core.exceptions import ValidationError
 from data_driven_acquisition.models import Folder, File, PackageTemplate
 from data_driven_acquisition.utils import user_permitted_tree
 
-from guardian.shortcuts import get_objects_for_user
+from guardian.shortcuts import get_objects_for_user, get_perms
+
 
 tree_ul = ''
 
@@ -30,7 +31,9 @@ def genreal_context(request):
                 for item in value:
                     tree_ul += ''.join([
                         '  ' * (indent + 1),
-                        '<li><a href = "#"> ' + '&nbsp;&nbsp;' * (indent + 1),
+                        '<li><a href = "',
+                        reverse('file', kwargs={"file_id": item.id}),
+                        '"> ' + '&nbsp;&nbsp;' * (indent + 1),
                         '<i class="icon-file-text-alt"></i>&nbsp;&nbsp;',
                         ''.join(item.name.split('.')[:-1]),
                         '</a></li>\n'])
@@ -45,15 +48,16 @@ def genreal_context(request):
                 tree_ul += ''.join([
                     '<i class="icon-briefcase"></i>',
                 ])
-                edit_href = reverse('package', kwargs={'package_id': key.id})
-                actions += f'<a href="{edit_href}" class="sublink">Edit</a>&nbsp;'
+                if request.user.has_perm('view_folder', key):
+                    edit_href = reverse('package', kwargs={'package_id': key.id})
+                    actions += f'<a href="{edit_href}" class="sublink">Edit</a>&nbsp;'
             else:
                 tree_ul += ''.join([
                     '<i class="icon-folder-close"></i>',
                 ])
             tree_ul += ''.join([
                 '&nbsp;&nbsp;',
-                f'{key.name} ({key})</a> ',
+                f'{key.name}</a> ',
                 '\n' + '  ' * (indent + 1),
                 f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n',
                 actions])
@@ -234,3 +238,129 @@ class NewPackage(View):
                     request, 
                     'new.html',
                     context)
+
+
+@method_decorator(login_required, name='dispatch')
+class RawFile(View):
+    """ Return raw file content."""
+
+    def get(self, request, file_id):
+        """Return package data"""
+        try:
+            the_file = get_object_or_404(File, pk=int(file_id))
+        except ValueError:
+            return HttpResponseForbidden('Not a valid File ID')
+
+        # Figure out perms
+        can_read = False
+
+        perm_set = set(get_perms(request.user, the_file))
+        p = the_file.parent
+        while p is not None:
+            perm_set.update(get_perms(request.user, p))
+            p = p.parent
+
+        if perm_set:
+            can_read = True
+
+        if not can_read:
+            return HttpResponseForbidden('Not permitted to access this file.')
+
+        return HttpResponse(the_file.content)
+
+@method_decorator(login_required, name='dispatch')
+class FileEditor(View):
+    """ Manage Package and its attributes"""
+
+    def get(self, request, file_id):
+        """Return package data"""
+        try:
+            the_file = get_object_or_404(File, pk=int(file_id))
+        except ValueError:
+            return HttpResponseForbidden('Not a valid File ID')
+
+        # Figure out perms
+        can_edit = False
+        can_read = False
+        edit_perms = set(['can_edit_content', 'can_edit_child_content'])
+
+        perm_set = set(get_perms(request.user, the_file))
+        p = the_file.parent
+        while p is not None:
+            perm_set.update(get_perms(request.user, p))
+            p = p.parent
+
+        if perm_set:
+            can_read = True
+
+        if perm_set.intersection(edit_perms):
+            can_edit = True
+
+        if not (can_read or can_edit):
+            return HttpResponseForbidden('Not permitted to access this file.')
+
+        context = genreal_context(self.request)
+        context['file'] = the_file
+        context['can_read'] = can_read
+        context['can_edit'] = can_edit
+        context['perm_set'] = perm_set
+        context['raw_url'] = reverse('rawfile', kwargs={'file_id': file_id})
+
+        return render(
+            request, 
+            'file.html',
+            context)
+
+    def post(self, request, file_id):
+        """ Update file content"""
+
+        try:
+            the_file = get_object_or_404(File, pk=int(file_id))
+        except ValueError:
+            return HttpResponseForbidden('Not a valid File ID')
+
+        # Figure out perms
+        can_edit = False
+        can_read = False
+        edit_perms = set(['can_edit_content', 'can_edit_child_content'])
+
+        perm_set = set(get_perms(request.user, the_file))
+        p = the_file.parent
+        while p is not None:
+            perm_set.update(get_perms(request.user, p))
+            p = p.parent
+
+        if perm_set:
+            can_read = True
+
+        if perm_set.intersection(edit_perms):
+            can_edit = True
+
+        if not (can_read or can_edit):
+            return HttpResponseForbidden('Not permitted to access this file.')
+        
+        if can_edit:
+            # The editor will only return the page  body so we have keep the
+            # current head
+            old_content = the_file.content.split('<body')
+            new_content = ''.join([
+                old_content[0],
+                '<body>',
+                request.POST.get('editor'),
+                '</body></html>'
+            ])
+
+            the_file.content = new_content
+            the_file.save()
+
+        context = genreal_context(self.request)
+        context['file'] = the_file
+        context['can_read'] = can_read
+        context['can_edit'] = can_edit
+        context['perm_set'] = perm_set
+        context['raw_url'] = reverse('rawfile', kwargs={'file_id': file_id})
+
+        return render(
+            request, 
+            'file.html',
+            context)

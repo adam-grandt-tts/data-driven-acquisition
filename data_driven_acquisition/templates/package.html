@@ -1,7 +1,7 @@
 {% extends 'home.html' %}
 {% load static %}
 
-{% block title %}DDA - Package{% endblock %}
+{% block title %}DDA - Acquistion {{ package.id }} - {{ package.name }}{% endblock %}
 
 {% block addtional_head %} 
 {% endblock %}
@@ -12,9 +12,9 @@
 
 <div id='package_header' class="card">
     {% if can_edit %}
-    <h2> Edditing Acq {{ package.id }} - {{ package.name }}</h2>
+    <h2> Edditing Acquistion {{ package.id }} - {{ package.name }}</h2>
     {% else %}
-    <h2> Viewing Acq {{ package.id }} - {{ package.name }}</h2>
+    <h2> Viewing Acquistion {{ package.id }} - {{ package.name }}</h2>
     {% endif %}
 
     {% if can_push %}
@@ -106,18 +106,7 @@
 
 
 {% block extra_script %}
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
+
     $('#do_update').on('click', function () {
         $.ajax({
             url: "/package/{{ package.id }}/",

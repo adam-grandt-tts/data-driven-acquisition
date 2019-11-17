@@ -7,6 +7,8 @@ from data_driven_acquisition.views import (
     HomePageView,
     Package,
     NewPackage,
+    FileEditor,
+    RawFile
 )
 
 
@@ -21,11 +23,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', HomePageView.as_view(), name='home'),
 
-    # JSON Views
     path('package/<int:package_id>/', Package.as_view(), name='package'),
-    path('new/<int:template_id>/', NewPackage.as_view(), name='new')
+    path('new/<int:template_id>/', NewPackage.as_view(), name='new'),
+    path('file/<int:file_id>/', FileEditor.as_view(), name='file'),
+    path('rawfile/<int:file_id>/', RawFile.as_view(), name='rawfile'),
 
-
-    # path('data/packages/', Package.as_view(), name='home'),
 
 ]

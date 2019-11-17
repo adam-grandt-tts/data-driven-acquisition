@@ -1,7 +1,7 @@
 {% extends 'home.html' %}
 {% load static %}
 
-{% block title %}DDA - Package{% endblock %}
+{% block title %}DDA - New Acquistion{% endblock %}
 
 {% block addtional_head %} 
 {% endblock %}
@@ -40,7 +40,6 @@
     {% endif %}
 
 {% endif %}
-{{emplate.properties.all}}
 <div id='package_form' class="card">
 <form method="post">
   {% if can_deploy %}
