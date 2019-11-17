@@ -326,14 +326,36 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
         blank=False,
         null=False,
         default='Document')
-    
+
     description = models.TextField(
         null=True,
         blank=True)
 
-    options = models.TextField(
+    options_list = models.TextField(
         null=True,
-        blank=True)
+        blank=True,
+        help_text='Enter each option in a line.')
+
+    @property
+    def options(self):
+        if self.property_type == 'List':
+            if self.options_list:
+                return [x.strip for x in self.options_list.split('\n')]
+            else:
+                return []
+        elif self.property_type == 'Boolean':
+            return ['Yes', 'No']
+        else:
+            return None
+
+    @property
+    def widget(self):
+        if self.property_type == 'Text':
+            return 'textarea'
+        elif self.property_type in ['List', 'Boolean']:
+            return 'dropdown'
+        else:
+            return 'input'
 
     class Meta:
         get_latest_by = 'created_at'
@@ -381,21 +403,11 @@ class PropertyValue(TimeStampedModel, SoftDeletableModel):
 
     @property
     def options(self):
-        if self.property_type == 'List':
-            return [x.strip for x in self.prop.options.split('\n')]
-        elif self.property_type == 'Boolean':
-            return ['Yes', 'No']
-        else:
-            return None
+        return self.prop.options
 
     @property
     def widget(self):
-        if self.property_type == 'Text':
-            return 'textarea'
-        elif self.property_type in ['List', 'Boolean']:
-            return 'dropdown'
-        else:
-            return 'input'
+        return self.prop.widget
 
 
 

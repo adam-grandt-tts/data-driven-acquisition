@@ -18,21 +18,20 @@
         <h3>New Acquisition</h3>
         </div>
         <div id="new_package">
-            <form>
             <div class="row">
-            <div class="col">
-                <select
-                    class="form-control"
-                    id="new_package_id">
-                    <option value="">  --  Please Select --  </option>
-                    {% for opt in templates %}
-                        <option value="{{opt.id}}">{{opt}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-info" id="create"  style="display:inline">Create</button>
-            </div>
+                <div class="col">
+                    <select
+                        class="form-control"
+                        id="new_package_id">
+                        <option value="">  --  Please Select --  </option>
+                        {% for opt in templates %}
+                            <option value="{{opt.id}}">{{opt}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-info" id="create"  style="display:inline">Create</button>
+                </div>
             </div>
         </div>
         <div class="sidebar-header">

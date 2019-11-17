@@ -11,16 +11,9 @@
 
 
 <div id='package_header' class="card">
-    {% if can_edit %}
-    <h2> Edditing Acq {{ package.id }} - {{ package.name }}</h2>
-    {% else %}
-    <h2> Viewing Acq {{ package.id }} - {{ package.name }}</h2>
-    {% endif %}
-
-    {% if can_push %}
-    <button type="submit" class="btn btn-danger" id="do_update">Update contect</button>
-    {% else %}
-    <small>You cannot push updates to the contect of this package.
+    <h2> Deploy new template from {{ template.title }}</h2>
+    {% if not can_deploy %}
+    <small>You cannot deploy a new acquistion from this template.</small>
     {% endif %}
 </div>
 
@@ -47,7 +40,7 @@
     {% endif %}
 
 {% endif %}
-
+{{emplate.properties.all}}
 <div id='package_form' class="card">
 <form method="post">
   {% if can_edit %}
@@ -56,10 +49,10 @@
     {% csrf_token %}
   <div class="form-group">
     <label for="name">Package Name</label>
-    <input name="name" type="text" class="form-control" id="name" value="{{package.name}}" aria-describedby="nameHelp" placeholder="Acq name">
+    <input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Acquistion name">
     <small id="nameHelp" class="form-text text-muted">Name of acquistion project.</small>
   </div>
-  {% for prop in package.properties.all %}
+  {% for prop in template.properties.all %}
   <div class="form-group row">
     <label for="{{prop.name}}_id" class="col-sm-3 col-form-label" >{{prop.name}}</label>
     <div class="col-sm-9">

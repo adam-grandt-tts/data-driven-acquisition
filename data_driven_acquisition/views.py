@@ -184,8 +184,6 @@ class Package(View):
             return JsonResponse({'status': 'error'})
 
 
-
-
 @method_decorator(login_required, name='dispatch')
 class NewPackage(View):
     """ Manage Package and its attributes"""
