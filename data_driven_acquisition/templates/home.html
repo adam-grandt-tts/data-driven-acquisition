@@ -30,7 +30,7 @@
                     </select>
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-info" id="create"  style="display:inline">Create</button>
+                    <button type="button" class="btn btn-info" id="create_package"  style="display:inline">Create</button>
                 </div>
             </div>
         </div>
@@ -60,6 +60,13 @@ $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $('#meat').toggleClass('full');
+    });
+
+    $("#create_package").on('click', function () {
+        var template_id = $("#new_package_id").find(":selected").val();
+        if (template_id != "") {
+            document.location.href = '/new/'+template_id+'/';
+        }
     });
 
     {% block extra_script %}{% endblock %}

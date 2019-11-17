@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views import View
 from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import ValidationError
 
 
@@ -53,7 +53,7 @@ def genreal_context(request):
                 ])
             tree_ul += ''.join([
                 '&nbsp;&nbsp;',
-                f'{key.name}</a> ',
+                f'{key.name} ({key})</a> ',
                 '\n' + '  ' * (indent + 1),
                 f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n',
                 actions])
@@ -160,7 +160,7 @@ class Package(View):
             request, 
             'package.html',
             context)
-        
+
     def put(self, request, package_id):
         """Ajax trigger for updating the content of a package"""
         if not request.is_ajax():
@@ -200,89 +200,37 @@ class NewPackage(View):
 
         context = genreal_context(self.request)
         context['template'] = template
-        context['can_deploy'] = request.user.has_perm('can_deploy', template),
+        context['can_deploy'] = request.user.has_perm('can_deploy', template)
 
         return render(
             request, 
             'new.html',
             context)
 
-    def post(self, request, package_id):
+    def post(self, request, template_id):
         """ Update package"""
 
         try:
-            package = get_object_or_404(Folder, pk=int(package_id))
+            template = get_object_or_404(PackageTemplate, pk=int(template_id))
         except ValueError:
-            return HttpResponseForbidden('Not a valid Package ID')
+            return HttpResponseForbidden('Not a valid Template ID')
 
-        if not package.is_package:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        form_errors = []
-        if not request.user.has_perm('can_set_properties', package):
-            form_errors.append('Not allowed to edit')
+        if not request.user.has_perm('can_deploy', template):
+            return HttpResponseForbidden('Not allowed')
         else:
-            # Update the name
-            package.name = request.POST.get('name', package.name)
             try:
-                package.save()
-            except (ValueError, ValidationError) as e:
-                form_errors.append(str(e))
+                package = template.deploy(
+                    request.POST.get('name'),
+                    request.POST,
+                )
+                return redirect('package', package_id=package.id)
+            except Exception as e:
+                context = genreal_context(self.request)
+                context['template'] = template
+                context['can_deploy'] = request.user.has_perm('can_deploy', template)
+                context['form_errors'] = [e, ]
 
-            # update the properties:
-            for prop_id, val in request.POST.items():
-                if not prop_id.startswith('prop_'):
-                    continue
-                try:
-                    prop_id = int(prop_id.strip('prop_id'))
-                    prop = package.properties.get(id=prop_id)
-                    prop.value = val
-                    # TODO: input verification goes here
-                    prop.save()
-                except Exception as e:
-                    form_errors.append(f"Could not save {prop.name} {e}")
-                    continue
-
-        context = genreal_context(self.request)
-        context['updated'] = True
-        context['package'] = package
-        context['form_errors'] = form_errors
-        context['can_edit'] = request.user.has_perm('can_set_properties', package),
-        context['can_push'] = request.user.has_perm('can_propagate_properties', package),
-
-        return render(
-            request, 
-            'package.html',
-            context)
-        
-    def put(self, request, package_id):
-        """Ajax trigger for updating the content of a package"""
-        if not request.is_ajax():
-            return HttpResponseForbidden('Unexpected request')
-
-        try:
-            package = get_object_or_404(Folder, pk=int(package_id))
-        except ValueError:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        if not package.is_package:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        form_errors = []
-        if not request.user.has_perm('can_set_properties', package):
-            return HttpResponseForbidden('Not allowed to update.')
-
-        if package.update_children():
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error'})
-
-
-
-
-
-
-
-
-
-
+                return render(
+                    request, 
+                    'new.html',
+                    context)

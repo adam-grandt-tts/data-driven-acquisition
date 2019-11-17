@@ -43,8 +43,8 @@
 {{emplate.properties.all}}
 <div id='package_form' class="card">
 <form method="post">
-  {% if can_edit %}
-    <button type="submit" class="btn btn-primary">Save properties</button>
+  {% if can_deploy %}
+    <button type="submit" class="btn btn-primary">Deply New Acquistion</button>
   {% endif %}
     {% csrf_token %}
   <div class="form-group">
@@ -58,7 +58,7 @@
     <div class="col-sm-9">
         {% if prop.widget == 'textarea' %}
         <textarea 
-            name="prop_{{prop.id}}"
+            name="{{prop.name}}"
             class="form-control rounded-0"
             id="{{prop.name}}_id"
             aria-describedby="{{prop.name}}Help"
@@ -67,7 +67,7 @@
         {% elif prop.widget == 'dropdown' %}
 
         <select
-            name="prop_{{prop.id}}"
+            name="{{prop.name}}"
             class="form-control"
             id="{{prop.name}}_id"
             aria-describedby="{{prop.name}}Help">
@@ -78,7 +78,7 @@
         </select>
         {% else %}
         <input 
-            name="prop_{{prop.id}}"
+            name="{{prop.name}}"
             type="text"
             class="form-control"
             id="{{prop.name}}_id"
@@ -110,6 +110,7 @@
             }
         }
     });
+
     $('#do_update').on('click', function () {
         $.ajax({
             url: "/package/{{ package.id }}/",
@@ -120,6 +121,5 @@
             }
         });
     });
-
 
 {% endblock %}

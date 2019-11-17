@@ -152,6 +152,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
 
         # Creating package content
         self._create_content(package, github, contents)
+        return package
     
     def __str__(self):
         return self.title
