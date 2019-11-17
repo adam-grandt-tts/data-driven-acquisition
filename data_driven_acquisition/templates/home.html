@@ -5,147 +5,50 @@
 
 {% block addtional_head %} 
 
-
-<style type="text/css">
-
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-a, a:hover, a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
-
-#sidebar {
-    min-width: 450px;
-    max-width: 450px;
-    border: 1px solid gray;
-    min-height: 100vh;
-    padding-top: 60px;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: #afbcc4;
-    color: #464c4f;
-    transition: all 0.3s;
-    font-size: 12px;
-}
-
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #afbcc4;
-    fotn-size: 26px;
-}
-
-#sidebar.active {
-    margin-left: -400px;
-}
-
-
-#sidebar ul.components {
-    padding: 0px 0;
-    border-bottom: 0px solid #47748b;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 0px;
-}
-
-#sidebar ul li a {
-    padding: 3px 10px 10px 0px;
-    font-size: 1.1em;
-    display: block;
-}
-#sidebar ul li a:hover {
-    color: #fff;
-    background: #2b5d75;
-}
-
-#sidebar ul li.active > a, a[aria-expanded="true"] {
-    background: #afbcc4;
-}
-
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #afbcc4;
-}
-
-.navbar {
-      z-index: 9999;
-}
-
-#content {
-    border: 1px solid gray;
-    min-height: 100vh;
-    padding-top: 60px;
-    background: #afbcc4;
-    color: #464c4f;
-    transition: all 0.3s;
-    font-size: 12px;
-}
-
-
-</style>
-
 {% endblock %}
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Data Driven Acquisition </a>
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" id="sidebarCollapse" href="#"><i class="icon-collapse"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">New Acquisition</a>
-      </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Account</a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
-      </li>
-    </ul>
-</nav>
-
-<div class="wrapper">
+<div class="wrapper" style="width=100%; min-height: 100%; min-height: 100vh; ">
 
     <!-- Sidebar -->
     <nav id="sidebar">
+        {% block sidebar %}
         <div class="sidebar-header">
-        Acquisitions
+        <h3>New Acquisition</h3>
+        </div>
+        <div id="new_package">
+            <form>
+            <div class="row">
+            <div class="col">
+                <select
+                    class="form-control"
+                    id="new_package_id">
+                    <option value="">  --  Please Select --  </option>
+                    {% for opt in templates %}
+                        <option value="{{opt.id}}">{{opt}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-info" id="create"  style="display:inline">Create</button>
+            </div>
+            </div>
+        </div>
+        <div class="sidebar-header">
+        <h3>My Acquisitions</h3>
         </div>
         <ul class="list-unstyled components acqs">
             {{ tree_ul|safe }}
         </ul>
+        {% endblock %}
     </nav>
 
     <!-- Page Content -->
-    <div id="content">
-        Hello
+    <div id="meat">
+        {% block meat %}
+            <img style="padding-left:100px;" src="{% static '/img/papers-3819540_640.jpg' %}">
+        {% endblock %}
     </div>
 
 </div>       
@@ -157,10 +60,13 @@ $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
+        $('#meat').toggleClass('full');
     });
 
-});
+    {% block extra_script %}{% endblock %}
 
+
+});
 </script>
 
 {% endblock %}

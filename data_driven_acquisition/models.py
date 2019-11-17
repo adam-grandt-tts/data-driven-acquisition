@@ -309,7 +309,7 @@ class File(TimeStampedModel, SoftDeletableModel):
 
 class PackageProperty(TimeStampedModel, SoftDeletableModel):
     """A property definition for an acquisition."""
-    TYPES = Choices('String', 'Text', 'Number', 'Integer', 'Boolean', 'list')
+    TYPES = Choices('String', 'Text', 'Number', 'Integer', 'Boolean', 'List')
 
     name = models.CharField(
         max_length=256,
@@ -373,7 +373,31 @@ class PropertyValue(TimeStampedModel, SoftDeletableModel):
 
     @property
     def max_length(self):
-        return self.property.max_length
+        return self.prop.max_length
+
+    @property
+    def description(self):
+        return self.prop.description
+
+    @property
+    def options(self):
+        if self.property_type == 'List':
+            return [x.strip for x in self.prop.options.split('\n')]
+        elif self.property_type == 'Boolean':
+            return ['Yes', 'No']
+        else:
+            return None
+
+    @property
+    def widget(self):
+        if self.property_type == 'Text':
+            return 'textarea'
+        elif self.property_type in ['List', 'Boolean']:
+            return 'dropdown'
+        else:
+            return 'input'
+
+
 
     # TODO: Add max length check to save method
     # TODO: Add is package check to save method

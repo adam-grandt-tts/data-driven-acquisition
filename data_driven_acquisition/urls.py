@@ -6,6 +6,7 @@ from adminplus.sites import AdminSitePlus
 from data_driven_acquisition.views import (
     HomePageView,
     Package,
+    NewPackage,
 )
 
 
@@ -21,7 +22,9 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
 
     # JSON Views
-    path('package/<int:package_id>/', Package.as_view(), name='package')
+    path('package/<int:package_id>/', Package.as_view(), name='package'),
+    path('new/<int:template_id>/', NewPackage.as_view(), name='new')
+
 
     # path('data/packages/', Package.as_view(), name='home'),
 

@@ -1,0 +1,132 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}DDA - Package{% endblock %}
+
+{% block addtional_head %} 
+{% endblock %}
+
+
+{% block meat %}
+
+
+<div id='package_header' class="card">
+    {% if can_edit %}
+    <h2> Edditing Acq {{ package.id }} - {{ package.name }}</h2>
+    {% else %}
+    <h2> Viewing Acq {{ package.id }} - {{ package.name }}</h2>
+    {% endif %}
+
+    {% if can_push %}
+    <button type="submit" class="btn btn-danger" id="do_update">Update contect</button>
+    {% else %}
+    <small>You cannot push updates to the contect of this package.
+    {% endif %}
+</div>
+
+{% if updated %}
+    {% if form_errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Erros encoutered while updating package.<br>
+        <ul>
+            {% for err in form_errors %}
+            <li>{{ err }}</li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    {% else %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Package was updated successfully.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+<div id='package_form' class="card">
+<form method="post">
+  {% if can_edit %}
+    <button type="submit" class="btn btn-primary">Save properties</button>
+  {% endif %}
+    {% csrf_token %}
+  <div class="form-group">
+    <label for="name">Package Name</label>
+    <input name="name" type="text" class="form-control" id="name" value="{{package.name}}" aria-describedby="nameHelp" placeholder="Acq name">
+    <small id="nameHelp" class="form-text text-muted">Name of acquistion project.</small>
+  </div>
+  {% for prop in package.properties.all %}
+  <div class="form-group row">
+    <label for="{{prop.name}}_id" class="col-sm-3 col-form-label" >{{prop.name}}</label>
+    <div class="col-sm-9">
+        {% if prop.widget == 'textarea' %}
+        <textarea 
+            name="prop_{{prop.id}}"
+            class="form-control rounded-0"
+            id="{{prop.name}}_id"
+            aria-describedby="{{prop.name}}Help"
+            rows="5">{{prop.value|default:""}}</textarea>
+
+        {% elif prop.widget == 'dropdown' %}
+
+        <select
+            name="prop_{{prop.id}}"
+            class="form-control"
+            id="{{prop.name}}_id"
+            aria-describedby="{{prop.name}}Help">
+            <option value=""></option>
+            {% for opt in prop.options %}
+                <option value="{{opt}}" {% if prop.value == opt %}selected{% endif %}>{{opt}}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <input 
+            name="prop_{{prop.id}}"
+            type="text"
+            class="form-control"
+            id="{{prop.name}}_id"
+            value="{{prop.value|default:""}}"
+            aria-describedby="{{prop.name}}Help">
+        {% endif %}
+    <small id="{{prop.name}}Help" class="form-text text-muted">({{ prop.property_type}}) {{prop.description}}</small>
+    </div>
+  </div>
+  {% endfor %}
+  {% if can_edit %}
+    <button type="submit" class="btn btn-primary">Save properties</button>
+  {% endif %}
+</form>
+</div>
+{% endblock %}
+
+
+{% block extra_script %}
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $('#do_update').on('click', function () {
+        $.ajax({
+            url: "/package/{{ package.id }}/",
+            type: "PUT",
+            cache:false,
+            success: function(resp){
+                alert (resp.status);
+            }
+        });
+    });
+
+
+{% endblock %}
