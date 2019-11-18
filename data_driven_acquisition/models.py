@@ -147,7 +147,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                 value=property_values.get(prop.name)
             )
             new_val.save()
-
+        
         logger.info('Create package {package.name}.')
 
         # Creating package content
@@ -311,6 +311,12 @@ class File(TimeStampedModel, SoftDeletableModel):
 class PackageProperty(TimeStampedModel, SoftDeletableModel):
     """A property definition for an acquisition."""
     TYPES = Choices('String', 'Text', 'Number', 'Integer', 'Boolean', 'List')
+    TABS = Choices(
+        'General',
+        'Market Research',
+        'Team',
+        'RFQ',
+        'RFI',)
 
     name = models.CharField(
         max_length=256,
@@ -327,6 +333,13 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
         blank=False,
         null=False,
         default='Document')
+
+    tab = models.CharField(
+        choices=TABS,
+        max_length=15,
+        blank=False,
+        null=False,
+        default='General')
 
     description = models.TextField(
         null=True,
@@ -381,7 +394,7 @@ class PropertyValue(TimeStampedModel, SoftDeletableModel):
 
     package = models.ForeignKey(
         'Folder',
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name='properties',
         null=False,
         blank=False)
@@ -410,7 +423,9 @@ class PropertyValue(TimeStampedModel, SoftDeletableModel):
     def widget(self):
         return self.prop.widget
 
-
+    @property
+    def tab(self):
+        return self.prop.tab
 
     # TODO: Add max length check to save method
     # TODO: Add is package check to save method

@@ -131,3 +131,7 @@ div.card{
     max-height: 75vh;
     overflow: scroll;
 }
+
+#nav-tab{
+    margin-bottom: 20px;
+}

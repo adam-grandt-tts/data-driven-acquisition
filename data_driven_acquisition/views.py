@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.utils.text import slugify
 from django.views.generic.base import TemplateView
 from django.views import View
 from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
@@ -8,11 +9,14 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import ValidationError
 
 
-from data_driven_acquisition.models import Folder, File, PackageTemplate
-from data_driven_acquisition.utils import user_permitted_tree
+from data_driven_acquisition.models import Folder, File, PackageTemplate, PackageProperty
+from data_driven_acquisition.utils import user_permitted_tree, package_prop_by_tab
 
-from guardian.shortcuts import get_objects_for_user, get_perms
-
+from guardian.shortcuts import (
+    get_objects_for_user,
+    get_perms,
+    get_perms_for_model,
+    assign_perm)
 
 tree_ul = ''
 
@@ -110,7 +114,9 @@ class Package(View):
         context = genreal_context(self.request)
         context['package'] = package
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
-        context['can_push'] = request.user.has_perm('can_propagate_properties', package),
+        context['can_push'] = request.user.has_perm('can_propagate_properties', package)
+        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
 
         return render(
             request, 
@@ -157,8 +163,10 @@ class Package(View):
         context['updated'] = True
         context['package'] = package
         context['form_errors'] = form_errors
-        context['can_edit'] = request.user.has_perm('can_set_properties', package),
-        context['can_push'] = request.user.has_perm('can_propagate_properties', package),
+        context['can_edit'] = request.user.has_perm('can_set_properties', package)
+        context['can_push'] = request.user.has_perm('can_propagate_properties', package)
+        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
 
         return render(
             request, 
@@ -178,7 +186,6 @@ class Package(View):
         if not package.is_package:
             return HttpResponseForbidden('Not a valid Package ID')
 
-        form_errors = []
         if not request.user.has_perm('can_set_properties', package):
             return HttpResponseForbidden('Not allowed to update.')
 
@@ -205,6 +212,8 @@ class NewPackage(View):
         context = genreal_context(self.request)
         context['template'] = template
         context['can_deploy'] = request.user.has_perm('can_deploy', template)
+        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
         return render(
             request, 
@@ -227,12 +236,22 @@ class NewPackage(View):
                     request.POST.get('name'),
                     request.POST,
                 )
+
+                # Set permissions
+                folder_perms = get_perms_for_model(
+                    'data_driven_acquisition.Folder').values_list(
+                        'codename', flat=True)
+                for p in folder_perms:
+                    assign_perm(p, request.user, package)
+                
                 return redirect('package', package_id=package.id)
             except Exception as e:
                 context = genreal_context(self.request)
                 context['template'] = template
                 context['can_deploy'] = request.user.has_perm('can_deploy', template)
                 context['form_errors'] = [e, ]
+                context['tabs'] = {slugify(x[0]):x[0] for x in PackageProperty.TABS}
+                context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
                 return render(
                     request, 
@@ -267,6 +286,7 @@ class RawFile(View):
             return HttpResponseForbidden('Not permitted to access this file.')
 
         return HttpResponse(the_file.content)
+
 
 @method_decorator(login_required, name='dispatch')
 class FileEditor(View):

@@ -60,7 +60,19 @@
     <input name="name" type="text" class="form-control" id="name" value="{{package.name}}" aria-describedby="nameHelp" placeholder="Acq name">
     <small id="nameHelp" class="form-text text-muted">Name of acquistion project.</small>
   </div>
-  {% for prop in package.properties.all %}
+  <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    {% for tab, tab_name in tabs.items %}
+        <a class="nav-item nav-link" id="nav-{{tab}}-tab" data-toggle="tab" href="#nav-{{tab}}" role="tab" aria-controls="nav-{{tab}}" aria-selected="false">{{tab_name}}</a>
+    {% endfor %}
+  </div>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+{% for tab, props in tab_dict.items %}
+  <div class="tab-pane fade" id="nav-{{tab}}" role="tabpanel" aria-labelledby="nav-{{tab}}-tab">
+  
+  {% for prop in props %}
   <div class="form-group row">
     <label for="{{prop.name}}_id" class="col-sm-3 col-form-label" >{{prop.name}}</label>
     <div class="col-sm-9">
@@ -97,6 +109,14 @@
     </div>
   </div>
   {% endfor %}
+
+
+
+  </div>
+  {% endfor %}
+</div>
+
+  
   {% if can_edit %}
     <button type="submit" class="btn btn-primary">Save properties</button>
   {% endif %}
@@ -117,6 +137,7 @@
             }
         });
     });
+$('#nav-general').tab('show');
 
 
 {% endblock %}

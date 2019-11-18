@@ -1,6 +1,7 @@
 import re
 
 from django.db.models.query import QuerySet
+from django.utils.text import slugify
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -177,3 +178,14 @@ def user_permitted_tree(user):
             user_tree = climb_to_package(user_tree, file_obj.parent)
 
     return user_tree
+
+
+def package_prop_by_tab(package, tabs, template=False):
+    """Return a dictionary of tabs and their property query set for a package"""
+    out = {}
+    for tab in tabs:
+        if template:
+            out[slugify(tab[0])] = package.properties.filter(tab=tab[0])
+        else:
+            out[slugify(tab[0])] = package.properties.filter(prop__tab=tab[0])
+    return out

@@ -13,8 +13,7 @@ from .models import (
     File,
     PackageTemplate,
     PackageProperty,
-    PropertyValue
-    )
+    PropertyValue)
 
 
 class IsPackageFilter(admin.SimpleListFilter):
@@ -95,8 +94,10 @@ class FileInline(admin.TabularInline):
 
 @admin.register(Folder)
 class FolderAdmin(GuardedModelAdmin):
-    list_filter = (IsPackageFilter, 'parent', )
+    list_filter = (IsPackageFilter, )
     inlines = [SubfolderInline, FileInline, PropertyValueInline]
+    search_fields = ['name']
+
 
 
 @admin.register(File)
@@ -113,4 +114,6 @@ class PackageTemplateAdmin(GuardedModelAdmin):
 
 @admin.register(PackageProperty)
 class PackagePropertyAdmin(GuardedModelAdmin):
-    pass
+    list_display = ('name', 'property_type', 'max_length', 'tab')
+    list_filter = ('tab', 'property_type')
+    search_fields = ['name']
