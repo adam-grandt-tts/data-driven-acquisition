@@ -10,7 +10,10 @@ from django.core.exceptions import ValidationError
 
 
 from data_driven_acquisition.models import Folder, File, PackageTemplate, PackageProperty
-from data_driven_acquisition.utils import user_permitted_tree, package_prop_by_tab
+from data_driven_acquisition.utils import (
+    user_permitted_tree,
+    package_prop_by_tab,
+    highlight_properties)
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -285,7 +288,8 @@ class RawFile(View):
         if not can_read:
             return HttpResponseForbidden('Not permitted to access this file.')
 
-        return HttpResponse(the_file.content)
+        highlighted = highlight_properties(the_file.content, the_file.package.properties.all())
+        return HttpResponse(highlighted)
 
 
 @method_decorator(login_required, name='dispatch')
