@@ -6,7 +6,7 @@ import logging
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-# load settings from .env file or environment variables 
+# load settings from .env file or environment variables
 env = environ.Env()
 environ.Env.read_env()
 

@@ -1,0 +1,7 @@
+---
+applications:
+- name: data_driven_acquisition
+  memory: 512M
+  instances: 1
+  buildpack: python_buildpack
+  command: python manage.py collectstatic --noinput; gunicorn data_driven_acquisition.wsgi:application

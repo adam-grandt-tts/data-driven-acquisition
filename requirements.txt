@@ -10,3 +10,4 @@ django-admin-hstore-widget==1.0.1
 PyGithub>=1.44
 django-guardian>=2.1.0
 sentry-sdk==0.13.1
+gunicorn>=20.0.0
