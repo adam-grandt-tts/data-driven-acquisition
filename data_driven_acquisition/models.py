@@ -135,6 +135,9 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
             logger.error('Error processing %s: %s', self.package_root_path, exc)
             return False
         
+        from pprint import pprint
+        pprint(property_values)
+
         # Create the Package folder
         package = Folder(
             name=apply_properties(name, property_values),
@@ -144,7 +147,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
             new_val = PropertyValue(
                 package=package,
                 prop=prop,
-                value=property_values.get(prop.name)
+                value=property_values.get(f'prop_{prop.id}', '')
             )
             new_val.save()
         
