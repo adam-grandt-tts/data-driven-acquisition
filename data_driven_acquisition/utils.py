@@ -2,6 +2,9 @@ import re
 
 from django.db.models.query import QuerySet
 from django.utils.text import slugify
+from django.conf import settings
+from django.http import HttpResponseRedirect
+
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -225,3 +228,31 @@ def highlight_properties(data, properties):
             data = re.sub(re_end_str, new_str, data)
 
     return data
+
+
+def trello_required(function):
+    """Decorator to  heck if we need a Trello token and have it in session.
+        IF we need and don't hav it in session go get it from trello.
+    """
+
+    def _dec(view_func):
+        def _view(request, *args, **kwargs):
+             # If Trello is disabled, do nothing
+            if not settings.USE_TRELLO:
+                return view_func(request, *args, **kwargs)
+
+            current_token = request.session.get('trello_token')
+            if not current_token:
+                trello_auth_url = ''.join([
+                    'https://trello.com/1/authorize?expiration=never',
+                    '&name=DataDrivenAcquisition&scope=read,write&response_type=token',
+                    '&return_url=' + request.build_absolute_uri('/trello/'),
+                    f'&key={settings.TRELLO["APP_KEY"]}'])
+                print(trello_auth_url)
+                # Need trello token but dnt have it, redirecting to
+                # return HttpResponseRedirect(url)
+                return view_func(request, *args, **kwargs)
+            else:
+                return view_func(request, *args, **kwargs)
+        return _view
+    return _dec(function)

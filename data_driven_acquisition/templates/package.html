@@ -60,6 +60,18 @@
     <input name="name" type="text" class="form-control" id="name" value="{{package.name}}" aria-describedby="nameHelp" placeholder="Acq name">
     <small id="nameHelp" class="form-text text-muted">Name of acquistion project.</small>
   </div>
+  <div class="form-group">
+    <label for="name">Package Status</label>
+    <select
+        class="form-control"
+        id="status"
+        name="status">
+        <option value="">  --  Please Select --  </option>
+        {% for opt in package_status %}
+          <option value="{{opt}}" {% if package.status == opt %}selected{% endif %}>{{opt}}</option>
+        {% endfor %}
+    </select>
+  </div>
   <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     {% for tab, tab_name in tabs.items %}

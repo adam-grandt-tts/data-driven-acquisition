@@ -174,7 +174,24 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         The properties JSON array stored in an HSStore that will include all
         configured properties for this package.
     """
-    STATUS = Choices('Draft', 'In Progress', 'Completed')
+    STATUS = Choices(
+        '00 - Unassigned',
+        '01 - Requirement Development',
+        '02 - Solicitation Development',
+        '03 - Solicitation Issued',
+        '04 - Evaluations',
+        '05 - Awarded Contracts',
+        '06 - Modifications',
+        '07a - 120 days before renewal',
+        '08b - 60 days before expiration',
+        '07 - Pending Closeout',
+        '08 - Closed Out',
+        '08a - 60 days before renewal',
+        '07b - 120 days before expiration',
+        'A - P-card planning',
+        'B - P-card active',
+        'C - P-card closed'
+    )
 
     name = models.CharField(
         max_length=256,

@@ -137,6 +137,24 @@ https://trello.com/b/SL7jTaz3/oia-acquisition-tracker
         # MAke sure your github user has access to repo 
         GITHUB_TEMPLATE_REPO=github-repo-containing-templates
 
+        # if you want ot use trello 
+        #Do we use trello, def to no
+        USER_TRELLO=yes
+        # Set trello API Key, required if use trello is yes
+        #https://developers.trello.com/reference#api-key-tokens
+        TRELLO_APP_KEY=trello-api-key
+        TRELLO_APP_SECRET=trello-oauth-secret
+        # https://developers.trello.com/page/authorization
+        # Get token by running and visiting the URL
+        # trello_auth_url = ''.join([
+        #             'https://trello.com/1/authorize?expiration=never',
+        #            '&name=DataDrivenAcquisition&scope=read,write&response_type=token',
+        #            f'&key={settings.TRELLO["APP_KEY"]}'])
+        TRELLO_TOKEN=token-goes-here
+        # Get the board ID from the URL of your trello board
+        TRELLO_BORED_ID=board-id
+        
+
         ```
 
     1. Collect static and run

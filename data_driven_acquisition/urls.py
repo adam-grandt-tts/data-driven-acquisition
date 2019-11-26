@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib import admin
 from adminplus.sites import AdminSitePlus
 
@@ -8,7 +8,8 @@ from data_driven_acquisition.views import (
     Package,
     NewPackage,
     FileEditor,
-    RawFile
+    RawFile,
+    TrelloCallback
 )
 
 
@@ -22,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', HomePageView.as_view(), name='home'),
+
+    re_path('trello/', TrelloCallback.as_view(), name='trello'),
 
     path('package/<int:package_id>/', Package.as_view(), name='package'),
     path('new/<int:template_id>/', NewPackage.as_view(), name='new'),

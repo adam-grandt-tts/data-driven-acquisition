@@ -7,7 +7,7 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import ValidationError
-
+from django.conf import settings
 
 from data_driven_acquisition.models import Folder, File, PackageTemplate, PackageProperty
 from data_driven_acquisition.utils import (
@@ -20,6 +20,7 @@ from guardian.shortcuts import (
     get_perms,
     get_perms_for_model,
     assign_perm)
+
 
 tree_ul = ''
 
@@ -120,9 +121,10 @@ class Package(View):
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
+        context['package_status'] = [x[0] for x in Folder.STATUS]
 
         return render(
-            request, 
+            request,
             'package.html',
             context)
 
@@ -141,8 +143,10 @@ class Package(View):
         if not request.user.has_perm('can_set_properties', package):
             form_errors.append('Not allowed to edit')
         else:
-            # Update the name
+            # Update the name and status
             package.name = request.POST.get('name', package.name)
+            package.status = request.POST.get('status', package.status)
+
             try:
                 package.save()
             except (ValueError, ValidationError) as e:
@@ -170,6 +174,7 @@ class Package(View):
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
+        context['package_status'] = [x[0] for x in Folder.STATUS]
 
         return render(
             request, 
@@ -388,3 +393,12 @@ class FileEditor(View):
             request, 
             'file.html',
             context)
+
+
+@method_decorator(login_required, name='dispatch')
+class TrelloCallback(View):
+    """Add trello token to session"""
+
+    def get(self, request):
+
+        return JsonResponse(settings.TRELLO)

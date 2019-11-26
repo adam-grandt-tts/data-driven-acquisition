@@ -133,10 +133,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = env('STATIC_ROOT', default=os.path.join(BASE_DIR, 'static'))
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-
-
-# Logging 
+# Logging
 
 ## Sentry integration https://sentry.io
 sentry_sdk.init(
@@ -231,3 +230,13 @@ GITHUB = {
     'ACCESS_KEY': env.str('GITHUB_ACCESS_KEY'),
     'TEMPLATE_REPO': env.str('GITHUB_TEMPLATE_REPO')
 }
+
+# Trello
+USE_TRELLO = env.bool('USE_TRELLO', False)
+if USE_TRELLO:
+    TRELLO = {
+        'APP_KEY': env.str('TRELLO_APP_KEY'),
+        'APP_SECRET': env.str('TRELLO_APP_SECRET'),
+        'TOKEN': env.str('TRELLO_TOKEN'),
+        'BOARD_ID': env.str('TRELLO_BOARD_ID'),
+    }
