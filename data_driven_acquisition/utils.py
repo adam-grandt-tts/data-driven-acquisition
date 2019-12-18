@@ -198,9 +198,10 @@ def highlight_properties(data, properties):
     """
         return data will properties highlighted
         <!--PROPERTY:property_name-->VALUE<!--/PROPERTY:property_name--> The
-            value will replace the string between the comments. Leaving the comments
-            in place for later update.
+        value will replace the string between the comments. Leaving the comments
+        in place for later update.
     """
+
     # Github returns bytes and we need a string so:
     if type(data) == bytes:
         data = str(data, encoding='utf-8')
@@ -213,19 +214,57 @@ def highlight_properties(data, properties):
     for prop in properties.keys():
 
         # <!--PROPERTY:var-->VALUE<!--/PROPERTY:var--> format
-        re_start_str = re.compile(f"<!--PROPERTY:{prop}-->")
-        re_end_str = re.compile(f"<!--/PROPERTY:{prop}-->")
+        re_str = f"<!--PROPERTY:{prop}-->.*<!--/PROPERTY:{prop}-->"
 
-        if re.search(re_start_str, data):
-            new_str = f'<span style="background-color: yellow"><!--PROPERTY:{prop}-->'
-            if not properties[prop]:
-                new_str += f'<span style="background-color: gray"><small>[{prop}]</small></span>'
-                
-            data = re.sub(re_start_str, new_str, data)
+        if re.search(re_str, data):
+            new_str = f'<!--PROPERTY:{prop}-->'
 
-        if re.search(re_end_str, data):
-            new_str = f'<!--/PROPERTY:{prop}--></span>'
-            data = re.sub(re_end_str, new_str, data)
+            if properties[prop]:
+                new_str += f'<span style="background-color: yellow">'
+                new_str += f'{properties[prop]}'
+            else:
+                new_str += f'<span style="background-color: gray">'
+                new_str += f'[{prop}]'
+
+            new_str += f'</span>'
+            new_str += f'<!--/PROPERTY:{prop}-->'
+
+            data = re.sub(re_str, new_str, data)
+
+    return data
+
+
+def lowlight_properties(data, properties):
+    """
+        return data will without properties highlight
+        <!--PROPERTY:property_name-->VALUE<!--/PROPERTY:property_name--> The
+        value will replace the string between the comments. Leaving the comments
+        in place for later update.
+    """
+
+    # Github returns bytes and we need a string so:
+    if type(data) == bytes:
+        data = str(data, encoding='utf-8')
+
+    # If we got a query set translate to dict
+    # This allows us to send either query sets ior simple dict into this util
+    if isinstance(properties, QuerySet):
+        properties = {p.name: p.value for p in properties}
+
+    for prop in properties.keys():
+
+        # <!--PROPERTY:var-->VALUE<!--/PROPERTY:var--> format
+        re_str = f"<!--PROPERTY:{prop}-->.*<!--/PROPERTY:{prop}-->"
+
+        if re.search(re_str, data):
+            new_str = f'<!--PROPERTY:{prop}-->'
+
+            if properties[prop]:
+                new_str += f'{properties[prop]}'
+
+            new_str += f'<!--/PROPERTY:{prop}-->'
+
+            data = re.sub(re_str, new_str, data)
 
     return data
 

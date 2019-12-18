@@ -13,7 +13,8 @@ from data_driven_acquisition.models import Folder, File, PackageTemplate, Packag
 from data_driven_acquisition.utils import (
     user_permitted_tree,
     package_prop_by_tab,
-    highlight_properties)
+    highlight_properties,
+    lowlight_properties)
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -369,13 +370,19 @@ class FileEditor(View):
             return HttpResponseForbidden('Not permitted to access this file.')
         
         if can_edit:
+
+            doc_body = request.POST.get('editor')
+            # removing highlight
+            doc_body = lowlight_properties(
+                doc_body, the_file.package.properties.all())
+
             # The editor will only return the page  body so we have keep the
             # current head
             old_content = the_file.content.split('<body')
             new_content = ''.join([
                 old_content[0],
                 '<body>',
-                request.POST.get('editor'),
+                doc_body,
                 '</body></html>'
             ])
 
