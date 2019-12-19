@@ -205,10 +205,11 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         null=True,
         blank=True)
 
-    project_card_id = models.URLField(
+    project_card_id = models.CharField(
         blank=True,
         null=True,
-        help_text='Trello Card IDL'
+        max_length=1024,
+        help_text='Trello Card ID'
     )
 
     class Meta:

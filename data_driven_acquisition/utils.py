@@ -4,6 +4,7 @@ from django.db.models.query import QuerySet
 from django.utils.text import slugify
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from trello import TrelloClient
 
 
 from guardian.shortcuts import (
@@ -236,7 +237,7 @@ def highlight_properties(data, properties):
 
 def lowlight_properties(data, properties):
     """
-        return data will without properties highlight
+        return data without properties highlight
         <!--PROPERTY:property_name-->VALUE<!--/PROPERTY:property_name--> The
         value will replace the string between the comments. Leaving the comments
         in place for later update.
@@ -269,29 +270,69 @@ def lowlight_properties(data, properties):
     return data
 
 
-def trello_required(function):
-    """Decorator to  heck if we need a Trello token and have it in session.
-        IF we need and don't hav it in session go get it from trello.
+def trello_board():
+    """ A wrapper for trello API connections """
+    client = TrelloClient(
+        api_key=settings.TRELLO["APP_KEY"],
+        api_secret=settings.TRELLO["APP_SECRET"],
+        token=settings.TRELLO["TOKEN"]
+    )
+
+    return client.get_board(settings.TRELLO['BOARD_ID'])
+
+
+def trello_list_get_or_create(board, list_name):
+    """ Get or create a list by nam,e _list_name on trello board."""
+
+    the_list = None
+    for the_list in board.all_lists():
+        if the_list.name == list_name:
+            return the_list
+    if not the_list:
+        the_list = board.add_list(list_name, 'bottom')
+    return the_list
+
+
+def trello_card_get_or_create(package):
+    """
+        Get the card object for a package, if no card is available create one.
+        NOTE: Packages with no status are assumes to be in "-- NO STATUS --".
     """
 
-    def _dec(view_func):
-        def _view(request, *args, **kwargs):
-             # If Trello is disabled, do nothing
-            if not settings.USE_TRELLO:
-                return view_func(request, *args, **kwargs)
+    if not package.project_card_id:
+        # make a card
+        pass
+    else:
+        # get the card and return it, if the card is not found return False
+        pass
+        
 
-            current_token = request.session.get('trello_token')
-            if not current_token:
-                trello_auth_url = ''.join([
-                    'https://trello.com/1/authorize?expiration=never',
-                    '&name=DataDrivenAcquisition&scope=read,write&response_type=token',
-                    '&return_url=' + request.build_absolute_uri('/trello/'),
-                    f'&key={settings.TRELLO["APP_KEY"]}'])
-                print(trello_auth_url)
-                # Need trello token but dnt have it, redirecting to
-                # return HttpResponseRedirect(url)
-                return view_func(request, *args, **kwargs)
-            else:
-                return view_func(request, *args, **kwargs)
-        return _view
-    return _dec(function)
+
+
+
+# def trello_required(function):
+#     """Decorator to check if we need a Trello token and have it in session.
+#         IF we need and don't hav it in session go get it from trello.
+#     """
+
+#     def _dec(view_func):
+#         def _view(request, *args, **kwargs):
+#              # If Trello is disabled, do nothing
+#             if not settings.USE_TRELLO:
+#                 return view_func(request, *args, **kwargs)
+
+#             current_token = request.session.get('trello_token')
+#             if not current_token:
+#                 trello_auth_url = ''.join([
+#                     'https://trello.com/1/authorize?expiration=never',
+#                     '&name=DataDrivenAcquisition&scope=read,write&response_type=token',
+#                     '&return_url=' + request.build_absolute_uri('/trello/'),
+#                     f'&key={settings.TRELLO["APP_KEY"]}'])
+#                 print(trello_auth_url)
+#                 # Need trello token but dnt have it, redirecting to
+#                 # return HttpResponseRedirect(url)
+#                 return view_func(request, *args, **kwargs)
+#             else:
+#                 return view_func(request, *args, **kwargs)
+#         return _view
+#     return _dec(function)
