@@ -14,6 +14,8 @@ from .utils import apply_properties
 
 import base64
 import logging
+import reversion
+
 
 logger = logging.getLogger('data_driven_acquisition')
 
@@ -165,6 +167,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
     # package.
 
 
+@reversion.register()
 class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
     """Represents a folder containing multiple documents.
     Folders can have have other folders as parents.
@@ -246,21 +249,32 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             p = p.parent
         return p
 
-    def update_children(self):
+    def update_children(self, update_user=None):
         """Update all child objects based on the package properties"""
         # Get new properties to apply
         props = self.package.properties.all()
 
         # Update all child files
         for child in self.files.all():
-            child.content = apply_properties(child.content, props)
-            child.save()
+            with reversion.create_revision():
+                child.content = apply_properties(child.content, props)
+                child.save()
+
+                if update_user:
+                    reversion.set_user(update_user)
+                reversion.set_comment("Updated as part of package updates")
 
         # Update subfolder names and dive
         for sub in self.subfolders.all():
-            sub.name = apply_properties(sub.name, props)
-            sub.save()
-            sub.update_children()
+            with reversion.create_revision():
+                sub.name = apply_properties(sub.name, props)
+                sub.save()
+
+                if update_user:
+                    reversion.set_user(update_user)
+                reversion.set_comment("Updated as part of package updates")
+
+            sub.update_children(update_user)
         return True
 
     def save(self, *args, **kwargs):
@@ -283,6 +297,7 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         return super(Folder, self).save(*args, **kwargs)
 
 
+@reversion.register()
 class File(TimeStampedModel, SoftDeletableModel):
     """Represent a file in a package"""
     TYPES = Choices('Document', 'Sheet', 'Other')
@@ -403,6 +418,7 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
         return self.__str__()
 
 
+@reversion.register()
 class PropertyValue(TimeStampedModel, SoftDeletableModel):
     """A property definition for an acquisition."""
 

@@ -9,7 +9,6 @@ from data_driven_acquisition.views import (
     NewPackage,
     FileEditor,
     RawFile,
-    TrelloCallback
 )
 
 
@@ -23,8 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', HomePageView.as_view(), name='home'),
-
-    re_path('trello/', TrelloCallback.as_view(), name='trello'),
 
     path('package/<int:package_id>/', Package.as_view(), name='package'),
     path('new/<int:template_id>/', NewPackage.as_view(), name='new'),

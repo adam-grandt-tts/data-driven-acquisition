@@ -22,6 +22,9 @@ from guardian.shortcuts import (
     get_perms_for_model,
     assign_perm)
 
+import reversion
+from reversion.views import RevisionMixin
+
 
 tree_ul = ''
 
@@ -144,12 +147,14 @@ class Package(View):
         if not request.user.has_perm('can_set_properties', package):
             form_errors.append('Not allowed to edit')
         else:
-            # Update the name and status
-            package.name = request.POST.get('name', package.name)
-            package.status = request.POST.get('status', package.status)
-
             try:
-                package.save()
+                with reversion.create_revision():
+                    # Update the name and status
+                    package.name = request.POST.get('name', package.name)
+                    package.status = request.POST.get('status', package.status)
+                    package.save()
+                    reversion.set_user(request.user)
+                    reversion.set_comment("Package updated via UI")
             except (ValueError, ValidationError) as e:
                 form_errors.append(str(e))
 
@@ -158,11 +163,14 @@ class Package(View):
                 if not prop_id.startswith('prop_'):
                     continue
                 try:
-                    prop_id = int(prop_id.strip('prop_id'))
-                    prop = package.properties.get(id=prop_id)
-                    prop.value = val
-                    # TODO: input verification goes here
-                    prop.save()
+                    with reversion.create_revision():
+                        prop_id = int(prop_id.strip('prop_id'))
+                        prop = package.properties.get(id=prop_id)
+                        prop.value = val
+                        # TODO: input verification goes here
+                        prop.save()
+                        reversion.set_user(request.user)
+                        reversion.set_comment("Property updated via UI")
                 except Exception as e:
                     form_errors.append(f"Could not save {prop.name} {e}")
                     continue
@@ -198,7 +206,7 @@ class Package(View):
         if not request.user.has_perm('can_set_properties', package):
             return HttpResponseForbidden('Not allowed to update.')
 
-        if package.update_children():
+        if package.update_children(update_user=request.user):
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'error'})
@@ -299,7 +307,7 @@ class RawFile(View):
 
 
 @method_decorator(login_required, name='dispatch')
-class FileEditor(View):
+class FileEditor(RevisionMixin, View):
     """ Manage Package and its attributes"""
 
     def get(self, request, file_id):
@@ -389,6 +397,8 @@ class FileEditor(View):
             the_file.content = new_content
             the_file.save()
 
+            reversion.set_comment('Edited file content directly.') 
+
         context = genreal_context(self.request)
         context['file'] = the_file
         context['can_read'] = can_read
@@ -400,12 +410,3 @@ class FileEditor(View):
             request, 
             'file.html',
             context)
-
-
-@method_decorator(login_required, name='dispatch')
-class TrelloCallback(View):
-    """Add trello token to session"""
-
-    def get(self, request):
-
-        return JsonResponse(settings.TRELLO)

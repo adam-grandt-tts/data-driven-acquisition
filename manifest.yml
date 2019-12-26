@@ -4,4 +4,4 @@ applications:
   memory: 512M
   instances: 1
   buildpack: python_buildpack
-  command: python manage.py collectstatic --noinput; python manage.py migrate --noinput; gunicorn data_driven_acquisition.wsgi:application
+  command: python manage.py collectstatic --noinput; python manage.py migrate --noinput; python manage.py createinitialrevisions; gunicorn data_driven_acquisition.wsgi:application

@@ -93,7 +93,7 @@ class FileInline(admin.TabularInline):
 
 
 @admin.register(Folder)
-class FolderAdmin(GuardedModelAdmin):
+class FolderAdmin(GuardedModelAdmin, VersionAdmin):
     list_filter = (IsPackageFilter, )
     inlines = [SubfolderInline, FileInline, PropertyValueInline]
     search_fields = ['name']
@@ -116,4 +116,9 @@ class PackageTemplateAdmin(GuardedModelAdmin):
 class PackagePropertyAdmin(GuardedModelAdmin):
     list_display = ('name', 'property_type', 'max_length', 'tab')
     list_filter = ('tab', 'property_type')
+    search_fields = ['name']
+
+
+@admin.register(PropertyValue)
+class PropertyAdmin(GuardedModelAdmin, VersionAdmin):
     search_fields = ['name']

@@ -3,7 +3,6 @@ import re
 from django.db.models.query import QuerySet
 from django.utils.text import slugify
 from django.conf import settings
-from django.http import HttpResponseRedirect
 from trello import TrelloClient
 
 
@@ -281,15 +280,16 @@ def trello_board():
     return client.get_board(settings.TRELLO['BOARD_ID'])
 
 
-def trello_list_get_or_create(board, list_name):
+def trello_list_get_or_create(list_name):
     """ Get or create a list by nam,e _list_name on trello board."""
 
-    the_list = None
-    for the_list in board.all_lists():
-        if the_list.name == list_name:
-            return the_list
-    if not the_list:
-        the_list = board.add_list(list_name, 'bottom')
+    board = trello_board()
+
+    for a_list in board.all_lists():
+        if a_list.name == list_name:
+            return a_list
+    # No list found, make one.
+    the_list = board.add_list(list_name, 'bottom')
     return the_list
 
 
@@ -298,6 +298,9 @@ def trello_card_get_or_create(package):
         Get the card object for a package, if no card is available create one.
         NOTE: Packages with no status are assumes to be in "-- NO STATUS --".
     """
+
+    if not package.is_package:
+        raise ValueError('Must be a valid package')
 
     if not package.project_card_id:
         # make a card
