@@ -122,3 +122,5 @@ class PackagePropertyAdmin(GuardedModelAdmin):
 @admin.register(PropertyValue)
 class PropertyAdmin(GuardedModelAdmin, VersionAdmin):
     search_fields = ['name']
+    list_display = ('package', 'name', 'property_type', 'max_length', 'value')
+
