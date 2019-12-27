@@ -79,6 +79,7 @@ class FileInline(admin.TabularInline):
     verbose_name_plural = "Files"
     fields = ["get_edit_link", "name"]
     readonly_fields = ["get_edit_link", "name"]
+    save_on_top = True
 
     def get_edit_link(self, obj=None):
         if obj.pk:  # if object has already been saved and has a primary key, show link to it
@@ -97,17 +98,20 @@ class FolderAdmin(GuardedModelAdmin, VersionAdmin):
     list_filter = (IsPackageFilter, )
     inlines = [SubfolderInline, FileInline, PropertyValueInline]
     search_fields = ['name']
+    save_on_top = True
 
 
 
 @admin.register(File)
 class FileAdmin(GuardedModelAdmin, VersionAdmin):
+    save_on_top = True
     pass
 
 
 @admin.register(PackageTemplate)
 class PackageTemplateAdmin(GuardedModelAdmin):
     filter_horizontal = ('properties',)
+    save_on_top = True
 
     pass
 
@@ -117,10 +121,11 @@ class PackagePropertyAdmin(GuardedModelAdmin):
     list_display = ('name', 'property_type', 'max_length', 'tab')
     list_filter = ('tab', 'property_type')
     search_fields = ['name']
+    save_on_top = True
 
 
 @admin.register(PropertyValue)
 class PropertyAdmin(GuardedModelAdmin, VersionAdmin):
     search_fields = ['name']
     list_display = ('package', 'name', 'property_type', 'max_length', 'value')
-
+    save_on_top = True

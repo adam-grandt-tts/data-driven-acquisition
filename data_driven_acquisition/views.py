@@ -14,7 +14,9 @@ from data_driven_acquisition.utils import (
     user_permitted_tree,
     package_prop_by_tab,
     highlight_properties,
-    lowlight_properties)
+    lowlight_properties,
+    trello_card_get_or_create,
+    trello_list_get_or_create)
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -174,6 +176,15 @@ class Package(View):
                 except Exception as e:
                     form_errors.append(f"Could not save {prop.name} {e}")
                     continue
+
+            if settings.USE_TRELLO:
+                # Update the Trello card
+                card = trello_card_get_or_create(package)
+
+                # Set the list based on status
+                new_list = trello_list_get_or_create(package.status)
+                if card.get_list().id != new_list.id:
+                    card.change_list(new_list.id)
 
         context = genreal_context(self.request)
         context['updated'] = True

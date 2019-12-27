@@ -3,12 +3,18 @@ import re
 from django.db.models.query import QuerySet
 from django.utils.text import slugify
 from django.conf import settings
-from trello import TrelloClient
+
+from trello import TrelloClient, Card
+from trello.exceptions import ResourceUnavailable
 
 
 from guardian.shortcuts import (
     get_objects_for_user,
     get_perms_for_model)
+
+from data_driven_acquisition.templates.trello_card import (
+    template_card,
+    checklists)
 
 
 def apply_properties(data, properties):
@@ -302,14 +308,39 @@ def trello_card_get_or_create(package):
     if not package.is_package:
         raise ValueError('Must be a valid package')
 
-    if not package.project_card_id:
-        # make a card
-        pass
-    else:
-        # get the card and return it, if the card is not found return False
-        pass
-        
+    # Make sure the package has a status, if it dose not assing the default one.
+    if not package.status:
+        package.status = list(package.STATUS)[0][0]
+        package.save()
 
+    trello_list = trello_list_get_or_create(package.status)
+
+    if not package.project_card_id:
+        # No card listed, creating a new one.
+        trello_card = trello_list.add_card(
+            package.name,
+            desc=apply_properties(
+                template_card['desc'],
+                package.properties.all()),
+            position='top'
+        )
+
+        for cl in checklists:
+            trello_card.add_checklist(
+                cl['name'],
+                [x['name'] for x in cl['items']])
+
+        package.project_card_id = trello_card.id
+        package.save()
+        return trello_card
+    else:
+        # Get the card and return it, if the card is not found raise ValueError
+        try:
+            card = Card(trello_board(), package.project_card_id)
+            card.fetch()
+        except ResourceUnavailable:
+            raise ValueError('Probided card ID is invalid.')
+        return card
 
 
 

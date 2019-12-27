@@ -1,4 +1,4 @@
-card = {
+template_card = {
     'address': None,
     'badges': {'attachments': 0,
                 'attachmentsByType': {'trello': {'board': 0, 'card': 0}},
