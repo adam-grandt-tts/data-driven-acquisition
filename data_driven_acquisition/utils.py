@@ -26,6 +26,7 @@ def apply_properties(data, properties):
         2. <!--PROPERTY:property_name-->VALUE<!--/PROPERTY:property_name--> The
             value will replace the string between the comments. Leaving the comments
             in place for later update.
+        3. "**Propert Name:**VALUE" The name will remain unaffected, the value will change.
     """
     # Github returns bytes and we need a string so:
     if type(data) == bytes:
@@ -46,6 +47,13 @@ def apply_properties(data, properties):
 
         if re.search(re_str, data):
             new_str = f"<!--PROPERTY:{prop}-->{properties[prop]}<!--/PROPERTY:{prop}-->"
+            data = re.sub(re_str, new_str, data)
+
+        # "Property Name::VALUE" format
+        re_str = re.compile(f"\*\*{prop}:\*\*.*?\\n")
+
+        if re.search(re_str, data):
+            new_str = f"**{prop}:** {properties[prop]}\n"
             data = re.sub(re_str, new_str, data)
 
     return data
@@ -295,7 +303,7 @@ def trello_list_get_or_create(list_name):
         if a_list.name == list_name:
             return a_list
     # No list found, make one.
-    the_list = board.add_list(list_name, 'bottom')
+    the_list = board.add_list(list_name, 'top')
     return the_list
 
 

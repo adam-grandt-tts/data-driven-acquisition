@@ -16,7 +16,8 @@ from data_driven_acquisition.utils import (
     highlight_properties,
     lowlight_properties,
     trello_card_get_or_create,
-    trello_list_get_or_create)
+    trello_list_get_or_create,
+    apply_properties)
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -121,6 +122,12 @@ class Package(View):
         if not request.user.has_perm('view_folder', package):
             return HttpResponseForbidden('Not allowed')
 
+        trello_url = "False"
+        if settings.USE_TRELLO:
+            # Update the Trello card
+            card = trello_card_get_or_create(package)
+            trello_url = card.short_url
+
         context = genreal_context(self.request)
         context['package'] = package
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
@@ -128,6 +135,7 @@ class Package(View):
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
         context['package_status'] = [x[0] for x in Folder.STATUS]
+        context['trello_url'] = trello_url
 
         return render(
             request,
@@ -135,7 +143,7 @@ class Package(View):
             context)
 
     def post(self, request, package_id):
-        """ Update package"""
+        """Update package"""
 
         try:
             package = get_object_or_404(Folder, pk=int(package_id))
@@ -177,6 +185,7 @@ class Package(View):
                     form_errors.append(f"Could not save {prop.name} {e}")
                     continue
 
+            trello_url = "False"
             if settings.USE_TRELLO:
                 # Update the Trello card
                 card = trello_card_get_or_create(package)
@@ -186,7 +195,17 @@ class Package(View):
                 if card.get_list().id != new_list.id:
                     card.change_list(new_list.id)
 
+                # Update description
+                card.set_description(
+                    apply_properties(
+                        card.desc,
+                        package.properties.all()
+                    )
+                )
+                trello_url = card.short_url
+
         context = genreal_context(self.request)
+        context['trello_url'] = trello_url
         context['updated'] = True
         context['package'] = package
         context['form_errors'] = form_errors

@@ -24,7 +24,7 @@ template_card = {
                 'size': 'normal'},
     'creationMethod': None,
     'customFieldItems': [],
-    'desc': 'Project title - ID\n'
+    'desc': '**Title**: Project title - ID\n'
             '===========================\n'
             '\n'
             'Basic details\n'
@@ -39,6 +39,7 @@ template_card = {
             'happen to avoid any interruption in operations._\n'
             '- **Description of the buy:** _Provide no more than three '
             'sentences._\n'
+            '- **Agency**: _Customer agency_\n'
             '\n'
             'Government POCs\n'
             '--------------\n'

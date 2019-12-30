@@ -12,17 +12,12 @@
 
 <div id='package_header' class="card">
     {% if can_edit %}
-    <h2> Edditing Acquistion {{ package.id }} - {{ package.name }}</h2>
+    <h2>Edditing Acquistion {{ package.id }} - {{ package.name }}</h2>
     {% else %}
     <h2> Viewing Acquistion {{ package.id }} - {{ package.name }}</h2>
     {% endif %}
 
-    {% if can_push %}
-    <button type="submit" class="btn btn-danger" id="do_update">Update content</button>
-    <small>Click here to push the properties into all document in this package.</small>
-    {% else %}
-    <small>You cannot push updates to the contect of this package.</small>
-    {% endif %}
+
 </div>
 
 {% if updated %}
@@ -53,6 +48,22 @@
 <form method="post">
   {% if can_edit %}
     <button type="submit" class="btn btn-primary">Save properties</button>
+    
+    {% if can_push %}
+    <button type="submit" class="btn btn-danger" id="do_update">Update content</button>
+    {% else %}
+    <small>You cannot push updates to the contect of this package.</small>
+    {% endif %}
+
+    {% if trello_url %}
+    <a
+      class="btn btn-outline-secondary"
+      href="{{trello_url}}"
+      target='trello'
+      role="button">
+      Trello Card <i class="icon-external-link"></i></a>
+    {% endif %}
+
   {% endif %}
     {% csrf_token %}
   <div class="form-group">
