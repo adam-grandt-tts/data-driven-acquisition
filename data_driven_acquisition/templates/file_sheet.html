@@ -1,0 +1,44 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}DDA - File Editor {{ file.name }} {% endblock %}
+
+{% block addtional_head %} 
+<link rel="stylesheet" href="https://unpkg.com/x-data-spreadsheet@1.0.13/dist/xspreadsheet.css">
+<script src="https://unpkg.com/x-data-spreadsheet@1.0.13/dist/xspreadsheet.js"></script>
+{% endblock %}
+
+
+{% block meat %}
+
+
+<div id='file_header' class="card">
+    {% if can_edit %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Editing {{ file.name }}</a>
+          <button class="btn btn-outline-success my-2 my-sm-0"
+          id='save_sheet' type="button">Save</button>
+        </nav>
+    {% else %}
+        <h4> Viewing {{ file.name }}</h4>
+    {% endif %}
+</div>
+
+
+<div id='file_store' class="card">
+    <div id="xspreadsheet"></div>            
+</div>
+{% endblock %}
+
+
+{% block extra_script %}
+   var csrf_token = '{% csrf_token %}';
+   var source_url = '{{ raw_url }}';
+   
+   xs = x.spreadsheet('#xspreadsheet');
+
+   $('#save_sheet').click(function() {
+        data = xs.getData();
+        console.log(data);
+    });
+{% endblock %}

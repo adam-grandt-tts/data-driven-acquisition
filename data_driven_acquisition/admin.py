@@ -77,8 +77,8 @@ class FileInline(admin.TabularInline):
     extra = 0
     verbose_name = "File"
     verbose_name_plural = "Files"
-    fields = ["get_edit_link", "name"]
-    readonly_fields = ["get_edit_link", "name"]
+    fields = ["get_edit_link", "name", "file_type"]
+    readonly_fields = ["get_edit_link",]
     save_on_top = True
 
     def get_edit_link(self, obj=None):

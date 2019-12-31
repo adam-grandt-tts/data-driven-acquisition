@@ -374,9 +374,16 @@ class FileEditor(RevisionMixin, View):
         context['perm_set'] = perm_set
         context['raw_url'] = reverse('rawfile', kwargs={'file_id': file_id})
 
+        if the_file.file_type == 'Document':
+            template = "file_document.html"
+        elif the_file.file_type == 'Sheet':
+            template = "file_sheet.html"
+        else:
+            template = "file_other.html"
+
         return render(
-            request, 
-            'file.html',
+            request,
+            template,
             context)
 
     def post(self, request, file_id):
