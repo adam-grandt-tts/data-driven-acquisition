@@ -202,6 +202,7 @@ class Package(View):
                         package.properties.all()
                     )
                 )
+
                 trello_url = card.short_url
 
         context = genreal_context(self.request)
