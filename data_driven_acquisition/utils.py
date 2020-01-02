@@ -256,6 +256,9 @@ def lowlight_properties(data, properties):
         in place for later update.
     """
 
+    if not data:
+        return ""
+
     # Github returns bytes and we need a string so:
     if type(data) == bytes:
         data = str(data, encoding='utf-8')

@@ -335,6 +335,46 @@ class RawFile(View):
         highlighted = highlight_properties(the_file.content, the_file.package.properties.all())
         return HttpResponse(highlighted)
 
+    def post(self, request, file_id):
+        """ Update file content"""
+
+        try:
+            the_file = get_object_or_404(File, pk=int(file_id))
+        except ValueError:
+            return HttpResponseForbidden('Not a valid File ID')
+
+        # Figure out perms
+        can_edit = False
+        can_read = False
+        edit_perms = set(['can_edit_content', 'can_edit_child_content'])
+
+        perm_set = set(get_perms(request.user, the_file))
+        p = the_file.parent
+        while p is not None:
+            perm_set.update(get_perms(request.user, p))
+            p = p.parent
+
+        if perm_set:
+            can_read = True
+
+        if perm_set.intersection(edit_perms):
+            can_edit = True
+
+        if not (can_read or can_edit):
+            return HttpResponseForbidden('Not permitted to access this file.')
+
+        if can_edit:
+            with reversion.create_revision():
+                raw_data = request.POST.get('rawdata')
+                the_file.content = raw_data
+                the_file.save()
+
+                reversion.set_comment('Edited raw file content directly.')   
+                reversion.set_user(request.user)
+            
+            return JsonResponse({'success': True})
+          
+
 
 @method_decorator(login_required, name='dispatch')
 class FileEditor(RevisionMixin, View):
@@ -443,7 +483,14 @@ class FileEditor(RevisionMixin, View):
         context['perm_set'] = perm_set
         context['raw_url'] = reverse('rawfile', kwargs={'file_id': file_id})
 
+        if the_file.file_type == 'Document':
+            template = "file_document.html"
+        elif the_file.file_type == 'Sheet':
+            template = "file_sheet.html"
+        else:
+            template = "file_other.html"
+
         return render(
             request, 
-            'file.html',
+            template,
             context)
