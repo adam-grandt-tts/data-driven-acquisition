@@ -38,7 +38,6 @@
 
 
 {% block extra_script %}
-   var source_url = '{{ raw_url }}';
    
 webix.ready(function(){
 
@@ -49,10 +48,9 @@ webix.ready(function(){
         id:"ssheet",
         container:"file_store",
         liveEditor: true,
-        menu: true,
+        menu: false,
         bottombar:true,
-        rowCount:20,
-        columnCount:20,
+        toolbar:"full",
         //loaded data object
         data: {{ file.content|safe }}
     });
@@ -65,6 +63,15 @@ webix.ready(function(){
 
    $('#save_sheet').click(function() {
         var sheet_data = $$("ssheet").serialize({sheets: true});
+
+        // Cleanup up driver element that trigger this bug
+        // https://forum.webix.com/discussion/36947/spreadsheet-insert-column-row-not-working
+        for (var sheet in sheet_data) {
+            if (sheet_data[sheet].hasOwnProperty("driver")) {
+                console.log(sheet_data[sheet]["driver"]);
+                delete sheet_data[sheet]["driver"]
+            } 
+        }
 
         $.ajax({
             type: "POST",
