@@ -374,7 +374,6 @@ class RawFile(View):
                 reversion.set_user(request.user)
             
             return JsonResponse({'success': True})
-          
 
 
 @method_decorator(login_required, name='dispatch')
