@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/dda
+    links:
+      - db
+    working_dir: /dda
+    environment:
+      - DATABASE_URL=postgres://dda_user@db/dda
+      - DJANGO_SETTINGS_MODULE=data_driven_acquisition.settings
+      - SECRET_KEY=asecret
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - GITHUB_ACCESS_KEY=none
+      - GITHUB_TEMPLATE_REPO=none
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:8000"
+    command: "python manage.py runserver 0.0.0.0:8000"
+  db:
+    build: ./db
+    environment:
+      - POSTGRES_DB=dda
+      - POSTGRES_USER=dda_user

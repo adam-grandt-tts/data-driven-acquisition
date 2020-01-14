@@ -1,0 +1,35 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django-model-utils = ">=2.0"
+django-environ = ">=0.4.5"
+psycopg2-binary = ">=2.8.4"
+django-extensions = ">=2.2.5"
+django-easy-audit = ">=1.1.1"
+django-adminplus = ">=0.5"
+django-reversion = ">=3.0.4"
+django-admin-hstore-widget = "==1.0.1"
+django-guardian = ">=2.1.0"
+sentry-sdk = "==0.13.1"
+gunicorn = ">=20.0.0"
+whitenoise = ">=4.1.4"
+py-trello = "==0.15.0"
+PyGithub = ">=1.44"
+flake8 = "*"
+bumpversion = "==0.5.3"
+pylint = "==2.4.3"
+ipython = "==7.8.0"
+ipdb = "==0.12.2"
+jupyter = "==1.0.0"
+jupyterthemes = "==0.20.0"
+Werkzeug = "==0.16.0"
+six = "*"
+django = "==2.2.8"
+
+[requires]
+python_version = "3.6"
