@@ -78,6 +78,12 @@ docker-compose build
 
 # Run database migrations
 docker-compose run app python manage.py migrate
+
+# Load fixtures
+docker-compose run app python manage.py loaddata data_driven_acquisition/fixtures/*
+
+# Create a superuser
+docker-compose run app python manage.py createsuperuser
 ```
 
 Then, to start the application and its database:
