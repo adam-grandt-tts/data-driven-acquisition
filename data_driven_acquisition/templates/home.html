@@ -1,108 +1,63 @@
-{% extends 'base.html' %}
+{% extends 'base_uswds.html' %}
 {% load static %}
-
-{% block title %}DDA - Home{% endblock %}
-
-{% block addtional_head %} 
-
-{% endblock %}
 
 {% block content %}
 
-<div class="wrapper">
+<div class="grid-container">
+    <h1>My Acquisitions</h1>
 
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        {% block sidebar %}
-        <div class="sidebar-header">
-        <h3>New Acquisition</h3>
-        </div>
-        <div id="new_package">
-            <div class="row">
-                <div class="col">
-                    <select
-                        class="form-control"
-                        id="new_package_id">
-                        <option value="">  --  Please Select --  </option>
-                        {% for opt in templates %}
-                            <option value="{{opt.id}}">{{opt}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-info" id="create_package"  style="display:inline">Create</button>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-header">
-        <h3>My Acquisitions</h3>
-        </div>
-        <ul class="list-unstyled components acqs">
-            {{ tree_ul|safe }}
-        </ul>
-        {% endblock %}
-    </nav>
+    <div class="grid-row">
+        <div class="bg-primary-lighter border border-base-light padding-2 desktop:grid-col-6 tablet:grid-col-8">
+            <h2 class="margin-y-0">Add a new acquisition</h2>
 
-    <!-- Page Content -->
-    <div id="meat">
-        {% block meat %}
-            <img style="padding-left:100px;" src="{% static '/img/papers-3819540_640.jpg' %}">
-        {% endblock %}
+            <form action="{% url 'new' %}" method="GET">
+                <div class="grid-row flex-align-end grid-gap-1">
+                    <div class="grid-col">
+                        <label class="usa-label" for="new_template_id">Acquisition type</label>
+                        <select class="usa-select" name="template_id" id="new_template_id" required>
+                            <option value="">- Select -</option>
+                            {% for opt in templates %}
+                                <option value="{{opt.id}}">{{opt}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="grid-col-auto">
+                        <button class="usa-button">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-</div>       
-
-
-
-<script>
-$(document).ready(function () {
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $('#meat').toggleClass('full');
-    });
-
-    $("#create_package").on('click', function () {
-        var template_id = $("#new_package_id").find(":selected").val();
-        if (template_id != "") {
-            document.location.href = '/new/'+template_id+'/';
-        }
-    });
-
-    {% block extra_script %}{% endblock %}
-
-
-});
-</script>
+    {% if acquisitions|length == 0 %}
+        <div class="grid-row margin-top-4">
+            There are no acquisitions.
+        </div>
+    {% else %}
+        <div class="grid-row margin-top-4">
+            <table class="usa-table usa-table--borderless width-full">
+                <thead>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Partner</th>
+                </thead>
+                <tbody>
+                    {% for acquisition in acquisitions %}
+                        <tr>
+                            <td><a href="{% url 'package' package_id=acquisition.id %}">{{ acquisition.id }}</a></td>
+                            <td><a href="{% url 'package' package_id=acquisition.id %}">{{ acquisition.name }}</a></td>
+                            <td>{{ acquisition.status }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}
 
