@@ -88,6 +88,7 @@ def genreal_context(request):
 
     return {
         'tree_ul': tree_ul,
+        'acquisitions': tree,
         'templates': get_objects_for_user(
             request.user,
             'data_driven_acquisition.can_deploy').all()
@@ -247,10 +248,10 @@ class Package(View):
 class NewPackage(View):
     """ Manage Package and its attributes"""
 
-    def get(self, request, template_id):
+    def get(self, request):
         """Return package data"""
         try:
-            template = get_object_or_404(PackageTemplate, pk=int(template_id))
+            template = get_object_or_404(PackageTemplate, pk=int(request.GET['template_id']))
         except ValueError:
             return HttpResponseForbidden('Not a valid Template ID')
 
