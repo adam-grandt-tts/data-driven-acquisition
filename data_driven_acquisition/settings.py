@@ -2,9 +2,10 @@ import os
 import environ
 
 import logging
+import logging.config
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+# import sentry_sdk
+# from sentry_sdk.integrations.django import DjangoIntegration
 
 # load settings from .env file or environment variables
 env = environ.Env()
@@ -138,18 +139,23 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Logging
 
 ## Sentry integration https://sentry.io
-sentry_sdk.init(
-    dsn="https://b040c7433c424b0099fcb6da772e12fd@sentry.io/1803660",
-    integrations=[DjangoIntegration()]
-)
+# sentry_sdk.init(
+#     dsn="https://b040c7433c424b0099fcb6da772e12fd@sentry.io/1803660",
+#     integrations=[DjangoIntegration()]
+# )
+
+if DEBUG:
+    LOGLEVEL = env('LOGLEVEL', default='debug').upper()
+else:
+    LOGLEVEL = env('LOGLEVEL', default='info').upper()
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'root': {
-        'level': 'DEBUG',
-        'handlers': ['console'],
-    },
+    # 'root': {
+    #     'level': 'DEBUG',
+    #     'handlers': ['console'],
+    # },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -168,12 +174,12 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
         'mail_admins': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'filters': ['require_debug_false', ],
             'class': 'django.utils.log.AdminEmailHandler'
         },
@@ -193,29 +199,42 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'verbose',
         },
+        'db_log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/db-log.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        } 
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'mail_admins', 'log', ],
+            'handlers': ['console', 'mail_admins', ],
             'level': 'INFO',
         },
         'django.db.backends': {
-            'handlers': ['console', ],
-            'level': 'INFO',
+            'handlers': ['db_log', ],
+            'level': 'DEBUG',
             'propagate': False,
         },
         'django': {
-            'handlers': ['console', ],
+            'handlers': ['request_log', ],
             'propagate': True,
-            'level': 'INFO',
+            'level': 'DEBUG',
+        },
+        'django.server': {
+            'handlers': ['request_log', ],
+            'propagate': True,
+            'level': 'DEBUG',
         },
         'django.request': {
-            'handlers': ['console', 'mail_admins', 'request_log', ],
-            'level': 'WARNING',
-            'propagate': False,
+            'handlers': ['mail_admins', 'request_log', ],
+            'level': 'DEBUG',
+            'propagate': True,
         },
         'data_driven_acquisition': {
-            'handlers': ['console', ],
+            'handlers': ['console', 'log', ],
             'level': 'INFO',
             'propagate': True,
         },

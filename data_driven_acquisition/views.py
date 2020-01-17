@@ -28,6 +28,9 @@ from guardian.shortcuts import (
 import reversion
 from reversion.views import RevisionMixin
 
+import logging
+logger = logging.getLogger('data_driven_acquisition')
+
 
 tree_ul = ''
 
@@ -131,6 +134,7 @@ class Package(View):
 
         context = genreal_context(self.request)
         context['package'] = package
+        context['updated'] = False
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
@@ -203,9 +207,11 @@ class Package(View):
                         package.properties.all()
                     )
                 )
+                logger.info(f'Updated trello card for package {package.id} - {package.name}')
 
                 trello_url = card.short_url
 
+        logger.info(f'Updated package {package.id} - {package.name}')
         context = genreal_context(self.request)
         context['trello_url'] = trello_url
         context['updated'] = True
