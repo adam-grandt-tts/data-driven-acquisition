@@ -162,6 +162,7 @@ https://trello.com/b/SL7jTaz3/oia-acquisition-tracker
         ```shell
         python manage.py collectstatic
         python manage.py migrate
+        python manage.py loaddata data_driven_acquisition/fixtures/*
         ```
 
 ## Features
