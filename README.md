@@ -70,6 +70,34 @@ https://trello.com/b/SL7jTaz3/oia-acquisition-tracker
 
 ## Quickstart
 
+The easiest way to get rolling is to use Docker:
+
+```
+# Build the application and database images
+docker-compose build
+
+# Run database migrations
+docker-compose run app python manage.py migrate
+
+# Load fixtures
+docker-compose run app python manage.py loaddata data_driven_acquisition/fixtures/*
+
+# Create a superuser
+docker-compose run app python manage.py createsuperuser
+```
+
+Then, to start the application and its database:
+
+```
+docker-compose up
+```
+
+Use <kbd>CTRL+C</kbd> to stop.
+
+### Manual setup
+
+Alternatively, follow these setup steps:
+
 1. Database Setup
    1. install [PostgreSQL](https://www.postgresql.org/docs/9.3/tutorial-install.html).
    2. Create [database](https://www.postgresql.org/docs/9.0/sql-createdatabase.html)
