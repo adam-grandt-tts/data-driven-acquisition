@@ -402,7 +402,9 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
     def widget(self):
         if self.property_type == 'Text':
             return 'textarea'
-        elif self.property_type in ['List', 'Boolean']:
+        elif self.property_type == 'Boolean':
+            return 'radio'
+        elif self.property_type == 'List':
             return 'dropdown'
         else:
             return 'input'

@@ -275,11 +275,11 @@ class NewPackage(View):
             'new.html',
             context)
 
-    def post(self, request, template_id):
+    def post(self, request):
         """ Update package"""
 
         try:
-            template = get_object_or_404(PackageTemplate, pk=int(template_id))
+            template = get_object_or_404(PackageTemplate, pk=int(request.GET['template_id']))
         except ValueError:
             return HttpResponseForbidden('Not a valid Template ID')
 
