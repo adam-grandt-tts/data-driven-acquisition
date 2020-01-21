@@ -3,32 +3,30 @@
 
 {% block title %}{{ package.name }} | {{ block.super }}{% endblock %}
 
-{% block content %}
+{% block mainbar %}
 
-<div class="grid-container usa-section">
-    <h1 class="text-primary">Acquisition properties</h1>
+<h1 class="text-primary">Acquisition properties</h1>
 
-    {% include 'form_status.html' %}
+{% include 'form_status.html' %}
 
-    <form method="POST">
-        {% csrf_token %}
+<form method="POST">
+    {% csrf_token %}
 
-        {% include 'form.html' %}
+    {% include 'form.html' %}
 
-        <div class="grid-row flex-align-center margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
-            <button class="usa-button"{% if not can_edit %} disabled{% endif %}>Save properties</button>
-            {% if not can_edit %}<span class="usa-hint">You cannot edit this package.</span>{% endif %}
-            <button class="usa-button usa-button--outline js-update-content" type="button"{% if not can_push %} disabled{% endif %}>Update content</button>
-            {% if not can_push %}<span class="usa-hint">You cannot push updates to the content of this package.</span>{% endif %}
+    <div class="grid-row flex-align-center margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
+        <button class="usa-button"{% if not can_edit %} disabled{% endif %}>Save properties</button>
+        {% if not can_edit %}<span class="usa-hint">You cannot edit this package.</span>{% endif %}
+        <button class="usa-button usa-button--outline js-update-content" type="button"{% if not can_push %} disabled{% endif %}>Update content</button>
+        {% if not can_push %}<span class="usa-hint">You cannot push updates to the content of this package.</span>{% endif %}
 
-            {% if trello_url %}
-                <a href="{{trello_url}}" target="trello" rel="noopener noreferrer" class="usa-button usa-button--unstyled">
-                    Trello card
-                </a>
-            {% endif %}
-        </div>
-    </form>
-</div>
+        {% if trello_url %}
+            <a href="{{trello_url}}" target="trello" rel="noopener noreferrer" class="usa-button usa-button--unstyled">
+                Trello card
+            </a>
+        {% endif %}
+    </div>
+</form>
 
 <script>
     $('.js-update-content').on('click', function () {

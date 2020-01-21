@@ -79,3 +79,42 @@
   left: 0;
   background: linear-gradient(0deg, rgba(255,255,255,1) 5%, rgba(255,255,255,0) 100%);
 }
+
+/* Side navigation with accordion */
+
+.dda-sidenav-tree .usa-accordion__button {
+  background: none;
+  font-weight: normal;
+  display: block;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  background-position: right 0.5rem center;
+  background-size: 0.5rem;
+}
+
+.dda-sidenav-tree .usa-accordion__button[aria-expanded="false"] {
+  background-image: url("../img/angle-arrow-down-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image: url("../img/angle-arrow-down-primary.svg"), linear-gradient(transparent, transparent);
+  background-repeat: no-repeat;
+}
+
+.dda-sidenav-tree .usa-accordion__button[aria-expanded="true"] {
+  background-image: url("../img/angle-arrow-up-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image: url("../img/angle-arrow-up-primary.svg"), linear-gradient(transparent, transparent);
+  background-repeat: no-repeat;
+}
+
+.dda-sidenav-tree .usa-accordion__button:hover,
+.dda-sidenav-tree .usa-sidenav a:hover {
+  background-color: #f0f0f0;
+  color: #005ea2;
+}
+
+.dda-sidenav-tree .usa-sidenav__sublist .usa-accordion__button,
+.dda-sidenav-tree .usa-sidenav__sublist a {
+  padding-left: 2rem;
+}
+
+.dda-sidenav-tree .usa-sidenav__sublist .usa-sidenav__sublist .usa-accordion__button,
+.dda-sidenav-tree .usa-sidenav__sublist .usa-sidenav__sublist a {
+  padding-left: 3rem;
+}

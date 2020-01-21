@@ -1,3 +1,28 @@
 {% extends 'base_uswds.html' %}
 {% load static %}
 
+{% block content %}
+
+<div class="usa-layout-docs usa-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+            <aside class="usa-layout-docs__sidenav desktop:grid-col-3">
+                <h1 class="text-primary">{{package.name}}</h1>
+                <nav aria-label="Secondary navigation">
+                    <ul class="usa-sidenav usa-accordion dda-sidenav-tree" aria-multiselectable="true">
+                        <li class="usa-sidenav__item">
+                            {% url 'package' package_id=package.id as link %}
+                            <a href="{{ link }}" class="{% if link == request.path %}usa-current{% endif %}">Acquisition properties</a>
+                        </li>
+                        {% include 'sidebar_item.html' with items=package_tree.items %}
+                    </ul>
+                </nav>
+            </aside>
+            <div class="usa-layout-docs__main desktop:grid-col-9">
+                {% block mainbar %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

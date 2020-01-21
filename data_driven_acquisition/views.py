@@ -132,8 +132,15 @@ class Package(View):
             card = trello_card_get_or_create(package)
             trello_url = card.short_url
 
+        tree = user_permitted_tree(request.user)
+        for key, value in tree.items():
+            if key.id == package.id:
+                package_tree = value
+                break
+
         context = genreal_context(self.request)
         context['package'] = package
+        context['package_tree'] = package_tree
         context['updated'] = False
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
@@ -212,10 +219,18 @@ class Package(View):
                 trello_url = card.short_url
 
         logger.info(f'Updated package {package.id} - {package.name}')
+
+        tree = user_permitted_tree(request.user)
+        for key, value in tree.items():
+            if key.id == package.id:
+                package_tree = value
+                break
+
         context = genreal_context(self.request)
         context['trello_url'] = trello_url
         context['updated'] = True
         context['package'] = package
+        context['package_tree'] = package_tree
         context['form_errors'] = form_errors
         context['can_edit'] = request.user.has_perm('can_set_properties', package)
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
