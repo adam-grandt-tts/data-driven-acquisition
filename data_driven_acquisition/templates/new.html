@@ -8,67 +8,13 @@
 <div class="grid-container usa-section">
     <h1 class="text-primary">New {{ template.title }}</h1>
 
-    {% if form_errors %}
-        <div class="usa-alert usa-alert--error" role="alert">
-            <div class="usa-alert__body">
-                <h3 class="usa-alert__heading">Errors encountered while updating package.</h3>
-                <ul class="usa-alert__text">
-                    {% for err in form_errors %}
-                        <li>{{ err }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    {% endif %}
+    {% include 'form_status.html' %}
 
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="template_id" value="{{template.id}}">
 
-        <label class="usa-label" for="name">Acquisition name</label>
-        <input name="name" type="text" id="name" class="usa-input">
-
-        <div class="usa-accordion dda-tabs">
-            <div class="grid-row margin-top-3 dda-tabs__heading-container position-sticky top-0 dda-fade__below">
-                {% for tab, tab_name in tabs.items %}
-                    <h2 class="usa-accordion__heading">
-                        <button class="usa-accordion__button" role="tab" aria-controls="nav-{{tab}}"{% if forloop.first %} aria-expanded="true"{% endif %}>{{tab_name}}</button>
-                    </h2>
-                {% endfor %}
-            </div>
-
-            {% for tab, props in tab_dict.items %}
-                <div id="nav-{{tab}}" class="usa-accordion__content padding-top-3 padding-left-0 padding-right-0 overflow-visible">
-                    {% for prop in props %}
-                        <label for="{{prop.name}}_id" class="usa-label text-bold">{{prop.name}}</label>
-                        <p class="usa-hint maxw-mobile-lg" id="{{prop.name}}_help">{{prop.description}}</p>
-
-                        {% if prop.widget == 'textarea' %}
-                            <textarea name="prop_{{prop.id}}" class="usa-textarea" id="{{prop.name}}_id" aria-describedby="{{prop.name}}_help">{{prop.value|default:""}}</textarea>
-                        {% elif prop.widget == 'radio' %}
-                            <fieldset class="usa-fieldset">
-                                <legend class="usa-sr-only">{{prop.name}}</legend>
-                                {% for opt in prop.options %}
-                                    <div class="usa-radio">
-                                        <input class="usa-radio__input" id="{{prop.name}}_{{opt}}_id" value="{{opt}}" type="radio" name="prop_{{prop.id}}"{% if prop.value == opt %} checked{% endif %}>
-                                        <label class="usa-radio__label" for="{{prop.name}}_{{opt}}_id">{{opt}}</label>
-                                    </div>
-                                {% endfor %}
-                            </fieldset>
-                        {% elif prop.widget == 'dropdown' %}
-                            <select name="prop_{{prop.id}}" class="usa-select" id="{{prop.name}}_id" aria-describedby="{{prop.name}}_help">
-                                <option value="">- Select -</option>
-                                {% for opt in prop.options %}
-                                    <option value="{{opt}}" {% if prop.value == opt %}selected{% endif %}>{{opt}}</option>
-                                {% endfor %}
-                            </select>
-                        {% else %}
-                            <input name="prop_{{prop.id}}" type="text" class="usa-input" id="{{prop.name}}_id" value="{{prop.value|default:""}}" aria-describedby="{{prop.name}}_help">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
+        {% include 'form.html' %}
 
         <div class="grid-row margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
             <button class="usa-button">Save properties</button>
