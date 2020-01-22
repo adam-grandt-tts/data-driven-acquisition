@@ -1,14 +1,16 @@
 {% extends 'base_uswds.html' %}
 {% load static %}
 
+{% block body_class %}bg-base-lightest{% endblock %}
+
 {% block content %}
 
-<div class="grid-container">
-    <h1>My Acquisitions</h1>
+<div class="grid-container usa-section">
+    <h1 class="text-primary">My Acquisitions</h1>
 
     <div class="grid-row">
         <div class="bg-primary-lighter border border-base-light padding-2 desktop:grid-col-6 tablet:grid-col-8">
-            <h2 class="margin-y-0">Add a new acquisition</h2>
+            <h2 class="margin-y-0 text-primary">Add a new acquisition</h2>
 
             <form action="{% url 'new' %}" method="GET">
                 <div class="grid-row flex-align-end grid-gap-1">

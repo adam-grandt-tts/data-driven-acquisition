@@ -1,149 +1,25 @@
-{% extends 'base_with_sidebar.html' %}
+{% extends 'base_uswds.html' %}
 {% load static %}
 
-{% block title %}DDA - New Acquistion{% endblock %}
+{% block title %}New Acquistion | {{block.super}}{% endblock %}
 
-{% block addtional_head %} 
-{% endblock %}
+{% block content %}
 
+<div class="grid-container usa-section">
+    <h1 class="text-primary">New {{ template.title }}</h1>
 
-{% block meat %}
+    {% include 'form_status.html' %}
 
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="template_id" value="{{template.id}}">
 
-<div id='package_header' class="card">
-    <h2> Deploy new template from {{ template.title }}</h2>
-    {% if not can_deploy %}
-    <small>You cannot deploy a new acquistion from this template.</small>
-    {% endif %}
-</div>
+        {% include 'form.html' %}
 
-{% if updated %}
-    {% if form_errors %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        Erros encoutered while updating package.<br>
-        <ul>
-            {% for err in form_errors %}
-            <li>{{ err }}</li>
-            {% endfor %}
-        </ul>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="grid-row margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
+            <button class="usa-button">Save properties</button>
         </div>
-    {% else %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Package was updated successfully.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-    {% endif %}
-
-{% endif %}
-<div id='package_form' class="card">
-<form method="post">
-  {% if can_deploy %}
-    <button type="submit" class="btn btn-primary">Deply New Acquistion</button>
-  {% endif %}
-    {% csrf_token %}
-  <div class="form-group">
-    <label for="name">Package Name</label>
-    <input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Acquistion name">
-    <small id="nameHelp" class="form-text text-muted">Name of acquistion project.</small>
-  </div>
-
-  <nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    {% for tab, tab_name in tabs.items %}
-        <a class="nav-item nav-link" id="nav-{{tab}}-tab" data-toggle="tab" href="#nav-{{tab}}" role="tab" aria-controls="nav-{{tab}}" aria-selected="false">{{tab_name}}</a>
-    {% endfor %}
-  </div>
-</nav>
-
-<div class="tab-content" id="nav-tabContent">
-{% for tab, props in tab_dict.items %}
-  <div class="tab-pane fade" id="nav-{{tab}}" role="tabpanel" aria-labelledby="nav-{{tab}}-tab">
-  
-  {% for prop in props %}
-  <div class="form-group row">
-    <label for="{{prop.name}}_id" class="col-sm-3 col-form-label" >{{prop.name}}</label>
-    <div class="col-sm-9">
-        {% if prop.widget == 'textarea' %}
-        <textarea 
-            name="prop_{{prop.id}}"
-            class="form-control rounded-0"
-            id="{{prop.name}}_id"
-            aria-describedby="{{prop.name}}Help"
-            rows="5">{{prop.value|default:""}}</textarea>
-
-        {% elif prop.widget == 'dropdown' %}
-
-        <select
-            name="prop_{{prop.id}}"
-            class="form-control"
-            id="{{prop.name}}_id"
-            aria-describedby="{{prop.name}}Help">
-            <option value=""></option>
-            {% for opt in prop.options %}
-                <option value="{{opt}}" {% if prop.value == opt %}selected{% endif %}>{{opt}}</option>
-            {% endfor %}
-        </select>
-        {% else %}
-        <input 
-            name="prop_{{prop.id}}"
-            type="text"
-            class="form-control"
-            id="{{prop.name}}_id"
-            value="{{prop.value|default:""}}"
-            aria-describedby="{{prop.name}}Help">
-        {% endif %}
-    <small id="{{prop.name}}Help" class="form-text text-muted">({{ prop.property_type}}) {{prop.description}}</small>
-    </div>
-  </div>
-  {% endfor %}
-
-
-
-  </div>
-  {% endfor %}
+    </form>
 </div>
-
-
-
-
-  {% if can_edit %}
-    <button type="submit" class="btn btn-primary">Save properties</button>
-  {% endif %}
-</form>
-</div>
-{% endblock %}
-
-
-{% block extra_script %}
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    $('#do_update').on('click', function () {
-        $.ajax({
-            url: "/package/{{ package.id }}/",
-            type: "PUT",
-            cache:false,
-            success: function(resp){
-                alert (resp.status);
-            }
-        });
-    });
-
-$('#nav-general').tab('show');
 
 {% endblock %}

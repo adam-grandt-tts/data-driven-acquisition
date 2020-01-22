@@ -1,0 +1,20 @@
+{% if form_errors %}
+    <div class="usa-alert usa-alert--error" role="alert">
+        <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Errors encountered while updating package.</h3>
+            <ul class="usa-alert__text">
+                {% for err in form_errors %}
+                    <li>{{ err }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+{% if updated and not form_errors %}
+    <div class="usa-alert usa-alert--success" role="alert">
+        <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Package was updated successfully.</h3>
+        </div>
+    </div>
+{% endif %}
