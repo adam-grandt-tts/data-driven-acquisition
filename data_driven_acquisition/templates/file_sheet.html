@@ -1,89 +1,73 @@
-{% extends 'base_with_sidebar.html' %}
+{% extends 'base_uswds_with_sidebar.html' %}
 {% load static %}
 
-{% block title %}DDA - File Editor {{ file.name }} {% endblock %}
+{% block title %}{{ file.name }} | {{ block.super }}{% endblock %}
 
-{% block addtional_head %} 
-{% comment %} <link rel="stylesheet" href="https://unpkg.com/x-data-spreadsheet@1.0.13/dist/xspreadsheet.css">
-<script src="https://unpkg.com/x-data-spreadsheet@1.0.13/dist/xspreadsheet.js"></script> {% endcomment %}
-
-<script src="{% static '/sheets/webix/webix.js' %}" type="text/javascript"></script>
-<script src="{% static '/sheets/spreadsheet.js' %}" type="text/javascript"></script>
-
-<link rel="stylesheet" type="text/css" href="{% static '/sheets/webix/webix.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static '/sheets/spreadsheet.css' %}">
-
-
+{% block additional_head %}
+    <script src="{% static '/sheets/webix/webix.js' %}" type="text/javascript"></script>
+    <script src="{% static '/sheets/spreadsheet.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/sheets/webix/webix.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/sheets/spreadsheet.css' %}">
 {% endblock %}
 
 
-{% block meat %}
+{% block mainbar %}
 
+{% if can_edit %}
+    <h1 class="text-primary">
+        <button class="usa-button usa-button--outline float-right" id='save_sheet' type="button">Save</button>
+        {% csrf_token %}
+        Editing {{ file.name }}
+    </h1>
+{% else %}
+    <h1 class="text-primary">Viewing {{ file.name }}</h1>
+{% endif %}
 
-<div id='file_header' class="card">
-    {% if can_edit %}
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">Editing {{ file.name }}</a>
-          <button class="btn btn-outline-secondary my-2 my-sm-0"
-          id='save_sheet' type="button">Save</button>
-        </nav>
-    {% else %}
-        <h4> Viewing {{ file.name }}</h4>
-    {% endif %}
-</div>
+<div id='file_store' class="width-full" style='height:75vh;'></div>
 
-<div id='file_store' class="" style='height:75vh;'>
-</div>
-{% endblock %}
+<script>
+    webix.ready(function () {
+        // object constructor
+        webix.ui({
+            view: 'spreadsheet',
+            id: 'ssheet',
+            container: 'file_store',
+            liveEditor: true,
+            menu: false,
+            bottombar: true,
+            toolbar: 'full',
 
+            // loaded data object
+            data: {{ file.content|safe }}
+        });
 
-{% block extra_script %}
-   
-webix.ready(function(){
+        $$('ssheet').attachEvent('onCellChange', function (row, column, value) {
+            $('#save_sheet').removeClass('usa-button--outline');
+        });
 
+        $('#save_sheet').click(function () {
+            var sheet_data = $$('ssheet').serialize({sheets: true});
 
-    //object constructor
-    webix.ui({
-        view:"spreadsheet",
-        id:"ssheet",
-        container:"file_store",
-        liveEditor: true,
-        menu: false,
-        bottombar:true,
-        toolbar:"full",
-        //loaded data object
-        data: {{ file.content|safe }}
-    });
+            // Cleanup up driver element that trigger this bug
+            // https://forum.webix.com/discussion/36947/spreadsheet-insert-column-row-not-working
+            for (var sheet in sheet_data) {
+                if (sheet_data[sheet].hasOwnProperty('driver')) {
+                    console.log(sheet_data[sheet]['driver']);
+                    delete sheet_data[sheet]['driver']
+                }
+            }
 
-    $$("ssheet").attachEvent("onCellChange", function(row, column, value){
-        {% comment %} console.log("Row: "+row+"; column: "+column+"; new value: "+value) {% endcomment %}
-        $( "#save_sheet" ).addClass( 'btn-success' );
-        $( "#save_sheet" ).removeClass( 'btn-outline-secondary' );
-    });
-
-   $('#save_sheet').click(function() {
-        var sheet_data = $$("ssheet").serialize({sheets: true});
-
-        // Cleanup up driver element that trigger this bug
-        // https://forum.webix.com/discussion/36947/spreadsheet-insert-column-row-not-working
-        for (var sheet in sheet_data) {
-            if (sheet_data[sheet].hasOwnProperty("driver")) {
-                console.log(sheet_data[sheet]["driver"]);
-                delete sheet_data[sheet]["driver"]
-            } 
-        }
-
-        $.ajax({
-            type: "POST",
-            url: '{% url 'rawfile' file.id %}',
-            data: {'rawdata': JSON.stringify(sheet_data)},
-            success: function(out){
-                $( "#save_sheet" ).addClass( 'btn-outline-secondary' );
-                $( "#save_sheet" ).removeClass( 'btn-success' );
-            },
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'rawfile' file.id %}',
+                data: {'rawdata': JSON.stringify(sheet_data)},
+                headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
+                success: function () {
+                    $('#save_sheet').addClass('usa-button--outline');
+                },
+            });
         });
     });
-
-});
+</script>
 
 {% endblock %}

@@ -429,8 +429,16 @@ class FileEditor(RevisionMixin, View):
         if not (can_read or can_edit):
             return HttpResponseForbidden('Not permitted to access this file.')
 
+        tree = user_permitted_tree(request.user)
+        for key, value in tree.items():
+            if key.id == the_file.package.id:
+                package_tree = value
+                break
+
         context = genreal_context(self.request)
         context['file'] = the_file
+        context['package'] = the_file.package
+        context['package_tree'] = package_tree
         context['can_read'] = can_read
         context['can_edit'] = can_edit
         context['perm_set'] = perm_set
@@ -496,10 +504,18 @@ class FileEditor(RevisionMixin, View):
             the_file.content = new_content
             the_file.save()
 
-            reversion.set_comment('Edited file content directly.') 
+            reversion.set_comment('Edited file content directly.')
+
+        tree = user_permitted_tree(request.user)
+        for key, value in tree.items():
+            if key.id == the_file.package.id:
+                package_tree = value
+                break
 
         context = genreal_context(self.request)
         context['file'] = the_file
+        context['package'] = the_file.package
+        context['package_tree'] = package_tree
         context['can_read'] = can_read
         context['can_edit'] = can_edit
         context['perm_set'] = perm_set

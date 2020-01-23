@@ -1,51 +1,66 @@
-{% extends 'base_with_sidebar.html' %}
+{% extends 'base_uswds_with_sidebar.html' %}
 {% load static %}
 
-{% block title %}DDA - File Editor {{ file.name }} {% endblock %}
+{% block title %}{{ file.name }} | {{ block.super }}{% endblock %}
 
-{% block addtional_head %} 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
+{% block additional_head %}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 {% endblock %}
 
+{% block mainbar %}
 
-{% block meat %}
+{% if can_edit %}
+    <h1 class="text-primary">Editing {{ file.name }}</h1>
+{% else %}
+    <h1 class="text-primary">Viewing {{ file.name }}</h1>
+{% endif %}
 
 
-<div id='file_header' class="card">
-    {% if can_edit %}
-        <h4> Editing {{ file.name }}</h4>
-    {% else %}
-        <h4> Viewing {{ file.name }}</h4>
-    {% endif %}
+{% if can_edit %}
+    <form method="POST">
+        {% csrf_token %}
+        <div id="editor"></div>
+
+        <script>
+            Promise.all([
+                new Promise((resolve) => {
+                    tinymce.init({
+                        selector: '#editor',
+                        height: '75vh',
+                        plugins: 'save',
+                        menubar: 'file edit view insert format tools table tc help',
+                        toolbar: 'save | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+                        init_instance_callback: resolve
+                    });
+                }),
+                new Promise((resolve) => {
+                    $.get("{{ raw_url }}", resolve);
+                })
+            ]).then(([editor, content]) => {
+                editor.setContent(content);
+            });
+        </script>
+    </form>
+{% else %}
+    <iframe src="{{ raw_url }}" class="border-0 width-full height-mobile js-resize-to-contents"></iframe>
+    <script>
+        (() => {
+            const iframe = document.querySelector('.js-resize-to-contents');
+
+            const resizeIframe = (evt) => {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+
+                if (iframe.style.height !== height) {
+                    iframe.style.height = height;
+                }
+            };
+
+            ['DOMContentLoaded', 'resize'].forEach((evt) => {
+                iframe.contentWindow.addEventListener(evt, resizeIframe);
+            })
+        })();
+    </script>
+{% endif %}
 </div>
-
-
-<div id='file_store' class="card">
-    {% if can_edit %}
-        <form method="post">
-            <div id="editor"></div>
-            {% csrf_token %}
-        </form>
-
-    {% else %}
-        <iframe id="file_viewer" src="{{ raw_url }}"></iframe>
-    {% endif %}
-</div>
-{% endblock %}
-
-
-{% block extra_script %}
-  tinymce.init({
-    selector: '#editor',
-    height: '75vh',
-    plugins: "save",
-    menubar: 'file edit view insert format tools table tc help',
-    toolbar: 'save | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
-  });
-
-$.get("{{ raw_url }}", function(content) { 
-    tinyMCE.activeEditor.setContent(content);
-});
 
 {% endblock %}
