@@ -249,6 +249,18 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
             p = p.parent
         return p
 
+    @property
+    def agency_partner(self):
+        return self.get_package_property_by_name('Agency-Partner').value
+
+    @property
+    def office_team(self):
+        return self.get_package_property_by_name('Office Team').value
+
+    def get_package_property_by_name(self, name):
+        prop = PackageProperty.objects.get(name=name)
+        return self.package.properties.get(prop=prop)
+
     def update_children(self, update_user=None):
         """Update all child objects based on the package properties"""
         # Get new properties to apply

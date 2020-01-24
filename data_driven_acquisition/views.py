@@ -91,7 +91,7 @@ def genreal_context(request):
 
     return {
         'tree_ul': tree_ul,
-        'acquisitions': tree,
+        'packages': tree,
         'templates': get_objects_for_user(
             request.user,
             'data_driven_acquisition.can_deploy').all()
