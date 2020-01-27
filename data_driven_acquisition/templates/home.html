@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    {% if acquisitions|length == 0 %}
+    {% if packages|length == 0 %}
         <div class="grid-row margin-top-4">
             There are no acquisitions.
         </div>
@@ -46,13 +46,13 @@
                     <th scope="col">Partner</th>
                 </thead>
                 <tbody>
-                    {% for acquisition in acquisitions %}
+                    {% for package in packages %}
                         <tr>
-                            <td><a href="{% url 'package' package_id=acquisition.id %}">{{ acquisition.id }}</a></td>
-                            <td><a href="{% url 'package' package_id=acquisition.id %}">{{ acquisition.name }}</a></td>
-                            <td>{{ acquisition.status }}</td>
-                            <td></td>
-                            <td></td>
+                            <td><a href="{% url 'package' package_id=package.id %}">{{ package.id }}</a></td>
+                            <td><a href="{% url 'package' package_id=package.id %}">{{ package.name }}</a></td>
+                            <td>{{ package.status }}</td>
+                            <td>{{ package.office_team }}</td>
+                            <td>{{ package.agency_partner }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
