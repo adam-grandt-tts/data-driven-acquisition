@@ -1,77 +1,38 @@
-{% extends 'base.html' %}
-
-{% block title %}DDA - Login{% endblock %}
-
-{% block addtional_head %} 
-<style>
-.login-container{
-    margin-top: 5%;
-    margin-bottom: 5%;
-}
-.login-form-1{
-    padding: 5%;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-}
-.login-form-1 h3{
-    text-align: center;
-    color: #333;
-}
-}
-.login-container form{
-    padding: 10%;
-}
-.btnSubmit
-{
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
-    border: none;
-    cursor: pointer;
-}
-.login-form-1 .btnSubmit{
-    font-weight: 600;
-    color: #fff;
-    background-color: #0062cc;
-}
-.login-form-1 .ForgetPwd{
-    color: #0062cc;
-    font-weight: 600;
-    text-decoration: none;
-}
-</style>
-{% endblock %}
-
+{% extends 'base_uswds.html' %}
 
 {% block content %}
 
+<div class="grid-container usa-section">
+    <h1 class="text-primary">Sign in</h1>
 
-<div class="container login-container">
-    <div class="row">
-        <div class="col-md-6 login-form-1">
-            {% if form.non_field_errors %}
-            <ul class='form-errors'>
-                {% for error in form.non_field_errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            <h3>Data Driven Acquisition</h3>
-            <form action="" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Your Username *" value="" name="username" id="id_username" required/>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Your Password *" value="" name="password" id="id_password" required />
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btnSubmit" value="Login" />
-                </div>
-                <div class="form-group">
-                    <a href="#" class="ForgetPwd">Forget Password?</a>
-                </div>
-            </form>
+    {% if form.non_field_errors %}
+        <div class="usa-alert usa-alert--error" role="alert">
+            <div class="usa-alert__body">
+                <h3 class="usa-alert__heading">Sign in failed.</h3>
+                <ul class="usa-alert__text">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
+    {% endif %}
+
+    <form class="usa-form" method="POST">
+        {% csrf_token %}
+        <fieldset class="usa-fieldset">
+            <legend class="usa-sr-only">Sign in</legend>
+
+            <label class="usa-label" for="username">Username</label>
+            <input class="usa-input" id="username" name="username" type="text" autocapitalize="off" autocorrect="off" required>
+
+            <label class="usa-label" for="password-sign-in">Password</label>
+            <input class="usa-input" id="password-sign-in" name="password" type="password" required>
+            <p class="usa-form__note"><a title="Show password" href="javascript:void(0);" class="usa-show-password" aria-controls="password-sign-in">Show password</a></p>
+
+            <input class="usa-button" type="submit" value="Sign in">
+        </fieldset>
+    </form>
 </div>
+
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base_uswds.html' %}
 {% load static %}
 
+{% block title %}{{ package.name }} | {{ block.super }}{% endblock %}
+
 {% block content %}
 
 <div class="usa-layout-docs usa-section">
