@@ -32,65 +32,10 @@ import logging
 logger = logging.getLogger('data_driven_acquisition')
 
 
-tree_ul = ''
-
-
 def genreal_context(request):
-    global tree_ul
-
-    # Get user tree
     tree = user_permitted_tree(request.user)
 
-    def tree_to_ul(d, indent=0):
-        global tree_ul
-        for key, value in d.items():
-            actions = ''
-            if key == 'files':
-                for item in value:
-                    tree_ul += ''.join([
-                        '  ' * (indent + 1),
-                        '<li><a href = "',
-                        reverse('file', kwargs={"file_id": item.id}),
-                        '"> ' + '&nbsp;&nbsp;' * (indent + 1),
-                        '<i class="icon-file-text-alt"></i>&nbsp;&nbsp;',
-                        ''.join(item.name.split('.')[:-1]),
-                        '</a></li>\n'])
-                continue
-            tree_ul += ''.join([
-                '  ' * indent,
-                '<li>' ,
-                f'<a href="#folder_{key.id}_sub" data-toggle="collapse" ',
-                'aria-expanded="false" class="dropdown-toggle">' + '&nbsp;&nbsp;' * (indent + 1)
-            ])
-            if key.is_package:
-                tree_ul += ''.join([
-                    '<i class="icon-briefcase"></i>',
-                ])
-                if request.user.has_perm('view_folder', key):
-                    edit_href = reverse('package', kwargs={'package_id': key.id})
-                    actions += f'<a href="{edit_href}" class="sublink">Edit</a>&nbsp;'
-            else:
-                tree_ul += ''.join([
-                    '<i class="icon-folder-close"></i>',
-                ])
-            tree_ul += ''.join([
-                '&nbsp;&nbsp;',
-                f'{key.name}</a> ',
-                '\n' + '  ' * (indent + 1),
-                f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n',
-                actions])
-            if isinstance(value, dict):
-                tree_to_ul(value, indent + 1)
-                tree_ul += '  ' * (indent + 1) + '</ul>\n'
-            else:
-                tree_ul += '  ' * (indent + 1) + '<li>' + value.name + '</li>\n'
-            tree_ul += '  ' * indent + '</li>\n'
-    
-    tree_ul = ''
-    tree_to_ul(tree)
-
     return {
-        'tree_ul': tree_ul,
         'packages': tree,
         'templates': get_objects_for_user(
             request.user,
