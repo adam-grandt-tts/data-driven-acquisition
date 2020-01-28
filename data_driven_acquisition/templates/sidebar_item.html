@@ -14,7 +14,7 @@
                 {{ key.name }}
             </button>
             <ul class="usa-sidenav__sublist" id="sidenav-folder-{{key.id}}">
-                {% include 'sidebar_item.html' with items=value.items only %}
+                {% include 'sidebar_item.html' with items=value.items %}
             </ul>
         </li>
     {% endif %}
