@@ -355,6 +355,16 @@ class File(TimeStampedModel, SoftDeletableModel):
             p = p.parent
         return p
 
+    @property
+    def extname(self):
+        """Return the file’s extension"""
+        return self.name.split('.')[-1]
+
+    @property
+    def basename(self):
+        """Return the file’s name without extension"""
+        return ''.join(self.name.split('.')[:-1])
+
 
 class PackageProperty(TimeStampedModel, SoftDeletableModel):
     """A property definition for an acquisition."""

@@ -1,16 +1,26 @@
 {% for key, value in items %}
     {% if key == 'files' %}
-        {% for item in value %}
+        {% for file in value %}
             <li class="usa-sidenav__item">
-                {% url 'file' file_id=item.id as link %}
+                {% url 'file' file_id=file.id as link %}
                 <a href="{{ link }}" class="{% if link == request.path %}usa-current{% endif %}">
-                    {{ item.name }}
+                    {% if file.extname == 'json' %}
+                        <i class="fas fa-file-excel margin-right-05"></i>
+                    {% elif file.extname == 'html' %}
+                        <i class="fas fa-file-word margin-right-05"></i>
+                    {% elif file.extname == 'pdf' %}
+                        <i class="fas fa-file-pdf margin-right-05"></i>
+                    {% else %}
+                        <i class="fas fa-file margin-right-05"></i>
+                    {% endif %}
+                    {{ file.basename }}
                 </a>
             </li>
         {% endfor %}
     {% else %}{% comment %} key = Folder object {% endcomment %}
         <li class="usa-sidenav__item">
             <button class="usa-accordion__button" aria-controls="sidenav-folder-{{key.id}}">
+                <i class="fas fa-folder margin-right-05"></i>
                 {{ key.name }}
             </button>
             <ul class="usa-sidenav__sublist" id="sidenav-folder-{{key.id}}">
