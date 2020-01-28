@@ -30,4 +30,12 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(() => {
+        $('.dda-sidenav-tree .usa-current').parents('[hidden]').each((i, el) => {
+            $(`[aria-controls='${el.id}']`).click();
+        });
+    });
+</script>
+
 {% endblock %}
