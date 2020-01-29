@@ -358,13 +358,23 @@ class File(TimeStampedModel, SoftDeletableModel):
 
 class PackageProperty(TimeStampedModel, SoftDeletableModel):
     """A property definition for an acquisition."""
-    TYPES = Choices('String', 'Text', 'Number', 'Integer', 'Boolean', 'List')
+    TYPES = Choices(
+        'String',
+        'Text',
+        'Number',
+        'Integer',
+        'Boolean',
+        'List',
+        'Date')
+
     TABS = Choices(
-        'General',
-        'Market Research',
-        'Team',
-        'RFQ',
-        'RFI',)
+        '1 General Information',
+        '2 Acquisition Overview',
+        '3 Requirements Document',
+        '4 Market Research',
+        '5 Solicitation/Evaluation',
+        '6 Pre-Award',
+        '7 Modification')
 
     name = models.CharField(
         max_length=256,
@@ -377,14 +387,14 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
 
     property_type = models.CharField(
         choices=TYPES,
-        max_length=15,
+        max_length=50,
         blank=False,
         null=False,
         default='Document')
 
     tab = models.CharField(
         choices=TABS,
-        max_length=15,
+        max_length=50,
         blank=False,
         null=False,
         default='General')
