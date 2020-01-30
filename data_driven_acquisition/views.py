@@ -220,6 +220,9 @@ class Package(View):
 
         logger.info(f'Updated package {package.id} - {package.name}')
 
+        if not package.update_children(update_user=request.user):
+            form_errors.append('The package was updated, but those changes could not be applied to the underlying documents. Try saving again.')
+
         tree = user_permitted_tree(request.user)
         for key, value in tree.items():
             if key.id == package.id:
@@ -242,28 +245,6 @@ class Package(View):
             request, 
             'package.html',
             context)
-
-    def put(self, request, package_id):
-        """Ajax trigger for updating the content of a package"""
-        if not request.is_ajax():
-            return HttpResponseForbidden('Unexpected request')
-
-        try:
-            package = get_object_or_404(Folder, pk=int(package_id))
-        except ValueError:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        if not package.is_package:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        if not request.user.has_perm('can_set_properties', package):
-            return HttpResponseForbidden('Not allowed to update.')
-
-        if package.update_children(update_user=request.user):
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error'})
-
 
 @method_decorator(login_required, name='dispatch')
 class NewPackage(View):
