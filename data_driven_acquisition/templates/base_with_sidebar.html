@@ -1,107 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}DDA - Home{% endblock %}
-
-{% block addtional_head %}
-
-{% endblock %}
+{% block title %}{{ package.name }} | {{ block.super }}{% endblock %}
 
 {% block content %}
 
-<div class="wrapper">
-
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        {% block sidebar %}
-        <div class="sidebar-header">
-        <h3>New Acquisition</h3>
-        </div>
-        <div id="new_package">
-            <div class="row">
-                <div class="col">
-                    <select
-                        class="form-control"
-                        id="new_package_id">
-                        <option value="">  --  Please Select --  </option>
-                        {% for opt in templates %}
-                            <option value="{{opt.id}}">{{opt}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-info" id="create_package"  style="display:inline">Create</button>
-                </div>
+<div class="usa-layout-docs usa-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+            <aside class="usa-layout-docs__sidenav desktop:grid-col-3">
+                <h1 class="text-primary">{{package.name}}</h1>
+                <nav aria-label="Secondary navigation">
+                    <ul class="usa-sidenav usa-accordion dda-sidenav-tree" aria-multiselectable="true">
+                        <li class="usa-sidenav__item">
+                            {% url 'package' package_id=package.id as link %}
+                            <a href="{{ link }}" class="{% if link == request.path %}usa-current{% endif %}">Acquisition properties</a>
+                        </li>
+                        {% include 'sidebar_item.html' with items=package_tree.items %}
+                    </ul>
+                </nav>
+            </aside>
+            <div class="usa-layout-docs__main desktop:grid-col-9">
+                {% block mainbar %}{% endblock %}
             </div>
         </div>
-        <div class="sidebar-header">
-        <h3>My Acquisitions</h3>
-        </div>
-        <ul class="list-unstyled components acqs">
-            {{ tree_ul|safe }}
-        </ul>
-        {% endblock %}
-    </nav>
-
-    <!-- Page Content -->
-    <div id="meat">
-        {% block meat %}
-            <img style="padding-left:100px;" src="{% static '/img/papers-3819540_640.jpg' %}">
-        {% endblock %}
     </div>
-
 </div>
-
-
-
-<script>
-$(document).ready(function () {
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $('#meat').toggleClass('full');
-    });
-
-    $("#create_package").on('click', function () {
-        var template_id = $("#new_package_id").find(":selected").val();
-        if (template_id != "") {
-            document.location.href = '/new/'+template_id+'/';
-        }
-    });
-
-    {% block extra_script %}{% endblock %}
-
-
-});
-</script>
 
 {% endblock %}
