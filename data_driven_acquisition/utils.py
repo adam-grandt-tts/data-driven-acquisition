@@ -22,7 +22,7 @@ def apply_properties(data, properties):
         Apply the provided properties to a data string following one of these
         formats:
 
-        1. "{{ Property Name }}" : The entire string will be replaces with the value. 
+        1. "{{ Property Name }}" : The entire string will be replaces with the value.
         2. <!--PROPERTY:property_name-->VALUE<!--/PROPERTY:property_name--> The
             value will replace the string between the comments. Leaving the comments
             in place for later update.
@@ -50,12 +50,12 @@ def apply_properties(data, properties):
             data = re.sub(re_str, new_str, data)
 
         # "**Property Name:**VALUE" format
-        re_str = re.compile(f"\*\*{prop}\*\*:.*?\\n")
+        re_str = f"\*\*{prop}:\*\*.*?\\n"
 
-        if re.search(re_str, data):
+        if re.search(re_str, data, flags=re.IGNORECASE):
 
             new_str = f"**{prop}:** {properties[prop]}\n"
-            data = re.sub(re_str, new_str, data)
+            data = re.sub(re_str, new_str, data, flags=re.IGNORECASE)
 
     return data
 
@@ -203,9 +203,9 @@ def package_prop_by_tab(package, tabs, template=False):
     out = {}
     for tab in tabs:
         if template:
-            out[slugify(tab[0])] = package.properties.filter(tab=tab[0])
+            out[tab[0]] = package.properties.filter(tab=tab[0])
         else:
-            out[slugify(tab[0])] = package.properties.filter(prop__tab=tab[0])
+            out[tab[0]] = package.properties.filter(prop__tab=tab[0])
     return out
 
 

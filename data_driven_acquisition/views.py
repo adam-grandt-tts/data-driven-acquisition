@@ -32,65 +32,10 @@ import logging
 logger = logging.getLogger('data_driven_acquisition')
 
 
-tree_ul = ''
-
-
 def genreal_context(request):
-    global tree_ul
-
-    # Get user tree
     tree = user_permitted_tree(request.user)
 
-    def tree_to_ul(d, indent=0):
-        global tree_ul
-        for key, value in d.items():
-            actions = ''
-            if key == 'files':
-                for item in value:
-                    tree_ul += ''.join([
-                        '  ' * (indent + 1),
-                        '<li><a href = "',
-                        reverse('file', kwargs={"file_id": item.id}),
-                        '"> ' + '&nbsp;&nbsp;' * (indent + 1),
-                        '<i class="icon-file-text-alt"></i>&nbsp;&nbsp;',
-                        ''.join(item.name.split('.')[:-1]),
-                        '</a></li>\n'])
-                continue
-            tree_ul += ''.join([
-                '  ' * indent,
-                '<li>' ,
-                f'<a href="#folder_{key.id}_sub" data-toggle="collapse" ',
-                'aria-expanded="false" class="dropdown-toggle">' + '&nbsp;&nbsp;' * (indent + 1)
-            ])
-            if key.is_package:
-                tree_ul += ''.join([
-                    '<i class="icon-briefcase"></i>',
-                ])
-                if request.user.has_perm('view_folder', key):
-                    edit_href = reverse('package', kwargs={'package_id': key.id})
-                    actions += f'<a href="{edit_href}" class="sublink">Edit</a>&nbsp;'
-            else:
-                tree_ul += ''.join([
-                    '<i class="icon-folder-close"></i>',
-                ])
-            tree_ul += ''.join([
-                '&nbsp;&nbsp;',
-                f'{key.name}</a> ',
-                '\n' + '  ' * (indent + 1),
-                f'<ul class="collapse list-unstyled" id="folder_{key.id}_sub">\n',
-                actions])
-            if isinstance(value, dict):
-                tree_to_ul(value, indent + 1)
-                tree_ul += '  ' * (indent + 1) + '</ul>\n'
-            else:
-                tree_ul += '  ' * (indent + 1) + '<li>' + value.name + '</li>\n'
-            tree_ul += '  ' * indent + '</li>\n'
-
-    tree_ul = ''
-    tree_to_ul(tree)
-
     return {
-        'tree_ul': tree_ul,
         'packages': tree,
         'templates': get_objects_for_user(
             request.user,
@@ -111,6 +56,10 @@ class HomePageView(TemplateView):
         context['status'] = self.request.GET.get('status')
         context['partner'] = self.request.GET.get('partner')
         context['owner'] = self.request.GET.get('owner')
+
+        # Filtering 
+        
+        
         return context
 
 
@@ -225,6 +174,9 @@ class Package(View):
 
         logger.info(f'Updated package {package.id} - {package.name}')
 
+        if not package.update_children(update_user=request.user):
+            form_errors.append('The package was updated, but those changes could not be applied to the underlying documents. Try saving again.')
+
         tree = user_permitted_tree(request.user)
         for key, value in tree.items():
             if key.id == package.id:
@@ -248,28 +200,6 @@ class Package(View):
             'package.html',
             context)
 
-    def put(self, request, package_id):
-        """Ajax trigger for updating the content of a package"""
-        if not request.is_ajax():
-            return HttpResponseForbidden('Unexpected request')
-
-        try:
-            package = get_object_or_404(Folder, pk=int(package_id))
-        except ValueError:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        if not package.is_package:
-            return HttpResponseForbidden('Not a valid Package ID')
-
-        if not request.user.has_perm('can_set_properties', package):
-            return HttpResponseForbidden('Not allowed to update.')
-
-        if package.update_children(update_user=request.user):
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error'})
-
-
 @method_decorator(login_required, name='dispatch')
 class NewPackage(View):
     """ Manage Package and its attributes"""
@@ -286,6 +216,7 @@ class NewPackage(View):
 
         context = genreal_context(self.request)
         context['template'] = template
+        context['can_edit'] = True
         context['can_deploy'] = request.user.has_perm('can_deploy', template)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)

@@ -1,25 +1,42 @@
-{% extends 'base_uswds.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}New Acquistion | {{block.super}}{% endblock %}
+{% block title %}New {{ template.title }}{{block.super}}{% endblock %}
 
-{% block content %}
+{% block sidenav_first_item %}
+    <li class="usa-sidenav__item">
+        <a href="#main-content" class="usa-current">Acquisition properties</a>
+        <ul class="usa-sidenav__sublist">
+            {% for tab, tab_name in tabs.items %}
+                <li class="usa-sidenav__item">
+                    <a href="#{{ tab }}">{{tab_name}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endblock %}
 
-<div class="grid-container usa-section">
-    <h1 class="text-primary">New {{ template.title }}</h1>
+{% block mainbar %}
 
-    {% include 'form_status.html' %}
+<h1 class="text-primary">New {{ template.title }}</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="template_id" value="{{template.id}}">
+{% include 'form_status.html' %}
 
-        {% include 'form.html' %}
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="template_id" value="{{template.id}}">
 
-        <div class="grid-row margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
-            <button class="usa-button">Save properties</button>
-        </div>
-    </form>
-</div>
+    {% include 'form.html' %}
+
+    <div class="grid-row margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
+        <button class="usa-button">Save properties</button>
+    </div>
+</form>
+
+<script>
+    $('form').submit(() => {
+        $('.js-submit').addClass('usa-button--disabled').text('Saving…')
+    });
+</script>
 
 {% endblock %}
