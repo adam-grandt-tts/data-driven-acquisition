@@ -18,7 +18,7 @@
 
 {% include 'form_status.html' %}
 
-<form method="POST">
+<form action="{% url 'package' package_id=package.id %}" method="POST">
     {% csrf_token %}
 
     {% include 'form.html' %}
