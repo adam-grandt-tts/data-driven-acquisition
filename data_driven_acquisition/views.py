@@ -230,6 +230,7 @@ class NewPackage(View):
 
         context = genreal_context(self.request)
         context['template'] = template
+        context['can_edit'] = True
         context['can_deploy'] = request.user.has_perm('can_deploy', template)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
