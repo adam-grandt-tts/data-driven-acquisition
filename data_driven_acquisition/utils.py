@@ -50,12 +50,12 @@ def apply_properties(data, properties):
             data = re.sub(re_str, new_str, data)
 
         # "**Property Name:**VALUE" format
-        re_str = re.compile(f"\*\*{prop}\*\*:.*?\\n")
+        re_str = f"\*\*{prop}:\*\*.*?\\n"
 
-        if re.search(re_str, data):
+        if re.search(re_str, data, flags=re.IGNORECASE):
 
             new_str = f"**{prop}:** {properties[prop]}\n"
-            data = re.sub(re_str, new_str, data)
+            data = re.sub(re_str, new_str, data, flags=re.IGNORECASE)
 
     return data
 
