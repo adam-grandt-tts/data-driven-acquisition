@@ -85,7 +85,7 @@ def genreal_context(request):
             else:
                 tree_ul += '  ' * (indent + 1) + '<li>' + value.name + '</li>\n'
             tree_ul += '  ' * indent + '</li>\n'
-    
+
     tree_ul = ''
     tree_to_ul(tree)
 
@@ -106,6 +106,11 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(genreal_context(self.request))
+        context['statuses'] = [x[0] for x in Folder.STATUS]
+        context['partners'] = PackageProperty.objects.get(name='Agency-Partner').options
+        context['status'] = self.request.GET.get('status')
+        context['partner'] = self.request.GET.get('partner')
+        context['owner'] = self.request.GET.get('owner')
         return context
 
 
@@ -239,7 +244,7 @@ class Package(View):
         context['package_status'] = [x[0] for x in Folder.STATUS]
 
         return render(
-            request, 
+            request,
             'package.html',
             context)
 
@@ -286,7 +291,7 @@ class NewPackage(View):
         context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
         return render(
-            request, 
+            request,
             'new.html',
             context)
 
@@ -313,7 +318,7 @@ class NewPackage(View):
                         'codename', flat=True)
                 for p in folder_perms:
                     assign_perm(p, request.user, package)
-                
+
                 return redirect('package', package_id=package.id)
             except Exception as e:
                 context = genreal_context(self.request)
@@ -324,7 +329,7 @@ class NewPackage(View):
                 context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
                 return render(
-                    request, 
+                    request,
                     'new.html',
                     context)
 
@@ -392,9 +397,9 @@ class RawFile(View):
                 the_file.content = raw_data
                 the_file.save()
 
-                reversion.set_comment('Edited raw file content directly.')   
+                reversion.set_comment('Edited raw file content directly.')
                 reversion.set_user(request.user)
-            
+
             return JsonResponse({'success': True})
 
 
@@ -483,7 +488,7 @@ class FileEditor(RevisionMixin, View):
 
         if not (can_read or can_edit):
             return HttpResponseForbidden('Not permitted to access this file.')
-        
+
         if can_edit:
 
             doc_body = request.POST.get('editor')
@@ -529,6 +534,6 @@ class FileEditor(RevisionMixin, View):
             template = "file_other.html"
 
         return render(
-            request, 
+            request,
             template,
             context)

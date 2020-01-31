@@ -36,6 +36,39 @@
             There are no acquisitions.
         </div>
     {% else %}
+        <div class="margin-top-4 bg-white padding-2 border border-base-light">
+            <h2 class="text-uppercase font-sans-sm margin-0">Filter</h2>
+            <form method="GET">
+                <div class="grid-row grid-gap-1 flex-align-end">
+                    <div class="grid-col">
+                        <label class="usa-label" for="status">Status</label>
+                        <select class="usa-select" id="status" name="status">
+                            <option value="">- Select -</option>
+                            {% for opt in statuses %}
+                                <option value="{{opt}}" {% if status == opt %}selected{% endif %}>{{opt}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="grid-col">
+                        <label class="usa-label" for="owner">Owner</label>
+                        <input type="text" class="usa-input" id="owner" name="owner" value="{{owner|default:''}}">
+                    </div>
+                    <div class="grid-col">
+                        <label class="usa-label" for="partner">Partner</label>
+                        <select class="usa-select" id="partner" name="partner">
+                            <option value="">- Select -</option>
+                            {% for opt in partners %}
+                                <option value="{{opt}}" {% if partner == opt %}selected{% endif %}>{{opt}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="grid-col-auto">
+                        <button class="usa-button">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="grid-row margin-top-4">
             <table class="usa-table usa-table--borderless width-full">
                 <thead>
