@@ -24,7 +24,7 @@ template_card = {
                 'size': 'normal'},
     'creationMethod': None,
     'customFieldItems': [],
-    'desc': '**Title**: Project title - ID\n'
+    'desc': '**Title:** Project title - ID\n'
             '===========================\n'
             '\n'
             'Basic details\n'
@@ -61,10 +61,11 @@ template_card = {
             '\n'
             'Contract details\n'
             '--------------\n'
-            '- **Current period of performance:** START - END\n'
+            '- **Current POP Start Date:** START\n'
+            '- **Current POP End Date:** END\n'
             '- **Current period:** _Choose one, delete the others: Base, Option '
             '1, Option 2, Option 3, Option 4_\n'
-            '- **Total period of performance:** START - END\n'
+            '- **Est. Ult. Completion Date:** END\n'
             '- **Total number of option periods:** NUMBER\n'
             '- **Contract number:** NUMBER\n'
             '- **Order number:** NUMBER\n'
@@ -73,13 +74,15 @@ template_card = {
             '\n'
             'Financial details\n'
             '--------------\n'
-            '- **[PR number](URL):** $AMOUNT\n'
+            '- **PR number:** $AMOUNT\n'
             '- **Total lifetime value:** $AMOUNT\n'
             '- **Current period value:** $AMOUNT\n'
             '\n'
             'Important links\n'
             '--------------\n'
-            '- **[Contract folder](URL)**\n',
+            '- **[Contract folder](URL)**\n'
+            '- **[DDA Package(URL)**\n',
+
     'descData': None,
     'due': None,
     'dueComplete': False,
