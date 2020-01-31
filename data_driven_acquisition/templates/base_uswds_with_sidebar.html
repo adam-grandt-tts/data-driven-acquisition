@@ -10,11 +10,13 @@
         <div class="grid-row grid-gap">
             <aside class="usa-layout-docs__sidenav desktop:grid-col-3">
                 <h1 class="text-primary">{{package.name}}</h1>
-                <nav aria-label="Secondary navigation">
+                <nav aria-label="Secondary navigation" class="position-sticky top-2">
                     <ul class="usa-sidenav usa-accordion dda-sidenav-tree" aria-multiselectable="true">
                         <li class="usa-sidenav__item">
-                            {% url 'package' package_id=package.id as link %}
-                            <a href="{{ link }}" class="{% if link == request.path %}usa-current{% endif %}">Acquisition properties</a>
+                            {% block sidenav_first_item %}
+                                {% url 'package' package_id=package.id as link %}
+                                <a href="{{ link }}" class="{% if link == request.path %}usa-current{% endif %}">Acquisition properties</a>
+                            {% endblock %}
                         </li>
                         {% include 'sidebar_item.html' with items=package_tree.items %}
                     </ul>

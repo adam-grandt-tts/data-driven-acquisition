@@ -1,6 +1,17 @@
 {% extends 'base_uswds_with_sidebar.html' %}
 {% load static %}
 
+{% block sidenav_first_item %}
+    {{ block.super }}
+    <ul class="usa-sidenav__sublist">
+        {% for tab, tab_name in tabs.items %}
+            <li class="usa-sidenav__item">
+                <a href="#{{ tab }}">{{tab_name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
 {% block mainbar %}
 
 <h1 class="text-primary">Acquisition properties</h1>
