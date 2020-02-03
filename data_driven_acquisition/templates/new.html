@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_with_sidebar.html' %}
 {% load static %}
 
 {% block title %}New {{ template.title }}{{block.super}}{% endblock %}
@@ -29,7 +29,7 @@
     {% include 'form.html' %}
 
     <div class="grid-row margin-top-3 padding-y-4 position-sticky bottom-0 bg-white dda-fade__above border-top-1px border-base-light">
-        <button class="usa-button">Save properties</button>
+        <button class="usa-button js-submit">Save properties</button>
     </div>
 </form>
 
