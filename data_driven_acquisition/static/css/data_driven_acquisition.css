@@ -22,40 +22,8 @@
   color: white;
 }
 
-/* Tab control */
-
-.dda-tabs .dda-tabs__heading-container {
-  background: white;
-  border-bottom: 1px solid #a9aeb1;
-  padding: 1rem 1rem 0;
-  z-index: 1;
-}
-
-.dda-tabs .usa-accordion__heading {
-  margin: 0 0.25rem -1px;
-}
-
-.dda-tabs .usa-accordion__button {
-  background: none;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid;
-  border-color: #a9aeb1 #a9aeb1 transparent;
-  border-radius: 0.25rem 0.25rem 0 0;
-  text-transform: uppercase;
-}
-
-.dda-tabs .usa-accordion__button[aria-expanded="true"] {
-  background-color: white;
-  pointer-events: none;
-  color: #005ea2;
-}
-
-.dda-tabs .usa-accordion__button[aria-expanded="false"] {
-  border-color: transparent transparent #a9aeb1;
-  font-weight: normal;
-}
-
 /* Fade for sticky content */
+
 .dda-fade__below:after {
   display: block;
   content: "";
@@ -86,6 +54,7 @@
   background: none;
   font-weight: normal;
   display: block;
+  color: #565c65;
   padding: 0.5rem 2rem 0.5rem 1rem;
   background-position: right 0.5rem center;
   background-size: 0.5rem;
