@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/amiadhgrandt-nesher/.virtualenvs/data-driven-acquisition/bin/python",
+    "python.pythonPath": "/Users/amiadhgrandt-nesher/.virtualenvs/data-driven-acquisition-4dqzaPg_/bin/python",
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true

@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 from guardian.admin import GuardedModelAdmin
 from reversion.admin import VersionAdmin
 
+from import_export.admin import ImportExportModelAdmin
+
 from .models import (
     Folder,
     File,
@@ -109,7 +111,7 @@ class FileAdmin(GuardedModelAdmin, VersionAdmin):
 
 
 @admin.register(PackageTemplate)
-class PackageTemplateAdmin(GuardedModelAdmin):
+class PackageTemplateAdmin(GuardedModelAdmin, ImportExportModelAdmin):
     filter_horizontal = ('properties',)
     save_on_top = True
 
@@ -117,7 +119,7 @@ class PackageTemplateAdmin(GuardedModelAdmin):
 
 
 @admin.register(PackageProperty)
-class PackagePropertyAdmin(GuardedModelAdmin):
+class PackagePropertyAdmin(GuardedModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'property_type', 'max_length', 'tab')
     list_filter = ('tab', 'property_type')
     search_fields = ['name']

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'reversion',
     'guardian',
     'django_admin_hstore_widget',
+    'import_export',
+
 ]
 
 MIDDLEWARE = [

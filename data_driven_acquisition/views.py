@@ -96,6 +96,7 @@ class Package(View):
         context['package'] = package
         context['package_tree'] = package_tree
         context['updated'] = False
+        context['form_errors'] = ''
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
         context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
