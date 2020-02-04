@@ -34,6 +34,14 @@
                         <button class="usa-nav__close"><img src="{% static '/img/close.svg' %}" alt="close"></button>
                         <ul class="usa-nav__primary usa-accordion">
                             <li class="usa-nav__primary-item">
+                                <a class="usa-nav__link" href="{% url 'home' %}"><span>Acquisitions</span></a>
+                            </li>
+                            {% if user.is_staff %}
+                            <li class="usa-nav__primary-item">
+                                <a class="usa-nav__link" href="/admin/"><span>Admin</span></a>
+                            </li>
+                            {% endif %}
+                            <li class="usa-nav__primary-item">
                                 <a class="usa-nav__link" href="{% url 'logout' %}"><span>Logout</span></a>
                             </li>
                         </ul>

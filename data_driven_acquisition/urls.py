@@ -16,6 +16,10 @@ admin.site = AdminSitePlus()
 admin.sites.site = admin.site
 admin.autodiscover()
 
+admin.site.site_header = "Data Driven Acquisition Admin"
+admin.site.site_title = "Data Driven Acquisition Admin"
+admin.site.index_title = "Welcome the the DDA Admin"
+
 app_name = 'data_driven_acquisition'
 
 urlpatterns = [
