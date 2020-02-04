@@ -272,8 +272,13 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
 
 
     def get_package_property_by_name(self, name):
-        prop = PackageProperty.objects.get(name=name)
-        return self.package.properties.get(prop=prop)
+        prop = self.properties.filter(prop__name=name)
+        if len(prop) >= 1:
+            return prop[0]
+        else:
+            return ''
+
+            
 
     def update_children(self, update_user=None):
         """Update all child objects based on the package properties"""

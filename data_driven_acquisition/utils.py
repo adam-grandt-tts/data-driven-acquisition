@@ -73,6 +73,41 @@ def get_folder_tree(folder_obj):
     return(folder_tree)
 
 
+def get_package_tree(user_tree, package):
+    """ Get a user tree and package nad return a sorted package tree"""
+    package_tree = {}
+
+    # Find package in user tree
+    for key, value in user_tree.items():
+        if key.id == package.id:
+            package_tree = value
+            break
+
+    if not package_tree:
+        return package_tree
+    
+    # Put files aside 
+    if 'files' in package_tree.keys():
+        files = package_tree.pop('files')
+    else:
+        files = []
+    
+    # Sort the folder names 
+    sorted_top_folders  = sorted([x.name for x in package_tree.keys()])
+
+    # Put it back together in teh right order
+
+    out = {}
+    for folder_name in sorted_top_folders:
+        for f in package_tree.keys():
+            if f.name == folder_name:
+                out[f] = package_tree[f]
+                break
+    out['files'] = files
+
+    return out
+
+
 def place_folder_in_tree(master_tree, folder, tree):
     """Place the forder tree in a provided master tree  under the folders
         parent or return False if the parent is not in the tree.
@@ -311,6 +346,31 @@ def trello_list_get_or_create(list_name):
     return the_list
 
 
+def trello_card_desc(package, tabs):
+    """Generate a trello card description from package attributes"""
+
+    properties  = package_prop_by_tab(package, tabs)
+    tab_names = sorted(properties)
+    title = package.get_package_property_by_name('Title').value
+
+    desc = f'**Title:** {title}\n'
+    desc += '=============\n'
+    desc += '\n'
+
+    for tab_name in tab_names:
+        desc += f'{tab_name}\n'
+        desc += '-----------\n'
+
+        for prop in properties[tab_name]:
+            # Skipping Title 
+            if prop.name == 'Title':
+                continue
+            desc += f'- **{prop.name}:** {prop.value}\n'
+        
+        desc += '\n'
+    return desc
+
+
 def trello_card_get_or_create(package):
     """
         Get the card object for a package, if no card is available create one.
@@ -331,9 +391,10 @@ def trello_card_get_or_create(package):
         # No card listed, creating a new one.
         trello_card = trello_list.add_card(
             package.name,
-            desc=apply_properties(
-                template_card['desc'],
-                package.properties.all()),
+            desc=trello_card_desc(
+                package,
+                package.properties.all()[0].prop.TABS 
+            ),
             position='top'
         )
 
@@ -353,6 +414,13 @@ def trello_card_get_or_create(package):
         except ResourceUnavailable:
             raise ValueError('Probided card ID is invalid.')
         return card
+
+
+        
+        
+        
+
+
 
 
 

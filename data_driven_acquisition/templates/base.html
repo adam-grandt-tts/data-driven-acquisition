@@ -42,7 +42,7 @@
                             </li>
                             {% endif %}
                             <li class="usa-nav__primary-item">
-                                <a class="usa-nav__link" href="{% url 'logout' %}"><span>Logout</span></a>
+                                <a class="usa-nav__link" href="{% url 'logout' %}"><span>Logout {{current_user}}</span></a>
                             </li>
                         </ul>
                     </nav>

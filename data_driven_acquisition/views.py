@@ -18,7 +18,9 @@ from data_driven_acquisition.utils import (
     lowlight_properties,
     trello_card_get_or_create,
     trello_list_get_or_create,
-    apply_properties)
+    trello_card_desc,
+    apply_properties,
+    get_package_tree)
 
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -58,6 +60,8 @@ class HomePageView(TemplateView):
         context['partner'] = self.request.GET.get('partner')
         context['owner'] = self.request.GET.get('owner')
         context['office'] = self.request.GET.get('office')
+        context['current_user'] = self.request.user
+
 
 
         try:
@@ -98,11 +102,10 @@ class Package(View):
             card = trello_card_get_or_create(package)
             trello_url = card.short_url
 
+        # Get and clean package tree
         tree = user_permitted_tree(request.user)
-        for key, value in tree.items():
-            if key.id == package.id:
-                package_tree = value
-                break
+        package_tree = get_package_tree(tree, package)
+
 
         context = genreal_context(self.request)
         context['package'] = package
@@ -178,9 +181,9 @@ class Package(View):
 
                 # Update description
                 card.set_description(
-                    apply_properties(
-                        card.desc,
-                        package.properties.all()
+                    trello_card_desc(
+                        package,
+                        PackageProperty.TABS
                     )
                 )
                 logger.info(f'Updated trello card for package {package.id} - {package.name}')
@@ -193,10 +196,7 @@ class Package(View):
             form_errors.append('The package was updated, but those changes could not be applied to the underlying documents. Try saving again.')
 
         tree = user_permitted_tree(request.user)
-        for key, value in tree.items():
-            if key.id == package.id:
-                package_tree = value
-                break
+        package_tree = get_package_tree(tree, package)
 
         context = genreal_context(self.request)
         context['trello_url'] = trello_url
@@ -242,7 +242,7 @@ class NewPackage(View):
             context)
 
     def post(self, request):
-        """ Update package"""
+        """ Create package"""
 
         try:
             template = get_object_or_404(PackageTemplate, pk=int(request.GET['template_id']))
