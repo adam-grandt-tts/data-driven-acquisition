@@ -201,6 +201,14 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         max_length=256,
         null=False,
         blank=False)
+    
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name='acquisitions',
+        null=True,
+        blank=True    
+    )
 
     parent = models.ForeignKey(
         'self',
@@ -252,11 +260,16 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
 
     @property
     def agency_partner(self):
-        return self.get_package_property_by_name('Agency-Partner').value
+        return self.get_package_property_by_name('Agency-Partner').value or ''
 
     @property
     def office_team(self):
-        return self.get_package_property_by_name('Office Team').value
+        return self.get_package_property_by_name('Office Team').value or ''
+
+    @property
+    def office(self):
+        return self.get_package_property_by_name('Office').value or ''
+
 
     def get_package_property_by_name(self, name):
         prop = PackageProperty.objects.get(name=name)

@@ -41,6 +41,12 @@
             <form method="GET">
                 <div class="grid-row grid-gap-1 flex-align-end">
                     <div class="grid-col">
+                        <label class="usa-label" for="status">Search</label>
+                        <input type="text" class="usa-input" id="search" name="search" value="">
+                    </div>
+                </div>
+                <div class="grid-row grid-gap-1 flex-align-end">
+                    <div class="grid-col">
                         <label class="usa-label" for="status">Status</label>
                         <select class="usa-select" id="status" name="status">
                             <option value="">- Select -</option>
@@ -51,13 +57,17 @@
                     </div>
                     <div class="grid-col">
                         <label class="usa-label" for="owner">Owner</label>
-                        <input type="text" class="usa-input" id="owner" name="owner" value="{{owner|default:''}}">
-                    </div>
+                        <select class="usa-select" id="owner" name="owner">
+                            <option value="">- Select -</option>
+                            {% for opt in users %}
+                                <option value="{{opt.username}}" {% if owner == opt.username %}selected{% endif %}>{{opt}}</option>
+                            {% endfor %}
+                        </select>                    </div>
                     <div class="grid-col">
-                        <label class="usa-label" for="partner">Partner</label>
+                        <label class="usa-label" for="partner">Office</label>
                         <select class="usa-select" id="partner" name="partner">
                             <option value="">- Select -</option>
-                            {% for opt in partners %}
+                            {% for opt in offices %}
                                 <option value="{{opt}}" {% if partner == opt %}selected{% endif %}>{{opt}}</option>
                             {% endfor %}
                         </select>
@@ -76,7 +86,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Status</th>
                     <th scope="col">Owner</th>
-                    <th scope="col">Partner</th>
+                    <th scope="col">Office</th>
                 </thead>
                 <tbody>
                     {% for package in packages %}
@@ -84,8 +94,8 @@
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.id }}</a></td>
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.name }}</a></td>
                             <td>{{ package.status }}</td>
-                            <td>{{ package.office_team }}</td>
-                            <td>{{ package.agency_partner }}</td>
+                            <td>{{ package.owner.name }}</td>
+                            <td>{{ package.office }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

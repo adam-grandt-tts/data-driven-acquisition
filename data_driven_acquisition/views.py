@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.utils.text import slugify
@@ -52,10 +53,21 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(genreal_context(self.request))
         context['statuses'] = [x[0] for x in Folder.STATUS]
-        context['partners'] = PackageProperty.objects.get(name='Agency-Partner').options
+        context['users'] = User.objects.filter(is_staff = False)
         context['status'] = self.request.GET.get('status')
         context['partner'] = self.request.GET.get('partner')
         context['owner'] = self.request.GET.get('owner')
+        context['office'] = self.request.GET.get('office')
+
+
+        try:
+            context['offices'] = PackageProperty.objects.get(name='Office').options
+        except PackageProperty.DoesNotExist:
+            context['offices'] = ''
+        try:
+            context['partners'] = PackageProperty.objects.get(name='Agency-Partner').options
+        except PackageProperty.DoesNotExist:
+            context['partners'] = ''
 
         # Filtering 
         
@@ -103,6 +115,8 @@ class Package(View):
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
         context['package_status'] = [x[0] for x in Folder.STATUS]
         context['trello_url'] = trello_url
+
+
 
         return render(
             request,
@@ -243,6 +257,9 @@ class NewPackage(View):
                     request.POST.get('name'),
                     request.POST,
                 )
+                # Set owner
+                package.owner = request.user
+                package.save()
 
                 # Set permissions
                 folder_perms = get_perms_for_model(
