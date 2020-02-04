@@ -1,0 +1,1202 @@
+<head>
+<style id="dynCom" type="text/css"><!-- --></style>
+<script language="JavaScript"><!--
+function msoCommentShow(anchor_id, com_id)
+{
+	if(msoBrowserCheck()) 
+		{
+		c = document.all(com_id);
+		a = document.all(anchor_id);
+		if (null != c && null == c.length && null != a && null == a.length)
+			{
+			var cw = c.offsetWidth;
+			var ch = c.offsetHeight;
+			var aw = a.offsetWidth;
+			var ah = a.offsetHeight;
+			var x  = a.offsetLeft;
+			var y  = a.offsetTop;
+			var el = a;
+			while (el.tagName != "BODY") 
+				{
+				el = el.offsetParent;
+				x = x + el.offsetLeft;
+				y = y + el.offsetTop;
+				}
+			var bw = document.body.clientWidth;
+			var bh = document.body.clientHeight;
+			var bsl = document.body.scrollLeft;
+			var bst = document.body.scrollTop;
+			if (x + cw + ah / 2 > bw + bsl && x + aw - ah / 2 - cw >= bsl ) 
+				{ c.style.left = x + aw - ah / 2 - cw; }
+			else 
+				{ c.style.left = x + ah / 2; }
+			if (y + ch + ah / 2 > bh + bst && y + ah / 2 - ch >= bst ) 
+				{ c.style.top = y + ah / 2 - ch; }
+			else 
+				{ c.style.top = y + ah / 2; }
+			c.style.visibility = "visible";
+}	}	}
+function msoCommentHide(com_id) 
+{
+	if(msoBrowserCheck())
+		{
+		c = document.all(com_id);
+		if (null != c && null == c.length)
+		{
+		c.style.visibility = "hidden";
+		c.style.left = -1000;
+		c.style.top = -1000;
+		} } 
+}
+function msoBrowserCheck()
+{
+	ms = navigator.appVersion.indexOf("MSIE");
+	vers = navigator.appVersion.substring(ms + 5, ms + 6);
+	ie4 = (ms > 0) && (parseInt(vers) >= 4);
+	return ie4;
+}
+if (msoBrowserCheck())
+{
+	document.styleSheets.dynCom.addRule(".msocomanchor","background: infobackground");
+	document.styleSheets.dynCom.addRule(".msocomoff","display: none");
+	document.styleSheets.dynCom.addRule(".msocomtxt","visibility: hidden");
+	document.styleSheets.dynCom.addRule(".msocomtxt","position: absolute");
+	document.styleSheets.dynCom.addRule(".msocomtxt","top: -1000");
+	document.styleSheets.dynCom.addRule(".msocomtxt","left: -1000");
+	document.styleSheets.dynCom.addRule(".msocomtxt","width: 33%");
+	document.styleSheets.dynCom.addRule(".msocomtxt","background: infobackground");
+	document.styleSheets.dynCom.addRule(".msocomtxt","color: infotext");
+	document.styleSheets.dynCom.addRule(".msocomtxt","border-top: 1pt solid threedlightshadow");
+	document.styleSheets.dynCom.addRule(".msocomtxt","border-right: 2pt solid threedshadow");
+	document.styleSheets.dynCom.addRule(".msocomtxt","border-bottom: 2pt solid threedshadow");
+	document.styleSheets.dynCom.addRule(".msocomtxt","border-left: 1pt solid threedlightshadow");
+	document.styleSheets.dynCom.addRule(".msocomtxt","padding: 3pt 3pt 3pt 3pt");
+	document.styleSheets.dynCom.addRule(".msocomtxt","z-index: 100");
+}
+// --></script>
+<![endif]>
+<style>
+	.page-header, .page-header-space {
+			height: 100px;
+			}
+		
+			.page-footer, .page-footer-space {
+			height: 60px;
+		
+			}
+		
+			.page-footer {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			background: white;
+			}
+		
+			.page-header {
+			position: fixed;
+			top: 5mm;
+			width: 100%;
+			background: white;
+			}
+		
+			.page {
+			page-break-after: always;
+			}
+		
+			@page {
+			margin: 0mm
+			}
+		
+			@media print {
+			thead {display: table-header-group;} 
+			tfoot {display: table-footer-group;}
+			
+			body {margin: 0;}
+			}
+
+      	.page-header, .page-header-space {
+	height: 75px;
+	}
+
+	.page-footer, .page-footer-space {
+	height: 50px;
+
+	}
+
+	.page-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: white;
+	}
+
+	.page-header {
+	position: fixed;
+	top: 0mm;
+	width: 100%;
+	background: white;
+	}
+
+	.page {
+	page-break-after: always;
+	}
+
+	@page {
+	margin: 20mm
+	}
+
+	@media print {
+	thead {display: table-header-group;} 
+	tfoot {display: table-footer-group;}
+	
+	body {margin: 0;}
+	}
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-520081665 -1073717157 41 0 66047 0;}
+@font-face
+	{font-family:"Helvetica Neue";
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:auto;
+	mso-font-signature:0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	mso-fareast-font-family:"Helvetica Neue";
+	mso-bidi-font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;}
+h1
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Helvetica Neue";
+	color:#046B99;
+	mso-font-kerning:0pt;
+	mso-ansi-language:EN;
+	mso-bidi-font-weight:normal;}
+h2
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Helvetica Neue";
+	color:black;
+	mso-ansi-language:EN;
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:14.0pt;
+	font-family:"Helvetica Neue";
+	color:#222222;
+	mso-ansi-language:EN;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h4
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	color:#444444;
+	mso-ansi-language:EN;
+	mso-bidi-font-weight:normal;}
+h5
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	color:#046B99;
+	mso-ansi-language:EN;
+	mso-bidi-font-weight:normal;}
+h6
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	color:#666666;
+	mso-ansi-language:EN;
+	font-weight:normal;}
+p.MsoCommentText, li.MsoCommentText, div.MsoCommentText
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"Comment Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Helvetica Neue";
+	mso-fareast-font-family:"Helvetica Neue";
+	mso-bidi-font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;}
+span.MsoCommentReference
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:36.0pt;
+	font-family:"Helvetica Neue";
+	mso-fareast-font-family:"Helvetica Neue";
+	mso-bidi-font-family:"Helvetica Neue";
+	color:#1C304A;
+	mso-ansi-language:EN;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:center;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Helvetica Neue";
+	mso-fareast-font-family:"Helvetica Neue";
+	mso-bidi-font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"Balloon Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;}
+span.CommentTextChar
+	{mso-style-name:"Comment Text Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Comment Text";
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Balloon Text";
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-ascii-font-family:Tahoma;
+	mso-hansi-font-family:Tahoma;
+	mso-bidi-font-family:Tahoma;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:12.0pt;
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	mso-ascii-font-family:"Helvetica Neue";
+	mso-fareast-font-family:"Helvetica Neue";
+	mso-hansi-font-family:"Helvetica Neue";
+	mso-bidi-font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;}
+.MsoPapDefault
+	{mso-style-type:export-only;
+	line-height:115%;}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") fs;
+	mso-footnote-continuation-separator:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") fcs;
+	mso-endnote-separator:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") es;
+	mso-endnote-continuation-separator:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") ecs;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-page-numbers:1;
+	mso-title-page:yes;
+	mso-header:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") h1;
+	mso-footer:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") f1;
+	mso-first-header:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") fh1;
+	mso-first-footer:url("Acquisition%20Plan%20-%20%7b%7bTitle%7d%7d_files/header.html") ff1;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Helvetica Neue";
+	color:#333333;
+	mso-ansi-language:EN;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US style='tab-interval:.5in'>
+  <div class="page-header" style="text-align: center">
+    <p class=MsoNormal align=center style="text-align: center; font-size:10.0pt"><span style="text-decoration: underline;"><strong>PROCUREMENT SENSITIVE INFORMATION - CONFIDENTIAL - DO NOT PUBLISH</strong></span></p>
+    <p class=MsoNormal align=center style="text-align: center; font-size:10.0pt"><span style="text-decoration: underline;"><strong>18 USC 1905 and Procurement Integrity Act (41 USC 2102 et seq and FAR 3.104)</strong></span></p>
+    <p class=MsoNormal align=left style="text-align: left; font-size:10.0pt"><!--PROPERTY:Title-->{Title}<!--/PROPERTY:Title--> - Acquisition Plan</p>
+  </div>
+        
+  <div class="page-footer">
+    <p class=MsoNormal align=center style="text-align: center;"><span style="font-weight: 400; font-size:10.0pt"><!--PROPERTY:Requiring Office-->{Requiring Office}<!--/PROPERTY:Requiring Office--> + Office of Internal Acquisition </span></p>
+    <p class=MsoNormal align=center style="text-align: center;"><span style="font-weight: 400; font-size:10.0pt">General Services Administration</span></p>
+  </div>
+  <table>
+    <thead>
+        <tr><td>
+            <div class="page-header-space"></div>  
+        </td></tr>
+    </thead>
+    <tbody>
+        <tr><td>
+          <div class=WordSection1>
+
+          <p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+          normal'><span lang=EN style='font-size:18.0pt;line-height:115%'>General
+          Services Administration<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal align=center style='text-align:center'><span lang=EN
+          style='font-size:18.0pt;line-height:115%'>Office of Administrative Services</span><span
+          lang=EN><br>
+          </span><span lang=EN style='font-size:16.0pt;line-height:115%'>Office of
+          Internal Acquisition</span><span lang=EN style='font-size:14.0pt;line-height:
+          115%'><o:p></o:p></span></p>
+
+          <p class=MsoNormal align=center style='text-align:center'><span lang=EN
+          style='color:#006DB6;background:white;mso-highlight:white'>1800 F Street NW |
+          Washington, DC | 20405<o:p></o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoSubtitle><a name="_loud77q5kmy9"></a><span lang=EN><!--PROPERTY:Title-->{Title}<!--/PROPERTY:Title--></span></p>
+
+          <p class=MsoTitle><a name="_3jwe8lv5nv73"></a><span lang=EN>Acquisition Plan</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h1><a name="_gjdgxs"></a><span lang=EN>Table at the top of APM</span></h1>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Plan
+          ID:</span></b><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Project
+          Title:</span></b><span lang=EN> <!--PROPERTY:Title-->{Title}<!--/PROPERTY:Title--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Plan
+          Status:</span></b><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Project
+          Number(s):</span></b><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Solicitation
+          Number:</span></b><span lang=EN> <!--PROPERTY:Solitication No.-->{Solicitation No.}<!--/PROPERTY:Solicitation No.--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Estimated
+          Dollar Value:</span></b><span lang=EN> <!--PROPERTY:IGCE-->{IGCE}<!--/PROPERTY:IGCE--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Nature
+          of Action:</span></b><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Region:</span></b><span
+          lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Service:</span></b><span
+          lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Office:</span></b><span
+          lang=EN> <!--PROPERTY:Requiring Office-->{Requiring Office}<!--/PROPERTY:Requiring Office--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Requiring
+          Agency:</span></b><span lang=EN> GSA</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Bureau:</span></b><span
+          lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Place
+          of Performance, State:</span></b><span lang=EN> <!--PROPERTY:Place of Performance-->{Place of Performance}<!--/PROPERTY:Place of Performance--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Place
+          of Performance, City or Cities:</span></b><span lang=EN> <!--PROPERTY:Place of Performance-->{Place of
+          Performance}<!--/PROPERTY:Place of Performance--></span></p>
+
+          <p class=MsoNormal><span class=GramE><b style='mso-bidi-font-weight:normal'><span
+          lang=EN>High Risk?</span></b></span><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><span class=GramE><b style='mso-bidi-font-weight:normal'><span
+          lang=EN>Small Business Set-aside?</span></b></span><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>General
+          Counsel Participation Needed?</span></b><span lang=EN> {{VAR}}</span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Level
+          of Competition:</span></b><span lang=EN> <!--PROPERTY:Competition-->{Competition}<!--/PROPERTY:Competition--><b style='mso-bidi-font-weight:
+          normal'><o:p></o:p></b></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>In accordance with FAR Part <a
+          href="https://www.acquisition.gov/sites/default/files/current/far/html/Subpart%207_1.html#wp1098095"><span
+          style='color:#1155CC'>7.105</span></a>, the following acquisition plan will be
+          implemented for this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h1><a name="_1fob9te"></a><span lang=EN>7.105(a) Acquisition background and
+          objectives</span></h1>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Brief Description of Need-->{Brief Description of Need}<!--/PROPERTY:Brief Description of Need--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_6jo2o9ukhpxt"></a><span lang=EN>7.105(a<span class=GramE>)(</span>1)
+          Statement of need</span></h2>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Background-->{Background}<!--/PROPERTY:Background--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Scope-->{Scope}<!--/PROPERTY:Scope--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Technical
+          and Contractual History:<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Previous procurement history-->{Previous procurement history}<!--/PROPERTY:Previous procurement history--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Acquisition
+          Alternatives:<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>GSA does not have the in-house resources to
+          perform the needed services, and therefore, contractor support is the only
+          viable alternative to GSA's need at this time.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_hts4zyjy59xc"></a><span lang=EN>7.105(a<span class=GramE>)(</span>2)
+          Applicable conditions</span></h2>
+
+          <p class=MsoNormal><span lang=EN>1) <!--PROPERTY:Constraints-->{Constraints}<!--/PROPERTY:Constraints--></span></p>
+
+          <p class=MsoNormal><span lang=EN>2) The target award date is <!--PROPERTY:Target Award Date-->{Target Award
+          Date}<!--/PROPERTY:Target Award Date-->.</span></p>
+
+          <p class=MsoNormal><span lang=EN>3) The estimated costs for this procurement
+          have been budgeted for this requirement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_q2amkdkqybiy"></a><span lang=EN>7.105(a<span class=GramE>)(</span>3)
+          Costs</span></h2>
+
+          <p class=MsoNormal><span lang=EN>The total estimated cost is <!--PROPERTY:IGCE-->{IGCE}<!--/PROPERTY:IGCE-->, which
+          was derived using an Independent Government Cost Estimate (IGCE). The market
+          research team derived the IGCE using the methods outlined in that document.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Design
+          to Cost<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Should
+          Cost<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_kkqeip7w53lc"></a><span lang=EN>7.105(a<span class=GramE>)(</span>4)
+          Capability or performance conditions</span></h2>
+
+          <p class=MsoNormal><span lang=EN>{{VAR}}</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_2jxsxqh"></a><span lang=EN>7.105(a<span class=GramE>)(</span>5)
+          Delivery or performance-period requirements</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Period of performance shall be a base period
+          of <!--PROPERTY:Base Period Duration-->{Base Period Duration}<!--/PROPERTY:Base Period Duration--> months. The total anticipated number of options are
+          <!--PROPERTY:Number of Option Periods-->{Number of Option Periods}<!--/PROPERTY:Number of Option Periods-->, of <!--PROPERTY:Option Period Duration-->{Option Period Duration}<!--/PROPERTY:Option Period Duration--> months.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_1y810tw"></a><span lang=EN>7.105(a<span class=GramE>)(</span>6)
+          Trade offs</span></h2>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Cost
+          trade off<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>For the Government to bring these services
+          in-house would be cost prohibitive.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Schedule
+          and performance trade off<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>GSA lacks the personnel resources to provide
+          required services. The award of this task order is vital to ensure that no
+          schedule and performance impact is realized by the GSA.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_4i7ojhp"></a><span lang=EN>7.105(a<span class=GramE>)(</span>7)
+          Risks</span></h2>
+
+          <p class=MsoNormal><span lang=EN>To maintain the continuity of support, the new
+          contract must be in place on or before <!--PROPERTY:Target Award Date-->{Target Award Date}<!--/PROPERTY:Target Award Date--> as the current
+          contract expires on <!--PROPERTY:Current Expiration Date-->{Current Expiration Date}<!--/PROPERTY:Current Expiration Date-->.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_2bn6wsx"></a><span lang=EN>7.105(a<span class=GramE>)(</span>8)
+          Acquisition streamlining</span></h2>
+
+          <p class=MsoNormal><span lang=EN>This is not applicable.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Industry
+          Involvement Plan<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Selection
+          and Tailoring of Requirements Plan<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Timeframe
+          for Finalizing Mandatory Requirements<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h1><a name="_qsh70q"></a><span lang=EN>7.105(b) Plan of action</span></h1>
+
+          <h2 style='mso-pagination:lines-together'><a name="_3as4poj"></a><span lang=EN>7.105(b<span
+          class=GramE>)(</span>1) Sources</span></h2>
+
+          <p class=MsoNormal><span lang=EN>The services will be satisfied by the
+          mandatory sources identified in FAR {{VAR}}.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Small
+          Business Considerations<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Set-Aside Status-->{Set-Aside Status}<!--/PROPERTY:Set-Aside Status--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Consolidation/Bundling
+          Status<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Consolidation/Bundling Status-->{Consolidation/Bundling Status}<!--/PROPERTY:Consolidation/Bundling Status--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Market
+          Research<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Research methodology-->{Research methodology}<!--/PROPERTY:Research methodology--></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_23ckvvd"></a><span lang=EN>7.105(b<span class=GramE>)(</span>2)
+          Competition</span></h2>
+
+          <p class=MsoNormal><span lang=EN>The recommendation for competition is
+          <!--PROPERTY:Recommended competition type-->{Recommended competition type}<!--/PROPERTY:Recommended competition type--> with a recommended set-aside of <!--PROPERTY:Recommended set aside-->{Recommended
+          set aside}<!--/PROPERTY:Recommended set aside--> against <!--PROPERTY:Recommended contract vehicle-->{Recommended contract vehicle}<!--/PROPERTY:Recommended contract vehicle-->. It is also recommended
+          that a <!--PROPERTY:Requirements Document-->{Requirements Document}<!--/PROPERTY:Requirements Document--> be used.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Major
+          Component Competition<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Spare
+          and Repair Parts Competition<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Subcontracting
+          Competition<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_3sxncyyvy8e9"></a><span lang=EN>7.105(b<span class=GramE>)(</span>3)
+          Contract type selection</span></h2>
+
+          <p class=MsoNormal><span lang=EN>A <!--PROPERTY:Contract Type-->{Contract Type}<!--/PROPERTY:Contract Type--> for a contractor on
+          <!--PROPERTY:Contract Vehicle-->{Contract Vehicle}<!--/PROPERTY:Contract Vehicle--> is most appropriate for this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_2p2csry"></a><span lang=EN>7.105(b<span class=GramE>)(</span>4)
+          Source selection procedures</span></h2>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Method<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Source Selection Method-->{Source Selection Method}<!--/PROPERTY:Source Selection Method--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Evaluation
+          Factors<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Evaluation Factors-->{Evaluation Factors}<!--/PROPERTY:Evaluation Factors--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Importance
+          of Factors<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><!--PROPERTY:Importance of Factors-->{Importance of Factors}<!--/PROPERTY:Importance of Factors--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_4f1mdlm"></a><span lang=EN>7.105(b<span class=GramE>)(</span>5)
+          Acquisition considerations</span></h2>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Contract
+          Type<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>A <!--PROPERTY:Base Period Duration-->{Base Period Duration}<!--/PROPERTY:Base Period Duration--> month base period
+          and options of <!--PROPERTY:Option Period Duration-->{Option Period Duration}<!--/PROPERTY:Option Period Duration--> months will be used. Multiyear
+          contracting or other special contracting methods will not be used. Furthermore,
+          there will not be any need for any special clauses, special solicitation
+          provisions, or FAR deviations required. Sealed bidding or negotiation will not
+          be used as the nature of this procurement would not benefit from such methods.
+          There are no other contracting considerations of note. See 7.105(b<span
+          class=GramE>)(</span>3), above, for additional information.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Lease
+          or Purchase<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>This procurement is not applicable to lease or
+          purchase, as it involves the delivery of services.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Performance
+          Based Elements<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Not applicable.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Rationale
+          for Not Using Performance Based Methods<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>The nature of the work does not lend itself to
+          performance based contracting. Upon completion, however, a baseline set of
+          metrics should be available to permit the government to begin if not completely
+          implement a transition to performance based contracting. This includes
+          developing an acceptable sprint velocity for similar user stories and tasks,
+          developing acceptance criteria around the delivery of documentation, and adapting
+          and updating training curriculum based on feedback from participants who have
+          had the opportunity to apply what they have learned in the field.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Other
+          Information<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>IT Capital Planning and Investment Control
+          (CPIC) requirements of 40 U.S.C. 1422 and OMB Circular A-130 will be addressed
+          in the contract, if applicable.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_1mrcu09"></a><span lang=EN>7.105(b<span class=GramE>)(</span>6)
+          Budgeting &amp; funding</span></h2>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Budgeting<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>The total estimated value of this requirement
+          is $<!--PROPERTY:IGCE-->{IGCE}<!--/PROPERTY:IGCE-->. The market research team determined this using the methods
+          identified in 7.105(b<span class=GramE>)(</span>1).</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Funding<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Availability: <!--PROPERTY:Funding Availability-->{Funding Availability}<!--/PROPERTY:Funding Availability--></span></p>
+
+          <p class=MsoNormal><span lang=EN>Type: <!--PROPERTY:Fund Type-->{Fund Type}<!--/PROPERTY:Fund Type--></span></p>
+
+          <p class=MsoNormal><span lang=EN>PR number: <!--PROPERTY:PR Number-->{PR Number}<!--/PROPERTY:PR Number--></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN><o:p>&nbsp;</o:p></span></b></p>
+
+          <h2><a name="_46r0co2"></a><span lang=EN>7.105(b<span class=GramE>)(</span>7)
+          Product or service descriptions</span></h2>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>Based on the market
+          research performed, the appropriate NAICS code is <!--PROPERTY:NAICS Code-->{NAICS Code}<!--/PROPERTY:NAICS Code-->. The PSC is
+          <!--PROPERTY:Product Service Code-->{Product Service Code (PSC)}<!--/PROPERTY:Product Service Code-->.</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>This is a
+          <!--PROPERTY:Commercial/Non-Commercial-->{Commercial/Non-Commercial}<!--/PROPERTY:Commercial/Non-Commercial--> item.</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>The contractor is
+          expected to have the following capabilities:</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><!--PROPERTY:Capabilities Assessment-->{Capabilities
+          Assessment}<!--/PROPERTY:Capabilities Assessment--></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>The expected end
+          user(s) that will benefit from this product or service are:</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><!--PROPERTY:End-Users-->{End-Users}<!--/PROPERTY:End-Users--></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>The contractor is
+          expected to achieve the following outcomes for those users:</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><!--PROPERTY:Expected Outcomes-->{Expected Outcomes}<!--/PROPERTY:Expected Outcomes--></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN>There are <!--PROPERTY:Tasks (SOW/PWS) Objectives (SOO) N/A (BOM)-->{Tasks (SOW/PWS)
+          Objectives (SOO) N/A (BOM)}<!--/PROPERTY:Tasks (SOW/PWS) Objectives (SOO) N/A (BOM)--> tasks associated with those outcomes. The
+          deliverables associated with those tasks are:</span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><!--PROPERTY:Deliverables (SOW/PWS/BOM only)-->{Deliverables
+          (SOW/PWS/BOM only)}<!--/PROPERTY:Deliverables (SOW/PWS/BOM only)--></span></p>
+
+          <p class=MsoNormal style='tab-stops:2.0in'><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_44sinio"></a><span lang=EN>7.105(b<span class=GramE>)(</span>8)
+          Priorities Allocations and Allotments</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_kc896eux2is8"></a><span lang=EN>7.105(b<span class=GramE>)(</span>9)
+          Contractor vs. Government Performance</span></h2>
+
+          <p class=MsoNormal><span lang=EN>This acquisition is not related to an A-76
+          effort and does not compare government versus Contractor performance of the
+          requirements. This requirement does not fall under OMB Circular A-76 as the
+          Government intends to contract with the private sector.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_z337ya"></a><span lang=EN>7.105(b<span class=GramE>)(</span>10)
+          Inherently Governmental Functions Consideration</span></h2>
+
+          <p class=MsoNormal><span lang=EN>None of the services contracted in this Task
+          Order constitute inherently governmental functions.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_3j2qqm3"></a><span lang=EN>7.105(b<span class=GramE>)(</span>11)
+          Management Information Requirements</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_nv771dxenbbq"></a><span lang=EN>7.105(b<span class=GramE>)(</span>12)
+          Make or Buy</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_thee98vmiir"></a><span lang=EN>7.105(b<span class=GramE>)(</span>13)
+          Test and Evaluation</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_2xcytpi"></a><span lang=EN>7.105(b<span class=GramE>)(</span>14)
+          Logistics Considerations</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_1ci93xb"></a><span lang=EN>7.105(b<span class=GramE>)(</span>15)
+          Government Furnished Property</span></h2>
+
+          <p class=MsoNormal><span lang=EN>The Government will provide all required
+          facility, equipment (laptop and government ID once security clearances have
+          been passed), and services to satisfy the requirements.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_3whwml4"></a><span lang=EN>7.105(b<span class=GramE>)(</span>16)
+          Government Furnished Information</span></h2>
+
+          <p class=MsoNormal><span class=GramE><span lang=EN>Anticipated GFI to be
+          determined.</span></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_tjz3cimgyvj9"></a><span lang=EN>7.105(b<span class=GramE>)(</span>17)
+          Environmental and Energy Conservation Objectives</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Not applicable to this procurement.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_p7t68lioia4q"></a><span lang=EN>7.105(b<span class=GramE>)(</span>18)
+          Security Considerations</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Security- Unclassified</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>All GSA Contractors must comply with the GSA
+          policies below (these documents are all referenced within the GSA IT Security
+          Policy).</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA Information Technology (IT) Security
+          Policy, CIO P 2100.1.</span></p>
+
+          <p class=MsoNormal><span class=GramE><span lang=EN>* GSA Order CIO P 2181.1
+          "GSA HSPD-12 Personal <span class=SpellE>IdentityVerification</span> and
+          Credentialing Handbook", October 20, 2008.</span></span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA Order CIO 2104.1, "GSA Information
+          Technology (IT) General Rules of Behavior", July 3, 2003.</span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA Order CPO 1878.1, "GSA Privacy Act
+          Program", dated October 27, 2003.</span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA IT SPG 04-26, "FISMA Implementation".
+          GSA IT SPG 06-29<span class=GramE>,"</span>Contingency Plan Testing"." <span
+          class=GramE>GSA IT SPG 06-30, "<span class=SpellE>ManagingEnterprise</span>
+          Risk."</span></span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA IT SPG 08-39<span class=GramE>,IT</span>
+          Security Program <span class=SpellE>ManagementImplementation</span> Plan FY
+          2009</span></p>
+
+          <p class=MsoNormal><span lang=EN>* GSA IT SPG 09-44, "Plan of Action and Milestones
+          (POA&amp;M)."</span></p>
+
+          <p class=MsoNormal><span lang=EN>* NIST Special Publication 800-53 Revision 3,
+          "Recommended Security Controls for Federal Information Systems."</span></p>
+
+          <p class=MsoNormal><span lang=EN>* NIST Special Publication 800-53A, "Guide for
+          <span class=GramE>Assessing</span> <span class=SpellE>theSecurity</span>
+          Controls in Federal Information Systems."</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>Contractors are also required to comply with
+          Federal Information Processing Standards (FIPS), the "Special Publications 800 <span
+          class=SpellE>series"guidelines</span> published by NIST, and the requirements
+          of FISMA.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Federal Acquisition Regulation (FAR)
+          requires that all federal entities ensure that all Contractors have current and
+          approved security background investigations that are equivalent to
+          investigations performed on Federal employees. As outlined in GSA CIO P 2100.1C
+          " GSA Information Technology <span class=SpellE>SecurityPolicy</span>, Standard
+          Operating Procedure for GSA HSPD-12, Personnel Security Process dated November
+          18, 2005, and the Homeland Security Presidential Directive " 12 (HSPD-12). The
+          following is required:</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>Effective October 27, 2005, all new GSA
+          associates and contract employees must have a National Agency Check with
+          written Inquiries (NACI)~:~ National Agency Check with written Inquiries and
+          Credit (NACIC) for contract employees~:~ or equivalent investigation initiated.
+          Successful results from the FBI National Criminal History Check (i.e. fingerprint
+          check) portion of the NACI/NACIC must be received for issuance of an identity
+          credential for access to GSA facilities and IT systems.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Contractor shall obtain approved
+          background investigations to accomplish its support to GSA. Contractor personnel
+          shall be required to have the appropriate level of investigation and/or
+          security clearance for each selected site and information system. Contractor
+          personnel shall also be required to submit a Request for User ID when access is
+          required to a Government computer, to include the submission of proof, to GSA,
+          that a favorable National Agency Check has been completed. The Contractor may
+          be required to have access to live data and/or sensitive information and
+          resources during performance of this authorized access to such information and
+          shall be required to sign a non-disclosure. The Contractor shall observe and
+          comply with the security provisions in effect at each selected site. Any
+          required identification badges shall be worn and displayed at all times. Contractor
+          personnel shall submit a Request for Deletion of User ID when access is no
+          longer required. The results of these clearances shall be provided to the
+          Federal Government ISSM or ISSO upon request, but consistent with maintaining
+          the privacy of the individuals. All personnel with access to root or pseudo
+          root access of servers and database administrators shall meet these
+          requirements.</span></p>
+
+          <p class=MsoNormal><a name="_xvir7l"></a><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_3hv69ve"></a><span lang=EN>7.105(b<span class=GramE>)(</span>19)
+          Contract administration</span></h2>
+
+          <p class=MsoNormal><span lang=EN>Contract administration will be performed by
+          the following individuals:</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Contracting Officer (CO) will be:
+          <!--PROPERTY:Current CO-->{Current CO}<!--/PROPERTY:Current CO--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Contracting Officer's Representative (COR)
+          will be: <!--PROPERTY:COR Name-->{COR Name}<!--/PROPERTY:COR Name--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Receiver will be: <!--PROPERTY:Receiver Name-->{Receiver Name}<!--/PROPERTY:Receiver Name--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The Technical Point of Contact (TPOC) will be:
+          <!--PROPERTY:Technical Point of Contact-->{Technical Point of Contact}<!--/PROPERTY:Technical Point of Contact--></span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>The CO, COR, and TPOC will work together as a
+          team to validate all submitted invoices, ensuring that they reflect the
+          appropriate number of hours for the appropriate deliverables, where necessary.
+          For other scenarios, deliverables will be analyzed to ensure they meet the
+          contractual requirements before approving payment. By adopting a "definition of
+          done", an agile principle that requires a clear set of tasks that must be
+          completed for a deliverable to be accepted, the government will ensure that the
+          value being sought and contracted for is obtained. For instance where the
+          contractor fails, remediation efforts that will be implemented in the following
+          two-week sprint, deficiencies can be spotted, addressed, and resolved prior to
+          the need for any corrective contractual or administrative action.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_1x0gk37"></a><span lang=EN>7.105(b<span class=GramE>)(</span>20)
+          Other considerations</span></h2>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Data
+          rights and ownership of deliverables<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>It is the Government intent that any data or
+          deliverable created as a result of the work performed under this <span
+          class=GramE>order,</span> be committed to the public domain, if reasonable.<br>
+          <br>
+          It is the intention of the Government to consider committing the following
+          items, among other items created during the period of performance, to the
+          public domain: all data, documents, graphics, and code created under this call
+          order including but not limited to, plans, reports, schedules, schemas,
+          metadata, architecture designs, and the like; new open source software created
+          by the contractor and forks or branches of current open source software where
+          the contractor has made a modification; new tooling, scripting configuration
+          management, infrastructure as code, or any other final changes or edits to
+          successfully deploy or operate software.<br>
+          <br>
+          The contractor must use open source technologies wherever possible. All
+          licenses must be expressly listed in the deliverable. Regardless of license(s)
+          used (e.g., MIT, GPL, Creative Commons 0), the license(s) must be clearly
+          listed in the documentation.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><span lang=EN>If an open source license provides
+          implementation guidance, the contractor must ensure compliance with that
+          guidance. If implementation guidance is not available, the contractor must
+          attach or include the license within the work itself. Examples of this include
+          code comments at the beginning of a file or contained in a license file within
+          a software repository.<br>
+          <br>
+          If the contractor needs to use work that does not have an open source license,
+          the contractor is required to request permission from Government, in writing,
+          before utilizing that work in any way in connection with the order. If
+          approved, all licenses must be clearly set forth in a conspicuous place when
+          work is delivered to Government and must be owned, without any restrictions, by
+          the Government.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>Section
+          508<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN>Section 508 of the Rehabilitation Act of 1973,
+          as amended, requires that when Federal agencies develop, procure, maintain, or
+          use electronic and information technology, Federal employees with disabilities
+          have access to and use of information and data that is comparable to the access
+          and use by Federal employees who are not individuals with disabilities, unless
+          an undue burden would be imposed on the agency. Section 508 also requires that
+          individuals with disabilities, who are members of the public seeking
+          information or services from a Federal agency, have access to and use of
+          information and data that is comparable to that provided to the public who are
+          not individuals with disabilities, unless an undue burden would be imposed on
+          the agency.</span></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN>All
+          other matters germane to this acquisition have been addressed.<o:p></o:p></span></b></p>
+
+          <p class=MsoNormal><span lang=EN><o:p>&nbsp;</o:p></span></p>
+
+          <h2><a name="_49x2ik5"></a><span lang=EN>7.105(b<span class=GramE>)(</span>21)
+          Milestones for the Acquisition Cycle Applicable Milestones</span></h2>
+
+          <p class=MsoNormal><span lang=EN>TBD</span></p>
+
+          </div>
+        </td></tr>
+    </tbody>
+    <tfoot>
+        <tr><td>
+          <div class="page-footer-space"></div>
+          </div>
+        </td></tr>
+    </tfoot>
+  </table>
+</body>

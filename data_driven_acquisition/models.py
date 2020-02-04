@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 from model_utils.models import TimeStampedModel, StatusModel, SoftDeletableModel
 from model_utils import Choices
