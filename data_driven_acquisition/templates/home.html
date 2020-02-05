@@ -94,7 +94,7 @@
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.id }}</a></td>
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.name }}</a></td>
                             <td>{{ package.status }}</td>
-                            <td>{{ package.owner.name }}</td>
+                            <td>{{ package.owner|default:"Unassinged" }}</td>
                             <td>{{ package.office }}</td>
                         </tr>
                     {% endfor %}

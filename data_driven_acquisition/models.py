@@ -191,7 +191,6 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
         '07 - Pending Closeout',
         '08 - Closed Out',
         '08a - 60 days before renewal',
-        '07b - 120 days before expiration',
         'A - P-card planning',
         'B - P-card active',
         'C - P-card closed'

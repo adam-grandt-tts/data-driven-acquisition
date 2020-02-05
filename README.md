@@ -1,8 +1,8 @@
-# Data Driven Acquisition
+# Collaborative Acquisition Tool
 
 This system is a POC of a document management tool that will initiate acquisition document packages, and allow the acquisition work force to manage them as data. Handling some of the manual work of keeping the document up to date from an intuitive user interface.
 
-- [Data Driven Acquisition](#data-driven-acquisition)
+- [Collaborative Acquisition Tool](#collaborative-acquisition-tool)
   - [Documentation](#documentation)
     - [Model Design](#model-design)
     - [Design concepts:](#design-concepts)
@@ -10,6 +10,7 @@ This system is a POC of a document management tool that will initiate acquisitio
       - [Trelo Integration](#trelo-integration)
     - [Third party libraries](#third-party-libraries)
   - [Quickstart](#quickstart)
+    - [Manual setup](#manual-setup)
   - [Features](#features)
   - [Running Tests](#running-tests)
   - [Resources](#resources)

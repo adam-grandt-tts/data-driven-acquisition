@@ -2,7 +2,7 @@
 Usage
 =====
 
-To use Data Driven Acquisition in a project, add it to your `INSTALLED_APPS`:
+To use Collaborative Acquisition Tool in a project, add it to your `INSTALLED_APPS`:
 
 .. code-block:: python
 
