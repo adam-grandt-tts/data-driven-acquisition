@@ -9,6 +9,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django.core.paginator import Paginator
 
 from data_driven_acquisition.models import Folder, File, PackageTemplate, PackageProperty
 from data_driven_acquisition.utils import (
@@ -51,6 +52,8 @@ class HomePageView(TemplateView):
 
     template_name = "home.html"
 
+    page_size = 20
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(genreal_context(self.request))
@@ -62,7 +65,9 @@ class HomePageView(TemplateView):
         context['office'] = self.request.GET.get('office')
         context['current_user'] = self.request.user
 
-
+        paginator = Paginator(list(context['packages']), self.page_size)
+        page = paginator.get_page(self.request.GET.get('page'))
+        context['page'] = page
 
         try:
             context['offices'] = PackageProperty.objects.get(name='Office').options
