@@ -260,18 +260,18 @@ class Folder(TimeStampedModel, StatusModel, SoftDeletableModel):
 
     @property
     def agency_partner(self):
-        return self.get_package_property_by_name('Agency-Partner').value or ''
+        return self.get_package_value_by_name('Agency-Partner')
 
     @property
     def office_team(self):
-        return self.get_package_property_by_name('Office Team').value or ''
+        return self.get_package_value_by_name('Office Team')
 
     @property
     def office(self):
-        return self.get_package_property_by_name('Office').value or ''
+        return self.get_package_value_by_name('Office')
 
 
-    def get_package_property_by_name(self, name):
+    def get_package_value_by_name(self, name):
         prop = self.properties.filter(prop__name=name)
         if len(prop) >= 1:
             return prop[0]

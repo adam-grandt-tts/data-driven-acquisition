@@ -351,7 +351,7 @@ def trello_card_desc(package, tabs):
 
     properties  = package_prop_by_tab(package, tabs)
     tab_names = sorted(properties)
-    title = package.get_package_property_by_name('Title').value
+    title = package.get_package_value_by_name('Title')
 
     desc = f'**Title:** {title}\n'
     desc += '=============\n'
