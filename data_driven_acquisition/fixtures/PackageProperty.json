@@ -9,7 +9,7 @@
             "name": "Title",
             "max_length": null,
             "property_type": "String",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "In about 5 words or less, what would you use as the title of this requirement?",
             "options_list": ""
         }
@@ -24,7 +24,7 @@
             "name": "GSA Office",
             "max_length": null,
             "property_type": "List",
-            "tab": "Team",
+            "tab": "2 Acquisition Overview",
             "description": "What is your GSA office?",
             "options_list": "OIA\r\nR1\r\nR2\r\nNCR"
         }
@@ -39,7 +39,7 @@
             "name": "Office Team",
             "max_length": null,
             "property_type": "String",
-            "tab": "Team",
+            "tab": "2 Acquisition Overview",
             "description": "Note: This should be information pre-loaded based on the answer to the above.",
             "options_list": ""
         }
@@ -54,7 +54,7 @@
             "name": "Team Mission",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Team",
+            "tab": "2 Acquisition Overview",
             "description": "",
             "options_list": ""
         }
@@ -69,7 +69,7 @@
             "name": "Office Mission",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Team",
+            "tab": "2 Acquisition Overview",
             "description": "Note: This should be information pre-loaded based on the answer to the above.",
             "options_list": ""
         }
@@ -84,7 +84,7 @@
             "name": "Problem Statement",
             "max_length": null,
             "property_type": "Text",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "What is the problem you are trying to solve? Please try to limit your response to 1500 characters and use this format: We have observed the need to {{Observed Need}}. We believe that if a contractor provides {{Thing or Service Required}}, we will be able to satisfy the need because {{Intended Outcome}}.",
             "options_list": ""
         }
@@ -99,7 +99,7 @@
             "name": "Agency",
             "max_length": null,
             "property_type": "List",
-            "tab": "Team",
+            "tab": "2 Acquisition Overview",
             "description": "A list of agencies",
             "options_list": "DOD\r\nCFPB\r\nGSA\r\nOPM\r\nHHS"
         }
@@ -114,7 +114,7 @@
             "name": "CoE-Acquisition",
             "max_length": 255,
             "property_type": "String",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "",
             "options_list": null
         }
@@ -129,7 +129,7 @@
             "name": "Problem Context",
             "max_length": 1500,
             "property_type": "Text",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "What was the context in which the problem arose? Please try to limit your response to 1500 characters and use this format: As part of {{Team}}’s work, {{Activities performed, mission of team}}. In particular, {{Specify the work that was being performed which triggered the need}}.",
             "options_list": ""
         }
@@ -144,7 +144,7 @@
             "name": "Ideal Partner",
             "max_length": 1500,
             "property_type": "String",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "Variable mapping\r\nVariable mapping\r\n100%\r\n10\r\n\r\nWhat are the characteristics of an ideal industry partner that would help solve this problem? Please try to limit your response to 1500 characters and avoid mentioning brand names or specific companies. The intention of this section is to find out the capabilities of the partner being sought more so than the solution being sought. For example, when seeking services, there may be certain skills that are required for success (e.g., Ruby programmer, UX researcher, etc.) and certain other characteristics (e.g., ability to travel, ability to work 24/7, etc.). When seeking products, there may be certain features (e.g., ability to send notifications via various different mediums, FedRAMP authorization, etc.) that will be required. A successful approach to answering this question would be to think of a few interview questions you would ask a potential partner and back into the answer based on the ideal responses to those questions.\r\nScreen reader support enabled.\r\n \r\n \r\n \t\t\r\n\r\nWhat are the characteristics of an ideal industry partner that would help solve this problem? Please try to limit your response to 1500 characters and avoid mentioning brand names or specific companies. The intention of this section is to find out the capabilities of the partner being sought more so than the solution being sought. For example, when seeking services, there may be certain skills that are required for success (e.g., Ruby programmer, UX researcher, etc.) and certain other characteristics (e.g., ability to travel, ability to work 24/7, etc.). When seeking products, there may be certain features (e.g., ability to send notifications via various different mediums, FedRAMP authorization, etc.) that will be required. A successful approach to answering this question would be to think of a few interview questions you would ask a potential partner and back into the answer based on the ideal responses to those questions.",
             "options_list": ""
         }
@@ -159,7 +159,7 @@
             "name": "Acquisition History",
             "max_length": null,
             "property_type": "Boolean",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "Is there an existing industry partner working on this problem (i.e., is there a contract in place right now)?",
             "options_list": ""
         }
@@ -174,7 +174,7 @@
             "name": "Acquisition History (legal name)",
             "max_length": null,
             "property_type": "String",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "If so, what is the full legal name of the incumbent contractor?",
             "options_list": ""
         }
@@ -189,7 +189,7 @@
             "name": "Acquisition History (contract number)",
             "max_length": null,
             "property_type": "String",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "If so, what is the contract number in place right now?",
             "options_list": ""
         }
@@ -204,7 +204,7 @@
             "name": "MR Meeting",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document the relevant activities related to communications you have had with individuals in government and industry regarding market capabilities to meet requirements. Please use the following format to document each activity: On DATE, NAME contacted NAME. They discussed X via email/during a meeting/on the phone. A, B, and C was learned during the exchange. Separate each meeting with a semicolon (;)",
             "options_list": ""
         }
@@ -219,7 +219,7 @@
             "name": "MR Recent",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "Variable mapping\r\nVariable mapping\r\n100%\r\n10\r\n\r\nIf applicable, please document the reviewe of the results of recent market research undertaken to meet similar or identical requirements. Please use the following format to document each activity: On DATE, NAME reviewed the market research undertaken for BUY. A, B, and C were learned from this review. Separate each meeting with a semicolon (;).\r\nScreen reader support enabled.\r\n \r\n \r\n \t\t\r\n\r\nIf applicable, please document the reviewe of the results of recent market research undertaken to meet similar or identical requirements. Please use the following format to document each activity: On DATE, NAME reviewed the market research undertaken for BUY. A, B, and C were learned from this review. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -234,7 +234,7 @@
             "name": "MR Gov Info",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you queried the governmentwide database of contracts and other procurement instruments intended for use by multiple agencies available at https://www.contractdirectory.gov/contractdirectory/ and other government and commercial databases that provide information relevant to agency acquisitions. Please use the following format to document each activity: On DATE, NAME reviewed DATABASE. A, B, and C was learned from the review. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -249,7 +249,7 @@
             "name": "MR Participant",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you participated in interactive, online communication among industry, acquisition personnel, and customers. Please use the following format to document each activity: On DATE, NAME attended EVENT. It was put on by ORG and the topic was X. A, B, and C was learned from the event. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -264,7 +264,7 @@
             "name": "MR Lists",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you obtained source lists of similar items from other contracting activities or agencies, trade associations or other sources. Please use the following format to document each activity: On DATE, NAME reviewed ITEM from SOURCE. A, B, and C was learned from the review. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -279,7 +279,7 @@
             "name": "MR Literature",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you reviewed catalogs and other generally available product literature published by manufacturers, distributors, and dealers or available online. Please use the following format to document each activity: On DATE, NAME reviewed LITERATURE from SOURCE. A, B, and C was learned from the review. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -294,7 +294,7 @@
             "name": "MR Events",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you conducted interchange meetings or held presolicitation conferences to involve potential offerors early in the acquisition process, such as industry days. Please use the following format to document each activity: On DATE, NAME organized MEETING. The stated purpose was to discuss X. A, B, and C was learned from the event. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -309,7 +309,7 @@
             "name": "MR Literature",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you reviewed catalogs and other generally available product literature published by manufacturers, distributors, and dealers or available online. Please use the following format to document each activity: On DATE, NAME reviewed LITERATURE from SOURCE. A, B, and C was learned from the review. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -324,7 +324,7 @@
             "name": "MR Events",
             "max_length": null,
             "property_type": "Text",
-            "tab": "Market Research",
+            "tab": "4 Market Research",
             "description": "If applicable, please document how you have you conducted interchange meetings or held presolicitation conferences to involve potential offerors early in the acquisition process, such as industry days. Please use the following format to document each activity: On DATE, NAME organized MEETING. The stated purpose was to discuss X. A, B, and C was learned from the event. Separate each meeting with a semicolon (;).",
             "options_list": ""
         }
@@ -339,7 +339,7 @@
             "name": "Acq Results",
             "max_length": null,
             "property_type": "Text",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "Taking into account everything we learned from the market research performed, please provide a detailed paragraph or two outlining how we ended up with the characteristics of an ideal vendor and explain why we believe that will be what is required to succeed.",
             "options_list": ""
         }
@@ -354,7 +354,7 @@
             "name": "Agency-Partner",
             "max_length": null,
             "property_type": "List",
-            "tab": "General",
+            "tab": "1 General Information",
             "description": "Name of the Agency partner",
             "options_list": "DOD\r\nGSA\r\nOPM\r\nUSDA\r\nDOE\r\nNASA"
         }
