@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load url_replace %}
 
 {% block body_class %}bg-base-lightest{% endblock %}
 
@@ -31,7 +32,7 @@
         </div>
     </div>
 
-    {% if packages|length == 0 %}
+    {% if page.paginator.count == 0 %}
         <div class="grid-row margin-top-4">
             There are no acquisitions.
         </div>
@@ -89,7 +90,7 @@
                     <th scope="col">Office</th>
                 </thead>
                 <tbody>
-                    {% for package in packages %}
+                    {% for package in page %}
                         <tr>
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.id }}</a></td>
                             <td><a href="{% url 'package' package_id=package.id %}">{{ package.name }}</a></td>
@@ -100,6 +101,19 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="grid-row grid-gap flex-align-center margin-top-2">
+            {% if page.has_previous %}
+                <a href="{% url_replace page=page.previous_page_number %}" class="usa-button usa-button--outline">Previous</a>
+            {% endif %}
+
+            <span>
+                Page {{ page.number }} of {{ page.paginator.num_pages }}.
+            </span>
+
+            {% if page.has_next %}
+                <a href="{% url_replace page=page.next_page_number %}" class="usa-button usa-button--outline">Next</a>
+            {% endif %}
         </div>
     {% endif %}
 </div>
