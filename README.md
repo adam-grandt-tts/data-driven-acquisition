@@ -10,7 +10,9 @@ This system is a POC of a document management tool that will initiate acquisitio
       - [Trelo Integration](#trelo-integration)
     - [Third party libraries](#third-party-libraries)
   - [Quickstart](#quickstart)
+    - [Docker](#docker)
     - [Manual setup](#manual-setup)
+    - [Cloud.gov CF Setup](#cloudgov-cf-setup)
   - [Features](#features)
   - [Running Tests](#running-tests)
   - [Resources](#resources)
@@ -70,6 +72,8 @@ https://trello.com/b/SL7jTaz3/oia-acquisition-tracker
 - [Django Guardian](https://github.com/django-guardian/django-guardian): Object level permissions in django.
 
 ## Quickstart
+
+### Docker
 
 The easiest way to get rolling is to use Docker:
 
@@ -193,6 +197,25 @@ Alternatively, follow these setup steps:
         python manage.py migrate
         python manage.py loaddata data_driven_acquisition/fixtures/*
         ```
+
+### Cloud.gov CF Setup 
+
+    ```
+        cf login -a api.fr.cloud.gov  --sso
+        # Follow instructions to get key
+        cf target -o sandbox-gsa -s adam.grandt
+        cf push data_driven_acquisition
+        # login to web UI to:
+        #     * Create the same env vars described in the .env section above.
+        #     * Create and bind shared postgres service
+        cf restart data_driven_acquisition
+        cf shell
+        # in the cf shell run : 
+            /tmp/lifecycle/shell
+            python manage.py createsuperuser
+            # Follow instructions 
+        # Visit the URL configured in the manifest file 
+    ```
 
 ## Features
 

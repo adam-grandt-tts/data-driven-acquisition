@@ -65,6 +65,10 @@ class HomePageView(TemplateView):
         context['office'] = self.request.GET.get('office')
         context['current_user'] = self.request.user
 
+        # Filtering 
+        
+
+
         paginator = Paginator(list(context['packages']), self.page_size)
         page = paginator.get_page(self.request.GET.get('page'))
         context['page'] = page
@@ -78,9 +82,6 @@ class HomePageView(TemplateView):
         except PackageProperty.DoesNotExist:
             context['partners'] = ''
 
-        # Filtering 
-        
-        
         return context
 
 

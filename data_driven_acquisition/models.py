@@ -69,15 +69,15 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                 )
                 folder.save()
                 logger.info(
-                    'Create folder {folder.name} under {folder.parent.name} '
-                    'in package {folder.package.name}.'
+                    f'Create folder {folder.name} under {folder.parent.name} '
+                    f'in package {folder.package.name}.'
                 )
 
                 # Get folder content
                 folder_contents = github["repo"].get_dir_contents(
                     content.path,
                     ref=github["branch"].commit.sha)
-                logger.info('Got folder {content.path} content from github.')
+                logger.info(f'Got folder {content.path} content from github.')
 
                 # Go diving
                 self._create_content(folder, github, folder_contents)
@@ -108,8 +108,8 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
 
                     new_file.save()
                     logger.info(
-                        'Got and created {file.name} under {file.parent.name} '
-                        'in package {file.package.name}.'
+                        f'Got and created {file.name} under {file.parent.name} '
+                        f'in package {file.package.name}.'
                     )
 
                 except (GithubException, IOError) as exc:
@@ -132,10 +132,10 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
                 self.package_root_path,
                 ref=github["branch"].commit.sha)
         
-            logger.info('Got template {self.package_root_path} from github.')
+            logger.info(f'Got template {self.package_root_path} from github.')
 
         except (GithubException, IOError) as exc:
-            logger.error('Error processing %s: %s', self.package_root_path, exc)
+            logger.error(f'Error processing %s: %s', self.package_root_path, exc)
             return False
         
         from pprint import pprint
@@ -154,7 +154,7 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
             )
             new_val.save()
         
-        logger.info('Create package {package.name}.')
+        logger.info(f'Create package {package.name}.')
 
         # Creating package content
         self._create_content(package, github, contents)
