@@ -108,8 +108,8 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
 
                     new_file.save()
                     logger.info(
-                        f'Got and created {file.name} under {file.parent.name} '
-                        f'in package {file.package.name}.'
+                        f'Got and created {new_file.name} under {new_file.parent.name} '
+                        f'in package {new_file.package.name}.'
                     )
 
                 except (GithubException, IOError) as exc:
