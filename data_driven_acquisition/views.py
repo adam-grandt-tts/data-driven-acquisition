@@ -32,6 +32,7 @@ from guardian.shortcuts import (
 import reversion
 from reversion.views import RevisionMixin
 
+import copy
 import logging
 logger = logging.getLogger('data_driven_acquisition')
 
@@ -52,7 +53,7 @@ class HomePageView(TemplateView):
 
     template_name = "home.html"
 
-    page_size = 20
+    page_size = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,7 +68,19 @@ class HomePageView(TemplateView):
 
         # Filtering 
         
+        raw_packages = copy.deepcopy(context['packages'])
 
+        for package in context['packages']:
+            print(package)
+            if context['owner']:
+                if not package.owner:
+                    del(raw_packages[package])
+                    continue
+                if package.owner.username != context['owner']:
+                    del(raw_packages[package])
+                    continue
+
+        context['packages'] = raw_packages
 
         paginator = Paginator(list(context['packages']), self.page_size)
         page = paginator.get_page(self.request.GET.get('page'))

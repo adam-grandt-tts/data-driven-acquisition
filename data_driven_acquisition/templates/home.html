@@ -32,11 +32,6 @@
         </div>
     </div>
 
-    {% if page.paginator.count == 0 %}
-        <div class="grid-row margin-top-4">
-            There are no acquisitions.
-        </div>
-    {% else %}
         <div class="margin-top-4 bg-white padding-2 border border-base-light">
             <h2 class="text-uppercase font-sans-sm margin-0">Filter</h2>
             <form method="GET">
@@ -80,6 +75,13 @@
                 </div>
             </form>
         </div>
+
+
+    {% if page.paginator.count == 0 %}
+        <div class="grid-row margin-top-4">
+            There are no acquisitions.
+        </div>
+    {% else %}
         <div class="grid-row margin-top-4">
             <table class="usa-table usa-table--borderless width-full">
                 <thead>
