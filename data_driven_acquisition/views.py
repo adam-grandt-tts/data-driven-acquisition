@@ -71,7 +71,6 @@ class HomePageView(TemplateView):
         raw_packages = copy.deepcopy(context['packages'])
 
         for package in context['packages']:
-            print(package)
             if context['owner']:
                 if not package.owner:
                     del(raw_packages[package])
