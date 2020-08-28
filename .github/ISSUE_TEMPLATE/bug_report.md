@@ -4,10 +4,10 @@ about: Create a report to help us improve
 
 ---
 
-<!-- Issues should follow our Issue Guidelines, which are at https://github.com/GSA/code-gov-front-end/blob/master/CONTRIBUTING.md#issue-guidelines -->
+<!-- Issues should follow our Issue Guidelines, which are at https://github.com/GSA/code-gov-front-end/blob/master/CONTRIBUTING.md#issue-guidelines-->
 
 **Describe the bug**
-<!-- A clear and concise description of what the bug is. -->
+<!-- A clear and concise description of what the bug is.-->
 
 **To Reproduce**
 <!-- Steps to reproduce the behavior:
@@ -20,10 +20,10 @@ about: Create a report to help us improve
 2. 
 
 **Expected behavior**
-<!-- A clear and concise description of what you expected to happen. -->
+<!-- A clear and concise description of what you expected to happen.-->
 
 **Screenshots**
-<!-- If applicable, add screenshots to help explain your problem. -->
+<!-- If applicable, add screenshots to help explain your problem.-->
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
@@ -37,4 +37,4 @@ about: Create a report to help us improve
  - Version [e.g. 22]
 
 **Additional context**
-<!-- Add any other context about the problem here. -->
+<!-- Add any other context about the problem here.-->

@@ -394,13 +394,22 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
         'Date')
 
     TABS = Choices(
+        ## Acquisitions 
         '1 General Information',
         '2 Acquisition Overview',
         '3 Requirements Document',
         '4 Market Research',
         '5 Solicitation/Evaluation',
         '6 Pre-Award',
-        '7 Modification')
+        '7 Modification',
+        #IAA
+        'IAA 000 - General',
+        'IAA 001 - 7600A',
+        'IAA 002 - 7600A Additional',
+        'IAA 003 - 7600B',
+        'IAA 004 - SOW',
+        'IAA 008 - FITARA review'
+        )
 
     name = models.CharField(
         max_length=256,
