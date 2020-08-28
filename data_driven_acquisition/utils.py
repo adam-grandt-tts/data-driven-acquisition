@@ -238,9 +238,13 @@ def package_prop_by_tab(package, tabs, template=False):
     out = {}
     for tab in tabs:
         if template:
-            out[tab[0]] = package.properties.filter(tab=tab[0])
+            props = package.properties.filter(tab=tab[0])
+            if len(props) > 0:
+                out[tab[0]] = package.properties.filter(tab=tab[0])
         else:
-            out[tab[0]] = package.properties.filter(prop__tab=tab[0])
+            props = package.properties.filter(prop__tab=tab[0])
+            if len(props) > 0:
+                out[tab[0]] = props
     return out
 
 

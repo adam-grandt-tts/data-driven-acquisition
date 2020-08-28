@@ -471,7 +471,7 @@ class PackageProperty(TimeStampedModel, SoftDeletableModel):
         verbose_name_plural = 'Packages Properties'
 
     def __str__(self):
-        return f'Property {self.id} {self.name}'
+        return f'Property {self.id} {self.name} @ {self.tab}'
     
     def __repr__(self):
         return self.__str__()

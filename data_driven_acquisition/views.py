@@ -124,6 +124,10 @@ class Package(View):
         tree = user_permitted_tree(request.user)
         package_tree = get_package_tree(tree, package)
 
+        # Get tabs for template
+        tabs_set = set(x.tab for x in package.properties.all())
+        tabs = {slugify(x) :x for x in tabs_set}
+
 
         context = genreal_context(self.request)
         context['package'] = package
@@ -132,7 +136,7 @@ class Package(View):
         context['form_errors'] = ''
         context['can_edit'] = request.user.has_perm('can_set_properties', package),
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
-        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tabs'] = tabs #{slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
         context['package_status'] = [x[0] for x in Folder.STATUS]
         context['trello_url'] = trello_url
@@ -216,6 +220,10 @@ class Package(View):
         tree = user_permitted_tree(request.user)
         package_tree = get_package_tree(tree, package)
 
+        # Get tabs for template
+        tabs_set = set(x.tab for x in package.properties.all())
+        tabs = {slugify(x) :x for x in tabs_set}
+
         context = genreal_context(self.request)
         context['trello_url'] = trello_url
         context['updated'] = True
@@ -224,7 +232,7 @@ class Package(View):
         context['form_errors'] = form_errors
         context['can_edit'] = request.user.has_perm('can_set_properties', package)
         context['can_push'] = request.user.has_perm('can_propagate_properties', package)
-        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tabs'] = tabs #{slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(package, PackageProperty.TABS)
         context['package_status'] = [x[0] for x in Folder.STATUS]
 
@@ -247,11 +255,15 @@ class NewPackage(View):
         if not request.user.has_perm('can_deploy', template):
             return HttpResponseForbidden('Not allowed')
 
+        # Get tabs for template
+        tabs_set = set(x.tab for x in template.properties.all()) 
+        tabs = {slugify(x) :x for x in tabs_set}
+
         context = genreal_context(self.request)
         context['template'] = template
         context['can_edit'] = True
         context['can_deploy'] = request.user.has_perm('can_deploy', template)
-        context['tabs'] = {slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tabs'] = tabs #{slugify(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
         return render(
