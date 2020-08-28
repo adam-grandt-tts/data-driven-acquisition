@@ -1,0 +1,255 @@
+<html>
+<head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+<style type="text/css">
+  h1 {
+    display: block;
+    font-size: 1.1em;
+    margin-top: 0.2em;
+    margin-bottom: 0.1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+    
+  h2 {
+    display: block;
+    font-size: 1.1em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  table {
+    width:100%;
+    border-collapse: collapse;
+    margin:5px;
+    border: 0px solid black;
+
+  }
+
+  table.borderTable {
+    width:100%;
+    border: 1px solid black;
+  }
+
+  table.borderTable td {
+    border: 1px solid black;
+    padding: 0.5em;
+
+  }
+
+
+  table.InnerTable {
+    width:100%;
+    border: 0px solid black;
+    padding: 0em;
+    margin: 0em;
+  }
+
+  table.InnerTable td {
+    border: 0px solid black;
+    padding: 0em;
+    margin: 0em;
+
+  }
+
+
+  td.underTitle {
+    border-top: 2px dotted gray !important;
+    text-align: center;
+  }
+
+  th.total {
+    text-align: center;
+    vertical-align: middle;
+    background-color:lightgray;
+  }
+
+  td.total {
+    text-align: left;
+    vertical-align: middle;
+    background-color:lightgray;
+  }
+  .center {
+    text-align:center;
+  }
+
+  .right {
+    text-align:right;
+  }
+</style>
+</head>
+<body>
+<table>
+  <tr>
+    <td class="center">
+      <h1>United States Government</h1>
+      <h1>Interagency Agreement (IAA) – Agreement Between Federal Agencies</h1>
+      <h1>Order Requirements and Funding Information (Order) Section</h1>
+    <td>
+  </tr>
+  <tr>
+    <td>
+    <table>
+      <tr>
+        <td rowspan="2">IAA Number</td>
+        <td rowspan="2">&nbsp;</td>
+        <td class="center"><!--PROPERTY:gtnc-->GT&C #<!--/PROPERTY:gtnc--></td>
+        <td class="center">&nbsp;-&nbsp;</td>
+        <td class="center"><!--PROPERTY:gtnc-->Order #<!--/PROPERTY:gtnc--></td>
+        <td class="center">&nbsp;-&nbsp;</td>
+        <td class="center"><!--PROPERTY:mod-->Amendment/Mod #<!--/PROPERTY:mod--></td>
+        <td rowspan="2"> &nbsp;&nbsp;</td>
+        <td rowspan="2" style="vertical-align: top;">
+          Servicing Agency’s Agreement Tracking Number (Optional): 
+           <!--PROPERTY:servicing_tracking-->Tracking Number<!--/PROPERTY:servicing_tracking-->
+        </td>
+      </tr>
+      <tr>
+        <td class="underTitle">GT&C #</td>
+        <td>&nbsp;</td>
+        <td class="underTitle">Order #</td>
+        <td>&nbsp;</td>
+        <td class="underTitle">Amendment/Mod #</td>
+      </tr>
+    </table>  
+    <td>
+  </tr>
+  <tr>
+    <td>
+
+      <table class="borderTable">
+        <tr>
+          <td class="center" colspan="5">
+            <h2>PRIMARY ORGANIZATION/OFFICE INFORMATION</h2>
+          </td>
+        </tr>
+        <tr>
+          <td>24.</td>
+          <td colspan="3">Requesting Agency</td>
+          <td>Servicing Agency</td>
+        </tr>
+        <tr>
+          <td>Primary Organization/Office Name</td>
+          <td colspan="3"><!--PROPERTY:requesting_department_agency-->Dept Agency<!--/PROPERTY:requesting_department_agency--></td>
+          <td>
+            GSA, FAS, Technology Transformation Services, <br>
+            Office Of Solutions, cloud.gov 
+          </td>
+        </tr>
+        <tr>
+          <td>Responsible Organization/Office Address</td>
+          <td colspan="3"><!--PROPERTY:dept_address-->Dept / Agency Address<!--/PROPERTY:dept--></td>
+          <td>
+            1800 F Street N.W. <br>
+            Washington D.C. 20405 
+          </td>
+        </tr>
+        <tr>
+          <td class="center" colspan="5">
+            <h2>ORDER/REQUIREMENTS INFORMATION</h2>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            25. Order Action: <!--PROPERTY:order_action-->Order Action<!--/PROPERTY:order_action--> <br>
+            <br>
+            <!--PROPERTY:mod_description--><!--/PROPERTY:mod_description-->
+            <!--PROPERTY:cancellation_description--><!--/PROPERTY:cancellation_description-->
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" style="padding: 0em;">
+            <table style="border: 1px solid black; margin: 0em;">
+              <tr>
+                <td>26. Funding Modification Summary by Line</td>
+                <td>Line # <!--PROPERTY:line_1_num-->#<!--/PROPERTY:line_1_num--></td>
+                <td>Line # <!--PROPERTY:line_2_num-->#<!--/PROPERTY:line_2_num--></td>
+                <td>Line # <!--PROPERTY:line_3_num-->#<!--/PROPERTY:line_3_num--></td>
+                <th class="total">Total</th>
+              </tr>
+              <tr>
+                <td>Original Line Funding</td>
+                <td>$<!--PROPERTY:line_1_funding--><!--/PROPERTY:line_1_funding--></td>
+                <td>$<!--PROPERTY:line_2_funding--><!--/PROPERTY:line_2_funding--></td>
+                <td>$<!--PROPERTY:line_3_funding--><!--/PROPERTY:line_3_funding--></td>
+                <td class="total">$<!--PROPERTY:line_funding_total--><!--/PROPERTY:line_funding_total--></td>
+              </tr>
+              <tr>
+                <td>Cumulative Funding Changes From Prior Mods [addition (+) or reduction (-)]</td>
+                <td>$<!--PROPERTY:line_1_com_funding--><!--/PROPERTY:line_1_com_funding--></td>
+                <td>$<!--PROPERTY:line_2_com_funding--><!--/PROPERTY:line_2_com_funding--></td>
+                <td>$<!--PROPERTY:line_3_com_funding--><!--/PROPERTY:line_3_com_funding--></td>
+                <td class="total">$<!--PROPERTY:line_com_funding_total--><!--/PROPERTY:line_com_funding_total--></td>
+              </tr>
+              <tr>
+                <td>Funding Change for This Mod</td>
+                <td>$<!--PROPERTY:line_1_funding_change--><!--/PROPERTY:line_1_funding_change--></td>
+                <td>$<!--PROPERTY:line_2_funding_change--><!--/PROPERTY:line_2_funding_change--></td>
+                <td>$<!--PROPERTY:line_3_funding_change--><!--/PROPERTY:line_3_funding_change--></td>
+                <td class="total">$<!--PROPERTY:line_funding_change_total--><!--/PROPERTY:line_funding_change_total--></td>
+              </tr>
+              <tr>
+                <td class="total">TOTAL Modified Obligation</td>
+                <td class="total">$<!--PROPERTY:line_1_total_mod_obligation--><!--/PROPERTY:line_1_total_mod_obligation--></td>
+                <td class="total">$<!--PROPERTY:line_2_total_mod_obligation--><!--/PROPERTY:line_2_total_mod_obligation--></td>
+                <td class="total">$<!--PROPERTY:line_3_total_mod_obligation--><!--/PROPERTY:line_3_total_mod_obligation--></td>
+                <td class="total">$<!--PROPERTY:line_total_mod_obligation_total--><!--/PROPERTY:line_total_mod_obligation_total--></td>
+              </tr>
+              <tr>
+                <td>Total Advance Amount (-)</td>
+                <td>$<!--PROPERTY:line_1_advance_amount--><!--/PROPERTY:line_1_advance_amount--></td>
+                <td>$<!--PROPERTY:line_2_advance_amount--><!--/PROPERTY:line_2_advance_amount--></td>
+                <td>$<!--PROPERTY:line_3_advance_amount--><!--/PROPERTY:line_3_advance_amount--></td>
+                <td class="total">$<!--PROPERTY:line_advance_amount_total--><!--/PROPERTY:line_advance_amount_total--></td>
+              </tr>
+              <tr>
+                <td class="total">Net Modified Amount Due</td>
+                <td class="total">$<!--PROPERTY:line_1_net_mod_amount--><!--/PROPERTY:line_1_net_mod_amount--></td>
+                <td class="total">$<!--PROPERTY:line_2_net_mod_amount--><!--/PROPERTY:line_2_net_mod_amount--></td>
+                <td class="total">$<!--PROPERTY:line_3_net_mod_amount--><!--/PROPERTY:line_3_net_mod_amount--></td>
+                <td class="total">$<!--PROPERTY:line_net_mod_amount_total--><!--/PROPERTY:line_net_mod_amount_total--></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <table class="InnerTable">
+              <tr>
+                <td>27. Performance Period</td>
+                <td>&nbsp;</td>
+                <td class="right">Start Date</td>
+                <td class="center"><!--PROPERTY:start-->Start Date<!--/PROPERTY:start--></td>
+                <td class="right">End Date</td>
+                <td class="center"><!--PROPERTY:end-->End Date<!--/PROPERTY:end--></td>
+              </tr>
+              <tr>
+                <td colspan="3">&nbsp;</td>
+                <td class="underTitle">MM-DD-YYYY</td>
+                <td>&nbsp;</td>
+                <td class="underTitle">MM-DD-YYYY</td>
+              </tr>
+            </table>  
+            For a performance period mod, insert the start and end dates that reflect the new performance period.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+  <div class="pure-g">
+    <div class="pure-u-1-24"><h1>FMS</h1></div>
+    <div class="pure-u-1-24"><b>Form<br>04/12</b></div>
+    <div class="pure-u-1-24"><h1>7600B</h1></div>
+    <div class="pure-u-21-24 right">
+      <b>DEPARTMENT OF THE TREASURY</b><br>
+      FINANCIAL MANAGEMENT SERVICE
+    </div>
+  </div>
+</body>
+</html>
