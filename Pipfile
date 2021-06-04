@@ -27,7 +27,7 @@ sentry-sdk = "==0.13.1"
 gunicorn = ">=20.0.0"
 whitenoise = ">=4.1.4"
 py-trello = "==0.15.0"
-Django = "==2.2.10"
+Django = "==2.2.21"
 PyGithub = ">=1.44"
 django-import-export = ">=2.0.1"
 
