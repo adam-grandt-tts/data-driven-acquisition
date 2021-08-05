@@ -151,99 +151,99 @@ if DEBUG:
 else:
     LOGLEVEL = env('LOGLEVEL', default='info').upper()
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    # 'root': {
-    #     'level': 'DEBUG',
-    #     'handlers': ['console'],
-    # },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s: %(message)s'
-        },
-    },
-    'handlers': {
-        'null': {
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-        'mail_admins': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_false', ],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'log': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/app.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'request_log': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/web-request.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'db_log': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/db-log.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        } 
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console', 'mail_admins', ],
-            'level': 'INFO',
-        },
-        'django.db.backends': {
-            'handlers': ['db_log', ],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'django': {
-            'handlers': ['request_log', ],
-            'propagate': True,
-            'level': 'DEBUG',
-        },
-        'django.server': {
-            'handlers': ['request_log', ],
-            'propagate': True,
-            'level': 'DEBUG',
-        },
-        'django.request': {
-            'handlers': ['mail_admins', 'request_log', ],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'data_driven_acquisition': {
-            'handlers': ['console', 'log', ],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     # 'root': {
+#     #     'level': 'DEBUG',
+#     #     'handlers': ['console'],
+#     # },
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse'
+#         }
+#     },
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s: %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'null': {
+#             'class': 'logging.NullHandler',
+#         },
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         },
+#         'mail_admins': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_false', ],
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         },
+#         'log': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': 'logs/app.log',
+#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
+#             'backupCount': 5,
+#             'formatter': 'verbose',
+#         },
+#         'request_log': {
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': 'logs/web-request.log',
+#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
+#             'backupCount': 5,
+#             'formatter': 'verbose',
+#         },
+#         'db_log': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': 'logs/db-log.log',
+#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
+#             'backupCount': 5,
+#             'formatter': 'verbose',
+#         } 
+#     },
+#     'loggers': {
+#         '': {
+#             'handlers': ['console', 'mail_admins', ],
+#             'level': 'INFO',
+#         },
+#         'django.db.backends': {
+#             'handlers': ['db_log', ],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         'django': {
+#             'handlers': ['request_log', ],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         },
+#         'django.server': {
+#             'handlers': ['request_log', ],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         },
+#         'django.request': {
+#             'handlers': ['mail_admins', 'request_log', ],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'data_driven_acquisition': {
+#             'handlers': ['console', 'log', ],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#     }
+# }
 
-logging.config.dictConfig(LOGGING)
+# logging.config.dictConfig(LOGGING)
 
 
 # GitHub

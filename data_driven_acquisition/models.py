@@ -132,8 +132,11 @@ class PackageTemplate(TimeStampedModel, StatusModel, SoftDeletableModel):
         
             logger.info(f'Got template {self.package_root_path} from github.')
 
-        except (GithubException, IOError) as exc:
-            logger.error(f'Error processing %s: %s', self.package_root_path, exc)
+        except (GithubException, IOError, TypeError) as exc:
+            import traceback
+            var = traceback.format_exc()
+            print(var)
+            logger.info(f'Error processing %s: %s', self.package_root_path, exc)
             return False
         
         # from pprint import pprint

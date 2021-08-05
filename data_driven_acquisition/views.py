@@ -127,7 +127,7 @@ class Package(View):
         # Get tabs for template
         tabs_set = set(x.tab for x in package.properties.all())
         tabs = {slugify(x) :x for x in tabs_set}
-
+        # print(tabs, sorted(tabs))
 
         context = genreal_context(self.request)
         context['package'] = package
@@ -263,7 +263,7 @@ class NewPackage(View):
         context['template'] = template
         context['can_edit'] = True
         context['can_deploy'] = request.user.has_perm('can_deploy', template)
-        context['tabs'] = tabs #{slugify(x[0]): x[0] for x in PackageProperty.TABS}
+        context['tabs'] = tabs #{slugi\fy(x[0]): x[0] for x in PackageProperty.TABS}
         context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)
 
         return render(
@@ -287,22 +287,28 @@ class NewPackage(View):
                     request.POST.get('name'),
                     request.POST,
                 )
-                # Set owner
-                package.owner = request.user
-                package.save()
+                if package:
+                    # Set owner
+                    package.owner = request.user
+                    package.save()
 
-                # Set permissions
-                folder_perms = get_perms_for_model(
-                    'data_driven_acquisition.Folder').values_list(
-                        'codename', flat=True)
-                for p in folder_perms:
-                    assign_perm(p, request.user, package)
+                    # Set permissions
+                    folder_perms = get_perms_for_model(
+                        'data_driven_acquisition.Folder').values_list(
+                            'codename', flat=True)
+                    for p in folder_perms:
+                        assign_perm(p, request.user, package)
 
-                return redirect('package', package_id=package.id)
+                    return redirect('package', package_id=package.id)
+                else:
+                    raise ValueError('Could not create package')
             except Exception as e:
                 context = genreal_context(self.request)
                 context['template'] = template
                 context['can_deploy'] = request.user.has_perm('can_deploy', template)
+                import traceback
+                var = traceback.format_exc()
+                print(var)
                 context['form_errors'] = [e, ]
                 context['tabs'] = {slugify(x[0]):x[0] for x in PackageProperty.TABS}
                 context['tab_dict'] = package_prop_by_tab(template, PackageProperty.TABS, True)

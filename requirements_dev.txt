@@ -1,8 +1,8 @@
-bumpversion==0.5.3
-wheel==0.30.0
-pylint==2.4.3
-ipython==7.8.0
-ipdb==0.12.2
-Werkzeug==0.16.0
-jupyter==1.0.0
-jupyterthemes==0.20.0
+bumpversion>=0.5.3
+wheel>=0.30.0
+pylint>=2.4.3
+ipython>=7.8.0
+ipdb>=0.12.2
+Werkzeug>=0.16.0
+jupyter>=1.0.0
+jupyterthemes>=0.20.0
